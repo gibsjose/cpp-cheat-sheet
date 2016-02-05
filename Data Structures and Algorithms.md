@@ -9,13 +9,13 @@ Data Structures and Algorithms (C++)
 ##2.0 Data Structures
 ###2.1 Overview
 
-![Legend](Legend.png)
+![Legend](General/Legend.png)
 
-![DataStructures](Data Structures.png)
+![DataStructures](General/Data Structures.png)
 
-![ComplexityChart](Complexity Chart.png)
+![ComplexityChart](General/Complexity Chart.png)
 
-![DataStructureSelection](Data Structures Selection.png)
+![DataStructureSelection](General/Data Structures Selection.png)
 -------------------------------------------------------
 ###2.2 Vector `std::vector`
 **Use for**
@@ -448,7 +448,7 @@ p.pop();
 
 **Max Heap Example (using a binary tree)**
 
-![MaxHeap](MaxHeap.svg)
+![MaxHeap](General/MaxHeap.png)
 -------------------------------------------------------
 
 ##3.0 Trees
@@ -459,7 +459,7 @@ p.pop();
 
 **Binary Search Tree**
 
-![BinarySearchTree](BinarySearchTree.svg)
+![BinarySearchTree](General/BinarySearchTree.png)
 -------------------------------------------------------
 ###3.2 Balanced Trees
 * Balanced trees are a special type of tree which maintains its balance to ensure `O(log(n))` operations
@@ -493,7 +493,7 @@ p.pop();
 
 **Visualization:**
 
-![BinarySearch](../Searching/Animations/Binary Search.gif)
+![BinarySearch](Searching/Animations/Binary Search.gif)
 -------------------------------------------------------
 ###3.4 Depth-First Search
 **Idea:**
@@ -513,7 +513,7 @@ p.pop();
 
 **Visualization:**
 
-![DepthFirstSearch](../Searching/Animations/Depth-First Search.gif)
+![DepthFirstSearch](Searching/Animations/Depth-First Search.gif)
 -------------------------------------------------------
 ###3.5 Breadth-First Search
 **Idea:**
@@ -532,7 +532,7 @@ p.pop();
 
 **Visualization:**
 
-![DepthFirstSearch](../Searching/Animations/Breadth-First Search.gif)
+![DepthFirstSearch](Searching/Animations/Breadth-First Search.gif)
 -------------------------------------------------------
 ##4.0 NP Complete Problems
 ###4.1 NP Complete
@@ -581,7 +581,7 @@ p.pop();
 
 **Visualization**
 
-![InsertionSort](../Sorting/Animations/Insertion Sort.gif)
+![InsertionSort](Sorting/Animations/Insertion Sort.gif)
 -------------------------------------------------------
 ###5.2 Selection Sort
 **Idea:**
@@ -614,9 +614,9 @@ p.pop();
 
 **Visualization**
 
-![SelectionSort](../Sorting/Animations/Selection Sort.gif)
+![SelectionSort](Sorting/Animations/Selection Sort.gif)
 
-![SelectionSort](../Sorting/Animations/Selection Sort 2.gif)
+![SelectionSort](Sorting/Animations/Selection Sort 2.gif)
 -------------------------------------------------------
 ###5.3 Bubble Sort
 **Idea:**
@@ -649,7 +649,7 @@ p.pop();
 
 **Visualization**
 
-![BubbleSort](../Sorting/Animations/Bubble Sort.gif)
+![BubbleSort](Sorting/Animations/Bubble Sort.gif)
 -------------------------------------------------------
 ###5.4 Merge Sort
 **Idea:**
@@ -684,9 +684,9 @@ p.pop();
 
 **Visualization**
 
-![MergeSort](../Sorting/Animations/Merge Sort.gif)
+![MergeSort](Sorting/Animations/Merge Sort.gif)
 
-![MergeSort](../Sorting/Animations/Merge Sort 2.gif)
+![MergeSort](Sorting/Animations/Merge Sort 2.gif)
 -------------------------------------------------------
 ###5.5 Quicksort
 **Idea:**
@@ -725,7 +725,7 @@ p.pop();
 
 **Visualization**
 
-![QuickSort](../Sorting/Animations/Quicksort.gif)
+![QuickSort](Sorting/Animations/Quicksort.gif)
 -------------------------------------------------------
 
 ##6.0 C++ Classes
