@@ -815,7 +815,7 @@ public:
 #include "Polygon.h"    //<--- Obtains the class declaration
 
 //Constructor
-//You must scope the method declarations with the class name (Polygon::)
+//You must scope the method definitions with the class name (Polygon::)
 Polygon::Polygon(const int sides, const std::string &name) {
     this->sides = sides;    //'this' refers to the instance of the class. Members are accessed via pointers
     this->name = name;
@@ -844,6 +844,7 @@ void Polygon::SetName(const std::string &name) {
 
 #### 5.1.3 Class Utilization (Another `.cpp` file)
 ```c++
+#include <string>
 #include "Polygon.h"    //<--- Obtains the class declaration
 
 int main(int argc, char *argv[]) {
@@ -859,15 +860,138 @@ int main(int argc, char *argv[]) {
 }
 ```
 
+#### 5.1.4 Getters and Setters
+A shortcut often used for Getters/Setters is to define them in the class declaration (`.h`) file as follows:
+```c++
+class Car {
+	int year;
+	std::string make;
+public:
+	const int GetYear(void) const { return this->year; }
+	void SetYear(const int year) { this->year = year; }
+	const std::string & GetMake(void) const { return this->make; }
+	void SetMake(const std::string &make) { this->make = make; }
+};
+```
+
+Another important consideration: If you have getters and setters for all of your members, you may want to reconsider the design of your class. It is more often than not that having getters and setters for every member is indicative of poor planning of the class design and interface. Getters are very common, but setters should be used more carefully. Should you have set the variable in the constructor? Is it set somewhere else in another method, perhaps even indirectly?
+
 ### 5.2 Inheritance
+A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for polymorphism.
+
+**Example:** the class `Rectangle` can inherit the class `Polygon`. You would then say that `Rectangle` extends `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that `Rectangle` is a specialized version of `Polygon`.
+
+#### 5.2.1 `Rectangle` Declaration (`.h` file)
+```c++
+#include "Polygon.h"	//<--- You must include the declaration in order to extend the class
+
+class Rectangle: public Polygon {	//<--- This
+private:			//<--- The members 'sides' and 'name' are already inherited from Polygon
+	int length;
+	int width;
+
+public:
+	//Constructors
+	Rectangle(const std::string &name);
+	Rectangle(const std::string &name, const int length, const int width);
+
+	//Getters and Setters	<--- The methods 'GetSides()', 'SetSides()', 'GetName()' and 'SetName()' are already inherited from Polygon
+	const int GetLength(void) const { return this->length; }
+	void SetLength(const int) { this->length = length; }
+
+	const int GetWidth(void) const { return this->width; }
+	void SetWidth(const int) { this->width = width; }
+
+	//Other Methods
+	const int Area(void) const;
+};
+```
+
+#### 5.2.2 `Rectangle` Definition (`.cpp` file)
+```c++
+#include "Rectangle.h"	//<--- Only need to include 'Rectangle', since 'Polygon' is included in 'Rectangle.h'
+
+//This constructor calls the superclass (Polygon) constructor and sets the name and number of sides to '4'
+Rectangle::Rectangle(const std::string &name) : Polygon(4, name) {
+	this->length = 0;
+	this->width = 0;
+}
+
+//Area
+Rectangle::Area(void) const {
+	return (this->length * this->width);
+}
+```
+
+#### 5.2.3 `Rectangle` Utilization (Another `.cpp` file)
+```c++
+#include "Rectangle.h"
+
+int main(int argc, char *argv[]) {
+	Rectangle rectangle = Rectangle("Square", 6, 6);
+
+	//Prints "Square has 4 sides, and an area of 36"
+	std::cout << rectangle.GetName() << " has " << rectangle.GetSides() << " sides, and an area of " << rectangle.Area() << std::endl;
+}
+```
+
 ### 5.3 Polymorphism
 ### 5.4 Templates
 ### 5.5 Constructor/Destructor/Copy Constructor
-### 5.6 Operator Overloading
+#### 5.5.1 Use of `explicit` in Constructors
+The keyword `explicit` should be used in single-argument constructors to avoid the following situation. Consider the class `Array`:
+```c++
+class Array {
+public:
+	Array(int size) {
+		this->size = size;
+	}
+
+private:
+	int size;
+}
+```
+
+The following is now legal but ambiguous:
+```c++
+Array array = 12345;
+```
+
+It ends up being the equivalent of this:
+```c++
+Array array = Array(12345);
+```
+
+That's fine, one would suppose, but what about the following:
+```c++
+//Method PrintArray is defined as: Array::Print(const Array &array)
+array.Print(12345);
+```
+
+Uh-oh. That's now legal, compilable code, but what does it mean? It is extremely unclear to the user.
+
+To fix this, declare the single-argument `Array` constructor as `explicit`:
+```c++
+class Array {
+public:
+	explicit Array(int size) {
+		this->size = size;
+	}
+}
+```
+
+Now you can only use the print method as follows:
+```c++
+array.Print(Array(12345));
+```
+
+### 5.5 Initialization Lists
+### 5.7 Operator Overloading
 
 ## 6.0 General C++ Syntax
-### 6.1 References/Pointers
-### 6.2 Use of `const`
-### 6.3 Strings (find, erase, etc)
-### 6.4 Iterators
-### 6.5 Exceptions
+### 6.1 Namespaces
+### 6.2 References/Pointers
+### 6.3 Use of `const`
+### 6.4 Strings (find, erase, etc)
+### 6.5 Iterators
+### 6.6 Exceptions
