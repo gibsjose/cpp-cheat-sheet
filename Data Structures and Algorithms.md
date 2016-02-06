@@ -786,7 +786,7 @@ p.pop();
 #### 5.1.1 Class Declaration (`.h` file)
 Here's a simple class representing a polygon, a shape with any number of sides.
 
-The class *declaration* typically goes in the `.h` file. The *declaration* gives the class name, declares the members and methods, declares which members/methods are public, private, or protected ()
+The class *declaration* typically goes in the `.h` file. The *declaration* gives the class name, any classes it may extend, declares the members and methods, and declares which members/methods are public, private, or protected.
 ```c++
 class Polygon {
 
