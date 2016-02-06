@@ -582,7 +582,7 @@ p.pop();
 -------------------------------------------------------
 ## 3.0 NP Complete Problems
 ### 3.1 NP Complete
-* **NP Complete** means that a problem is unable to be solved in *polynomial time*
+* **NP Complete** means that a problem is unable to be solved in **polynomial time**
 * NP Complete problems can be *verified* in polynomial time, but not *solved*
 
 -------------------------------------------------------
