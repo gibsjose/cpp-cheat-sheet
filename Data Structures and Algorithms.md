@@ -37,7 +37,12 @@
 		- [4.4 Merge Sort](#44-merge-sort)
 		- [4.5 Quicksort](#45-quicksort)
 	- [5.0 C++ Classes](#50-c-classes)
-		- [5.1 Class Definition](#51-class-definition)
+		- [5.1 Class Syntax](#51-class-syntax)
+			- [5.1.1 Class Declaration (`.h` file)](#511-class-declaration-h-file)
+			- [5.1.2 Class Definition (`.cpp` file)](#512-class-definition-cpp-file)
+- [include "Polygon.h"    //<--- Obtains the class declaration](#include-polygonh-obtains-the-class-declaration)
+			- [5.1.3 Class Utilization (Another `.cpp` file)](#513-class-utilization-another-cpp-file)
+- [include "Polygon.h"    //<--- Obtains the class declaration](#include-polygonh-obtains-the-class-declaration)
 		- [5.2 Inheritance](#52-inheritance)
 		- [5.3 Polymorphism](#53-polymorphism)
 		- [5.4 Templates](#54-templates)
@@ -45,9 +50,10 @@
 		- [5.6 Operator Overloading](#56-operator-overloading)
 	- [6.0 General C++ Syntax](#60-general-c-syntax)
 		- [6.1 References/Pointers](#61-referencespointers)
-		- [6.2 Strings (find, erase, etc)](#62-strings-find-erase-etc)
-		- [6.3 Iterators](#63-iterators)
-		- [6.4 Exceptions](#64-exceptions)
+		- [6.2 Use of `const`](#62-use-of-const)
+		- [6.3 Strings (find, erase, etc)](#63-strings-find-erase-etc)
+		- [6.4 Iterators](#64-iterators)
+		- [6.5 Exceptions](#65-exceptions)
 
 <!-- /TOC -->
 
@@ -776,20 +782,84 @@ p.pop();
 -------------------------------------------------------
 
 ## 5.0 C++ Classes
-### 5.1 Class Definition
+### 5.1 Class Syntax
+#### 5.1.1 Class Declaration (`.h` file)
+Here's a simple class representing a polygon, a shape with any number of sides.
+
+The class *declaration* typically goes in the `.h` file. The *declaration* gives the class name, declares the members and methods, declares which members/methods are public, private, or protected ()
 ```c++
-class Test {
+class Polygon {
+
+//Private members and methods are only accessible via methods in the class definition
+//Another option is 'protected', which are members and methods only accessible in the class definition or by classes who extend this class
+private:
+    int sides;          //Number of sides
+    std::string name    //Name of the polygon
+
+//Public members and methods are accessible to anyone who creates an instance of the class
 public:
-    Test(void) {
-        int_data = 0;
-        str_data.clear();
-        num_data = 0.0;
-    }
+    //Constructors
+    Polygon(const int sides, const std::string &name);  //<--- This constructor takes the number of sides and name as arguments
+
+    //Getters and Setters
+    const int GetSides(void) const;
+    void SetSides(const int sides);
+
+    const std::string & GetName(void) const;
+    void SetName(const std::string &name);
 
     Test() : int_data(0), str_data("empty"), num_data(10.6) {}
-private:
 
-};
+}; //<--- Don't forget the semicolon!
+```
+
+#### 5.1.2 Class Definition (`.cpp` file)
+```c++
+#include "Polygon.h"    //<--- Obtains the class declaration
+
+//Constructor
+//You must scope the method declarations with the class name (Polygon::)
+Polygon::Polygon(const int sides, const std::string &name) {
+    this->sides = sides;    //'this' refers to the instance of the class. Members are accessed via pointers
+    this->name = name;
+}
+
+//Get the number of sides
+const int Polygon::GetSides(void) const {
+    return this->sides;
+}
+
+//Set the number of sides
+void Polygon::SetSides(const int sides) {
+    this->sides = sides;
+}
+
+//Get the polygon name
+const std::string & Polygon::GetName(void) const {
+    return this->name;
+}
+
+//Set the polygon name
+void Polygon::SetName(const std::string &name) {
+    this->name = name;
+}
+```
+
+#### 5.1.3 Class Utilization (Another `.cpp` file)
+```c++
+#include "Polygon.h"    //<--- Obtains the class declaration
+
+int main(int argc, char *argv[]) {
+    //Create a polygon with 4 sides and name "Rectangle"
+    Polygon polygon = Polygon(4, "Rectangle");
+
+    //Check number of sides -- Prints "Rectangle has 4 sides"
+    std::cout << polygon.name << " has " << polygon.GetSides() << " sides"<< std::endl;
+
+    //Change number of sides to 3 and name to "Triangle"
+    polygon.SetSides(3);
+    polygon.SetName("Triangle");
+}
 ```
 
 ### 5.2 Inheritance
@@ -800,6 +870,7 @@ private:
 
 ## 6.0 General C++ Syntax
 ### 6.1 References/Pointers
-### 6.2 Strings (find, erase, etc)
-### 6.3 Iterators
-### 6.4 Exceptions
+### 6.2 Use of `const`
+### 6.3 Strings (find, erase, etc)
+### 6.4 Iterators
+### 6.5 Exceptions
