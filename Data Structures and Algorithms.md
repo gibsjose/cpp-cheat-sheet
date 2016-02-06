@@ -1,13 +1,10 @@
-# Data Structures and Algorithms (C++)
--------------------------------------------------------
-### Google Interview Prep
+# C++ Syntax, Data Structures, and Algorithms Cheat Sheet
 
 ## Table of Contents
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Data Structures and Algorithms (C++)](#data-structures-and-algorithms-c)
-		- [Google Interview Prep](#google-interview-prep)
+- [C++ Syntax, Data Structures, and Algorithms Cheat Sheet](#c-syntax-data-structures-and-algorithms-cheat-sheet)
 	- [Table of Contents](#table-of-contents)
 	- [1.0 Data Structures](#10-data-structures)
 		- [1.1 Overview](#11-overview)
