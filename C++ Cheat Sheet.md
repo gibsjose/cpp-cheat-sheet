@@ -879,7 +879,7 @@ Another important consideration: If you have getters and setters for all of your
 ### 5.2 Inheritance
 A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for polymorphism.
 
-**Example:** the class `Rectangle` can inherit the class `Polygon`. You would then say that `Rectangle` extends `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that `Rectangle` is a specialized version of `Polygon`.
+**Example:** the class `Rectangle` can inherit the class `Polygon`. You would then say that `Rectangle` extends `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that a `Rectangle` is a more specialized version of a `Polygon`.
 
 #### 5.2.1 `Rectangle` Declaration (`.h` file)
 ```c++
