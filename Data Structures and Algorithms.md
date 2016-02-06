@@ -1,15 +1,59 @@
-Data Structures and Algorithms (C++)
+# Data Structures and Algorithms (C++)
 -------------------------------------------------------
 ### Google Interview Prep
 
-## 1.0 Table of Contents
+## Table of Contents
 
-<!-- [TOC] -->
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Data Structures and Algorithms (C++)](#data-structures-and-algorithms-c)
+		- [Google Interview Prep](#google-interview-prep)
+	- [Table of Contents](#table-of-contents)
+	- [1.0 Data Structures](#10-data-structures)
+		- [1.1 Overview](#11-overview)
+		- [1.2 Vector `std::vector`](#12-vector-stdvector)
+		- [1.3 Deque `std::deque`](#13-deque-stddeque)
+		- [1.4 List `std::list` and `std::forward_list`](#14-list-stdlist-and-stdforwardlist)
+		- [1.5 Map `std::map` and `std::unordered_map`](#15-map-stdmap-and-stdunorderedmap)
+		- [1.6 Set `std::set`](#16-set-stdset)
+		- [1.7 Stack `std::stack`](#17-stack-stdstack)
+		- [1.8 Queue `std::queue`](#18-queue-stdqueue)
+		- [1.9 Priority Queue `std::priority_queue`](#19-priority-queue-stdpriorityqueue)
+		- [1.10 Heap `std::priority_queue`](#110-heap-stdpriorityqueue)
+	- [2.0 Trees](#20-trees)
+		- [2.1 Binary Tree](#21-binary-tree)
+		- [2.2 Balanced Trees](#22-balanced-trees)
+		- [2.3 Binary Search](#23-binary-search)
+		- [2.4 Depth-First Search](#24-depth-first-search)
+		- [2.5 Breadth-First Search](#25-breadth-first-search)
+	- [3.0 NP Complete Problems](#30-np-complete-problems)
+		- [3.1 NP Complete](#31-np-complete)
+		- [3.2 Traveling Salesman Problem](#32-traveling-salesman-problem)
+		- [3.3 Knapsack Problem](#33-knapsack-problem)
+	- [4.0 Algorithms](#40-algorithms)
+		- [4.1 Insertion Sort](#41-insertion-sort)
+		- [4.2 Selection Sort](#42-selection-sort)
+		- [4.3 Bubble Sort](#43-bubble-sort)
+		- [4.4 Merge Sort](#44-merge-sort)
+		- [4.5 Quicksort](#45-quicksort)
+	- [5.0 C++ Classes](#50-c-classes)
+		- [5.1 Class Definition](#51-class-definition)
+		- [5.2 Inheritance](#52-inheritance)
+		- [5.3 Polymorphism](#53-polymorphism)
+		- [5.4 Templates](#54-templates)
+		- [5.5 Constructor/Destructor/Copy Constructor](#55-constructordestructorcopy-constructor)
+		- [5.6 Operator Overloading](#56-operator-overloading)
+	- [6.0 General C++ Syntax](#60-general-c-syntax)
+		- [6.1 References/Pointers](#61-referencespointers)
+		- [6.2 Strings (find, erase, etc)](#62-strings-find-erase-etc)
+		- [6.3 Iterators](#63-iterators)
+		- [6.4 Exceptions](#64-exceptions)
+
+<!-- /TOC -->
 
 
-
-## 2.0 Data Structures
-### 2.1 Overview
+## 1.0 Data Structures
+### 1.1 Overview
 
 ![Legend](General/Legend.png)
 
@@ -19,7 +63,7 @@ Data Structures and Algorithms (C++)
 
 ![DataStructureSelection](General/Data Structures Selection.png)
 -------------------------------------------------------
-### 2.2 Vector `std::vector`
+### 1.2 Vector `std::vector`
 **Use for**
 * Simple storage
 * Adding but not deleting
@@ -81,7 +125,7 @@ v.pop_back();                   //tail
 v.clear();
 ```
 -------------------------------------------------------
-### 2.3 Deque `std::deque`
+### 1.3 Deque `std::deque`
 **Use for**
 * Similar purpose of `std::vector`
 * Basically `std::vector` with efficient `push_front` and `pop_front`
@@ -128,7 +172,7 @@ d.pop_back();                   //tail
 d.clear();
 ```
 -------------------------------------------------------
-### 2.4 List `std::list` and `std::forward_list`
+### 1.4 List `std::list` and `std::forward_list`
 **Use for**
 * Insertion into the middle/beginning of the list
 * Efficient sorting (pointer swap vs. copying)
@@ -209,7 +253,7 @@ l.sort();
 l.reverse();
 ```
 -------------------------------------------------------
-### 2.5 Map `std::map` and `std::unordered_map`
+### 1.5 Map `std::map` and `std::unordered_map`
 **Use for**
 * Key-value pairs
 * Constant lookups by key
@@ -288,7 +332,7 @@ bool exists = (m.find("value") != m.end());
 unsigned int count = m.count("key");
 ```
 -------------------------------------------------------
-### 2.6 Set `std::set`
+### 1.6 Set `std::set`
 **Use for**
 * Removing duplicates
 * Ordered dynamic storage
@@ -344,7 +388,7 @@ bool exists = (s.find(20) != s.end());
 unsigned int count = s.count(20);
 ```
 -------------------------------------------------------
-### 2.7 Stack `std::stack`
+### 1.7 Stack `std::stack`
 **Use for**
 * First-In Last-Out operations
 * Reversal of elements
@@ -378,7 +422,7 @@ s.pop();
 int top = s.top();
 ```
 -------------------------------------------------------
-### 2.8 Queue `std::queue`
+### 1.8 Queue `std::queue`
 **Use for**
 * First-In First-Out operations
 * Ex: Simple online ordering system (first come first served)
@@ -410,7 +454,7 @@ unsigned int size = q.size();
 q.pop();
 ```
 -------------------------------------------------------
-### 2.9 Priority Queue `std::priority_queue`
+### 1.9 Priority Queue `std::priority_queue`
 **Use for**
 * First-In First-Out operations where **priority** overrides arrival time
 * Ex: CPU scheduling (smallest job first, system/user priority)
@@ -440,7 +484,7 @@ unsigned int size = p.size();
 p.pop();
 ```
 -------------------------------------------------------
-### 2.10 Heap `std::priority_queue`
+### 1.10 Heap `std::priority_queue`
 **Notes**
 * A heap is essentially an instance of a priority queue
 * A **min** heap is structured with the root node as the smallest and each child subsequently smaller than its parent
@@ -452,8 +496,8 @@ p.pop();
 
 ![MaxHeap](General/MaxHeap.png)
 -------------------------------------------------------
-## 3.0 Trees
-### 3.1 Binary Tree
+## 2.0 Trees
+### 2.1 Binary Tree
 * A binary tree is a tree with at most two (2) child nodes per parent
 * Binary trees are commonly used for implementing `O(log(n))` operations for ordered maps, sets, heaps, and binary search trees
 * Binary trees are **sorted** in that nodes with values greater than their parents are inserted to the **right**, while nodes with values less than their parents are inserted to the **left**
@@ -462,7 +506,7 @@ p.pop();
 
 ![BinarySearchTree](General/BinarySearchTree.png)
 -------------------------------------------------------
-### 3.2 Balanced Trees
+### 2.2 Balanced Trees
 * Balanced trees are a special type of tree which maintains its balance to ensure `O(log(n))` operations
 * When trees are not balanced the benefit of `log(n)` operations is lost due to the highly vertical structure
 * Examples of balanced trees:
@@ -470,7 +514,7 @@ p.pop();
     * Red-Black Trees
 
 -------------------------------------------------------
-### 3.3 Binary Search
+### 2.3 Binary Search
 **Idea:**
 1. If current element, return
 2. If less than current element, look left
@@ -497,7 +541,7 @@ p.pop();
 
 ![BinarySearch](Searching/Animations/Binary Search.gif)
 -------------------------------------------------------
-### 3.4 Depth-First Search
+### 2.4 Depth-First Search
 **Idea:**
 1. Start at root node
 2. Recursively search all adjacent nodes and mark them as searched
@@ -517,7 +561,7 @@ p.pop();
 
 ![DepthFirstSearch](Searching/Animations/Depth-First Search.gif)
 -------------------------------------------------------
-### 3.5 Breadth-First Search
+### 2.5 Breadth-First Search
 **Idea:**
 1. Start at root node
 2. Search neighboring nodes first before moving on to next level
@@ -536,20 +580,20 @@ p.pop();
 
 ![DepthFirstSearch](Searching/Animations/Breadth-First Search.gif)
 -------------------------------------------------------
-## 4.0 NP Complete Problems
-### 4.1 NP Complete
+## 3.0 NP Complete Problems
+### 3.1 NP Complete
 * **NP Complete** means that a problem is unable to be solved in polynomial time
 * NP Complete problems can be verified in polynomial time, but not solved
 -------------------------------------------------------
-### 4.2 Traveling Salesman Problem
+### 3.2 Traveling Salesman Problem
 
 -------------------------------------------------------
-### 4.3 Knapsack Problem
+### 3.3 Knapsack Problem
 
 -------------------------------------------------------
 
-## 5.0 Algorithms
-###  5.1 Insertion Sort
+## 4.0 Algorithms
+###  4.1 Insertion Sort
 **Idea:**
 1. Iterate over all elements
 2. For each element:
@@ -585,7 +629,7 @@ p.pop();
 
 ![InsertionSort](Sorting/Animations/Insertion Sort.gif)
 -------------------------------------------------------
-### 5.2 Selection Sort
+### 4.2 Selection Sort
 **Idea:**
 1. Iterate over all elements
 2. For each element:
@@ -620,7 +664,7 @@ p.pop();
 
 ![SelectionSort](Sorting/Animations/Selection Sort 2.gif)
 -------------------------------------------------------
-### 5.3 Bubble Sort
+### 4.3 Bubble Sort
 **Idea:**
 1. Iterate over all elements
 2. For each element:
@@ -653,7 +697,7 @@ p.pop();
 
 ![BubbleSort](Sorting/Animations/Bubble Sort.gif)
 -------------------------------------------------------
-### 5.4 Merge Sort
+### 4.4 Merge Sort
 **Idea:**
 1. Divide list into smallest unit (1 element)
 2. Compare each element with the adjacent list
@@ -690,7 +734,7 @@ p.pop();
 
 ![MergeSort](Sorting/Animations/Merge Sort 2.gif)
 -------------------------------------------------------
-### 5.5 Quicksort
+### 4.5 Quicksort
 **Idea:**
 1. Choose a **pivot** from the array
 2. Partition: Reorder the array so that all elements with values *less* than the pivot come before the pivot, and all values *greater* than the pivot come after
@@ -730,8 +774,8 @@ p.pop();
 ![QuickSort](Sorting/Animations/Quicksort.gif)
 -------------------------------------------------------
 
-## 6.0 C++ Classes
-### 6.1 Class Definition
+## 5.0 C++ Classes
+### 5.1 Class Definition
 ```c++
 class Test {
 public:
@@ -747,14 +791,14 @@ private:
 };
 ```
 
-### 6.2 Inheritance
-### 6.3 Polymorphism
-### 6.4 Templates
-### 6.5 Constructor/Destructor/Copy Constructor
-### 6.6 Operator Overloading
+### 5.2 Inheritance
+### 5.3 Polymorphism
+### 5.4 Templates
+### 5.5 Constructor/Destructor/Copy Constructor
+### 5.6 Operator Overloading
 
-## 7.0 General C++ Syntax
-### 7.1 References/Pointers
-### 7.2 Strings (find, erase, etc)
-### 7.3 Iterators
-### 7.4 Exceptions
+## 6.0 General C++ Syntax
+### 6.1 References/Pointers
+### 6.2 Strings (find, erase, etc)
+### 6.3 Iterators
+### 6.4 Exceptions
