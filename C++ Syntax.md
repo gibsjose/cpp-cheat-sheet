@@ -194,9 +194,9 @@ int main(int argc, char *argv[]) {
 ```
 
 ### 1.3 Polymorphism
-### 1.4 Templates
-### 1.5 Constructor/Destructor/Copy Constructor
-#### 1.5.1 Use of `explicit` in Constructors
+
+### 1.4 Constructor/Destructor/Copy Constructor
+#### 1.4.1 Use of `explicit` in Constructors
 The keyword `explicit` should be used in single-argument constructors to avoid the following situation. Consider the class `Array`:
 ```c++
 class Array {
@@ -243,16 +243,76 @@ Now you can only use the print method as follows:
 array.Print(Array(12345));
 ```
 
-### 1.6 Initialization Lists
-### 1.7 Operator Overloading
+### 1.4 Initialization Lists
+
+### 1.5 Operator Overloading
+[Reference](http://en.cppreference.com/w/cpp/language/operators).
+
+### 1.6 Templates
+[Reference](http://en.cppreference.com/w/cpp/language/templates).
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
-### 2.2 References/Pointers
+
+### 2.2 References and Pointers
+
 ### 2.3 Keywords
-#### 2.3.1 `const`
-#### 2.3.2 `volatile`
-#### 2.3.3 `inline`
-### 2.4 Strings (find, erase, etc)
-### 2.5 Iterators
-### 2.6 Exceptions
+[Reference](http://en.cppreference.com/w/cpp/keyword).
+
+#### 2.3.1 General Keywords
+[`asm`](http://en.cppreference.com/w/cpp/language/asm)
+[`auto`](http://en.cppreference.com/w/cpp/language/auto)
+[`cont`](http://en.cppreference.com/w/cpp/language/cv)
+[`constexpr` (*since C++11*)](http://en.cppreference.com/w/cpp/language/constexpr)
+[`explicit`](http://en.cppreference.com/w/cpp/language/explicit)
+[`export` (*until C++11*)](http://en.cppreference.com/w/cpp/keyword/export)
+[`extern` (*language linkage*)](http://en.cppreference.com/w/cpp/language/language_linkage)
+[`friend`](http://en.cppreference.com/w/cpp/language/friend)
+[`inline`](http://en.cppreference.com/w/cpp/language/inline)
+[`mutable`](http://en.cppreference.com/w/cpp/language/cv)
+[`noexcept` (*operator*)](http://en.cppreference.com/w/cpp/language/noexcept)
+[`noexcept` (*function specifier*)](http://en.cppreference.com/w/cpp/language/noexcept_spec)
+[`nullptr`](http://en.cppreference.com/w/cpp/language/nullptr)
+[`override`](http://en.cppreference.com/w/cpp/language/override)
+[`static` (*class member specifier*)](http://en.cppreference.com/w/cpp/language/static)
+[`template`](http://en.cppreference.com/w/cpp/language/templates)
+[`this`](http://en.cppreference.com/w/cpp/language/this)
+[`virtual` (*function specifier*)](http://en.cppreference.com/w/cpp/language/virtual)
+[`virtual` (*base class specifier*)](http://en.cppreference.com/w/cpp/language/derived_class)
+[`volatile`](http://en.cppreference.com/w/cpp/language/cv)
+
+#### 2.3.2 Storage Class Specifiers
+[Reference](http://en.cppreference.com/w/cpp/language/storage_duration)
+* [`auto` (*until C++11*)]
+* [`register` (*until C++17*)]
+* [`static`]
+* [`extern`]
+* [`thread_local` (*since C++11*)]
+
+#### 2.3.3 `const` and `dynamic` Cast Conversion
+* [`const_cast`](http://en.cppreference.com/w/cpp/language/const_cast)
+* [`dynamic_cast`](http://en.cppreference.com/w/cpp/language/dynamic_cast)
+
+### 2.4 Preprocessor Tokens
+* `#if`: Same as `if(...)`
+* `#elif`: Same as `else if(...)`
+* `#else`: Same as `else`
+* `#endif`: Used to end an `#if`, `#ifdef`, or `#ifndef`
+* `defined()`: Returns true if the macro is defined
+* `#ifdef`: Same as `#if defined(...)`
+* `#ifndef`: Same as `#if !defined(...)`
+* `#define`: Defines a text macro. See [here](http://en.cppreference.com/w/cpp/preprocessor/replace) for full explanation, including macro functions and predefined macros.
+* `#undef`: Un-defines a text macro
+* `#include`: Includes a source file
+* `#line`: Changes the current file name and line number in the preprocessor
+* `#error`: Prints an error message and stops compilation
+* `#pragma`: Non-standard, used instead of header guards (`#ifndef HEADER_H` ...)
+
+### 2.4 Strings (`std::string`)
+[Reference](http://en.cppreference.com/w/cpp/string/basic_string)
+
+### 2.5 Iterators (`std::iterator<...>`)
+[Reference](http://en.cppreference.com/w/cpp/concept/Iterator)
+
+### 2.6 Exceptions (`std::exception`)
+[Reference](http://en.cppreference.com/w/cpp/error/exception)
