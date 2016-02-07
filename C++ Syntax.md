@@ -246,10 +246,10 @@ array.Print(Array(12345));
 ### 1.4 Initialization Lists
 
 ### 1.5 Operator Overloading
-[Reference](http://en.cppreference.com/w/cpp/language/operators).
+[Reference](http://en.cppreference.com/w/cpp/language/operators)
 
 ### 1.6 Templates
-[Reference](http://en.cppreference.com/w/cpp/language/templates).
+[Reference](http://en.cppreference.com/w/cpp/language/templates)
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
@@ -257,7 +257,7 @@ array.Print(Array(12345));
 ### 2.2 References and Pointers
 
 ### 2.3 Keywords
-[Reference](http://en.cppreference.com/w/cpp/keyword).
+[Reference](http://en.cppreference.com/w/cpp/keyword)
 
 #### 2.3.1 General Keywords
 [`asm`](http://en.cppreference.com/w/cpp/language/asm)
@@ -294,9 +294,9 @@ array.Print(Array(12345));
 * [`dynamic_cast`](http://en.cppreference.com/w/cpp/language/dynamic_cast)
 
 ### 2.4 Preprocessor Tokens
-* `#if`: Same as `if(...)`
-* `#elif`: Same as `else if(...)`
-* `#else`: Same as `else`
+* `#if`: Preprocessor version of `if(...)`
+* `#elif`: Preprocessor version of `else if(...)`
+* `#else`: Preprocessor version of `else`
 * `#endif`: Used to end an `#if`, `#ifdef`, or `#ifndef`
 * `defined()`: Returns true if the macro is defined
 * `#ifdef`: Same as `#if defined(...)`
