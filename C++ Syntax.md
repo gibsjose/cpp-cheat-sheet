@@ -207,7 +207,7 @@ public:
 
 private:
 	int size;
-}
+};
 ```
 
 The following is now legal but ambiguous:
@@ -244,6 +244,7 @@ array.Print(Array(12345));
 ```
 
 ### 1.4 Initialization Lists
+[Reference](http://www.cprogramming.com/tutorial/initialization-lists-c++.html)
 
 ### 1.5 Operator Overloading
 [Reference](http://en.cppreference.com/w/cpp/language/operators)
@@ -253,8 +254,10 @@ array.Print(Array(12345));
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
+[Reference](http://en.cppreference.com/w/cpp/language/namespace)
 
 ### 2.2 References and Pointers
+[Reference](https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp4_PointerReference.html)
 
 ### 2.3 Keywords
 [Reference](http://en.cppreference.com/w/cpp/keyword)
