@@ -17,7 +17,7 @@
 			- [1.2.2 `Rectangle` Definition (`.cpp` file)](#122-rectangle-definition-cpp-file)
 			- [1.2.3 `Rectangle` Utilization (Another `.cpp` file)](#123-rectangle-utilization-another-cpp-file)
 		- [1.3 Polymorphism](#13-polymorphism)
-			- [1.3.1 Use of `Virtual` keyword](#13-use-of-virtual-keyword)
+			- [1.3.1 Use of `Virtual` keyword](#131-use-of-virtual-keyword)
 		- [1.4 Constructor/Destructor/Copy Constructor](#14-constructordestructorcopy-constructor)
 			- [1.4.1 Use of `explicit` in Constructors](#141-use-of-explicit-in-constructors)
 		- [1.5 Initialization Lists](#15-initialization-lists)
