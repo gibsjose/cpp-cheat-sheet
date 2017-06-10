@@ -17,11 +17,12 @@
 			- [1.2.2 `Rectangle` Definition (`.cpp` file)](#122-rectangle-definition-cpp-file)
 			- [1.2.3 `Rectangle` Utilization (Another `.cpp` file)](#123-rectangle-utilization-another-cpp-file)
 		- [1.3 Polymorphism](#13-polymorphism)
-		- [1.4 Templates](#14-templates)
-		- [1.5 Constructor/Destructor/Copy Constructor](#15-constructordestructorcopy-constructor)
-			- [1.5.1 Use of `explicit` in Constructors](#151-use-of-explicit-in-constructors)
-		- [1.6 Initialization Lists](#16-initialization-lists)
-		- [1.7 Operator Overloading](#17-operator-overloading)
+			- [1.3.1 Use of `Virtual` keyword](#131-use-of-virtual-keyword)
+		- [1.4 Constructor/Destructor/Copy Constructor](#14-constructordestructorcopy-constructor)
+			- [1.4.1 Use of `explicit` in Constructors](#141-use-of-explicit-in-constructors)
+		- [1.5 Initialization Lists](#15-initialization-lists)
+		- [1.6 Operator Overloading](#16-operator-overloading)
+		- [1.7 Templates](#17-templates)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
 		- [2.1 Namespaces](#21-namespaces)
 		- [2.2 References/Pointers](#22-referencespointers)
@@ -194,6 +195,46 @@ int main(int argc, char *argv[]) {
 ```
 
 ### 1.3 Polymorphism
+Polymorphism means many forms. It is basically the ability of an object to take on many forms. 
+
+### 1.3.1 Use of ```virtual``` keyword
+```c++
+#include "iostream"
+class Base{
+
+  public:
+    void print(){
+    	std::cout<<"Base Class!"<<std::endl;
+    }
+    int get(int x){
+    // Do Someting.
+     }
+
+};
+class Derived:public Base{
+     public:
+     void print(){          // Overriding the Base class method 
+     	std::cout<<"Derived Class!"<<std::endl;
+     }
+};
+int main(int argc, char *argv[]) {
+	Base *base;
+	Derived derived;
+	base= &derived;
+	base.print();		// Calling the derived class print method 
+}
+```
+When this code is executed the output will be ```Base Class!```. This is due to the **static resolution** of the function call. Due to which the function call is fixed during the compilation. We can prevent this from happening by adding the keyword **virtual** before the ```Base``` class print method.
+```c++
+//..
+virtual void print(){
+	std::cout<<"Base Class!"<<std::endl;
+}
+//..
+```
+Now we get the expected output ```Derived Class!```.
+This strange occurance is due to polymorphism.
+
 
 ### 1.4 Constructor/Destructor/Copy Constructor
 #### 1.4.1 Use of `explicit` in Constructors
@@ -207,7 +248,7 @@ public:
 
 private:
 	int size;
-}
+};
 ```
 
 The following is now legal but ambiguous:
@@ -243,18 +284,21 @@ Now you can only use the print method as follows:
 array.Print(Array(12345));
 ```
 
-### 1.4 Initialization Lists
+### 1.5 Initialization Lists
+[Reference](http://www.cprogramming.com/tutorial/initialization-lists-c++.html)
 
-### 1.5 Operator Overloading
+### 1.6 Operator Overloading
 [Reference](http://en.cppreference.com/w/cpp/language/operators)
 
-### 1.6 Templates
+### 1.7 Templates
 [Reference](http://en.cppreference.com/w/cpp/language/templates)
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
+[Reference](http://en.cppreference.com/w/cpp/language/namespace)
 
 ### 2.2 References and Pointers
+[Reference](https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp4_PointerReference.html)
 
 ### 2.3 Keywords
 [Reference](http://en.cppreference.com/w/cpp/keyword)
