@@ -5,34 +5,34 @@
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [C++ Data Structures and Algorithms Cheat Sheet](#c-data-structures-and-algorithms-cheat-sheet)
-	- [Table of Contents](#table-of-contents)
-	- [1.0 Data Structures](#10-data-structures)
-		- [1.1 Overview](#11-overview)
-		- [1.2 Vector `std::vector`](#12-vector-stdvector)
-		- [1.3 Deque `std::deque`](#13-deque-stddeque)
-		- [1.4 List `std::list` and `std::forward_list`](#14-list-stdlist-and-stdforwardlist)
-		- [1.5 Map `std::map` and `std::unordered_map`](#15-map-stdmap-and-stdunorderedmap)
-		- [1.6 Set `std::set`](#16-set-stdset)
-		- [1.7 Stack `std::stack`](#17-stack-stdstack)
-		- [1.8 Queue `std::queue`](#18-queue-stdqueue)
-		- [1.9 Priority Queue `std::priority_queue`](#19-priority-queue-stdpriorityqueue)
-		- [1.10 Heap `std::priority_queue`](#110-heap-stdpriorityqueue)
-	- [2.0 Trees](#20-trees)
-		- [2.1 Binary Tree](#21-binary-tree)
-		- [2.2 Balanced Trees](#22-balanced-trees)
-		- [2.3 Binary Search](#23-binary-search)
-		- [2.4 Depth-First Search](#24-depth-first-search)
-		- [2.5 Breadth-First Search](#25-breadth-first-search)
-	- [3.0 NP Complete Problems](#30-np-complete-problems)
-		- [3.1 NP Complete](#31-np-complete)
-		- [3.2 Traveling Salesman Problem](#32-traveling-salesman-problem)
-		- [3.3 Knapsack Problem](#33-knapsack-problem)
-	- [4.0 Algorithms](#40-algorithms)
-		- [4.1 Insertion Sort](#41-insertion-sort)
-		- [4.2 Selection Sort](#42-selection-sort)
-		- [4.3 Bubble Sort](#43-bubble-sort)
-		- [4.4 Merge Sort](#44-merge-sort)
-		- [4.5 Quicksort](#45-quicksort)
+    - [Table of Contents](#table-of-contents)
+    - [1.0 Data Structures](#10-data-structures)
+        - [1.1 Overview](#11-overview)
+        - [1.2 Vector `std::vector`](#12-vector-stdvector)
+        - [1.3 Deque `std::deque`](#13-deque-stddeque)
+        - [1.4 List `std::list` and `std::forward_list`](#14-list-stdlist-and-stdforwardlist)
+        - [1.5 Map `std::map` and `std::unordered_map`](#15-map-stdmap-and-stdunorderedmap)
+        - [1.6 Set `std::set`](#16-set-stdset)
+        - [1.7 Stack `std::stack`](#17-stack-stdstack)
+        - [1.8 Queue `std::queue`](#18-queue-stdqueue)
+        - [1.9 Priority Queue `std::priority_queue`](#19-priority-queue-stdpriorityqueue)
+        - [1.10 Heap `std::priority_queue`](#110-heap-stdpriorityqueue)
+    - [2.0 Trees](#20-trees)
+        - [2.1 Binary Tree](#21-binary-tree)
+        - [2.2 Balanced Trees](#22-balanced-trees)
+        - [2.3 Binary Search](#23-binary-search)
+        - [2.4 Depth-First Search](#24-depth-first-search)
+        - [2.5 Breadth-First Search](#25-breadth-first-search)
+    - [3.0 NP Complete Problems](#30-np-complete-problems)
+        - [3.1 NP Complete](#31-np-complete)
+        - [3.2 Traveling Salesman Problem](#32-traveling-salesman-problem)
+        - [3.3 Knapsack Problem](#33-knapsack-problem)
+    - [4.0 Algorithms](#40-algorithms)
+        - [4.1 Insertion Sort](#41-insertion-sort)
+        - [4.2 Selection Sort](#42-selection-sort)
+        - [4.3 Bubble Sort](#43-bubble-sort)
+        - [4.4 Merge Sort](#44-merge-sort)
+        - [4.5 Quicksort](#45-quicksort)
 
 <!-- /TOC -->
 
@@ -42,11 +42,11 @@
 
 ![Legend](General/Legend.png)
 
-![DataStructures](General/Data Structures.png)
+![DataStructures](General/Data%20Structures.png "Data Structures")
 
-![ComplexityChart](General/Complexity Chart.png)
+![ComplexityChart](General/Complexity%20Chart.png "Complexity Chart")
 
-![DataStructureSelection](General/Data Structures Selection.png)
+![DataStructureSelection](General/Data%20Structures%20Selection.png "Data Structures Selection")
 -------------------------------------------------------
 ### 1.2 Vector `std::vector`
 **Use for**
@@ -524,7 +524,7 @@ p.pop();
 
 **Visualization:**
 
-![BinarySearch](Searching/Animations/Binary Search.gif)
+![BinarySearch](Searching/Animations/Binary%20Search.gif "Binary Search")
 -------------------------------------------------------
 ### 2.4 Depth-First Search
 **Idea:**
@@ -544,7 +544,7 @@ p.pop();
 
 **Visualization:**
 
-![DepthFirstSearch](Searching/Animations/Depth-First Search.gif)
+![DepthFirstSearch](Searching/Animations/Depth-First%20Search.gif "Depth-First Search")
 -------------------------------------------------------
 ### 2.5 Breadth-First Search
 **Idea:**
@@ -563,7 +563,7 @@ p.pop();
 
 **Visualization:**
 
-![DepthFirstSearch](Searching/Animations/Breadth-First Search.gif)
+![DepthFirstSearch](Searching/Animations/Breadth-First%20Search.gif "Breadth-First Search")
 -------------------------------------------------------
 ## 3.0 NP Complete Problems
 ### 3.1 NP Complete
@@ -613,7 +613,7 @@ p.pop();
 
 **Visualization**
 
-![InsertionSort](Sorting/Animations/Insertion Sort.gif)
+![InsertionSort](Sorting/Animations/Insertion%20Sort.gif "Insertion Sort")
 -------------------------------------------------------
 ### 4.2 Selection Sort
 **Idea:**
@@ -646,9 +646,9 @@ p.pop();
 
 **Visualization**
 
-![SelectionSort](Sorting/Animations/Selection Sort.gif)
+![SelectionSort](Sorting/Animations/Selection%20Sort.gif "Selection Sort")
 
-![SelectionSort](Sorting/Animations/Selection Sort 2.gif)
+![SelectionSort](Sorting/Animations/Selection%20Sort%202.gif "Selection Sort 2")
 -------------------------------------------------------
 ### 4.3 Bubble Sort
 **Idea:**
@@ -681,7 +681,7 @@ p.pop();
 
 **Visualization**
 
-![BubbleSort](Sorting/Animations/Bubble Sort.gif)
+![BubbleSort](Sorting/Animations/Bubble%20Sort.gif "Bubble Sort")
 -------------------------------------------------------
 ### 4.4 Merge Sort
 **Idea:**
@@ -716,9 +716,9 @@ p.pop();
 
 **Visualization**
 
-![MergeSort](Sorting/Animations/Merge Sort.gif)
+![MergeSort](Sorting/Animations/Merge%20Sort.gif "Merge Sort")
 
-![MergeSort](Sorting/Animations/Merge Sort 2.gif)
+![MergeSort](Sorting/Animations/Merge%20Sort%202.gif "Merge Sort 2")
 -------------------------------------------------------
 ### 4.5 Quicksort
 **Idea:**
