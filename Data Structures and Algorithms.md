@@ -83,30 +83,30 @@ std::vector<int> v;
 // General Operations
 //---------------------------------
 
-//Insert head, index, tail
-v.insert(v.begin(), value);             //head
-v.insert(v.begin() + index, value);     //index
-v.push_back(value);                     //tail
+// Insert head, index, tail
+v.insert(v.begin(), value);             // head
+v.insert(v.begin() + index, value);     // index
+v.push_back(value);                     // tail
 
-//Access head, index, tail
-int head = v.front();       //head
-int value = v.at(index);    //index
-int tail = v.back();        //tail
+// Access head, index, tail
+int head = v.front();       // head
+int value = v.at(index);    // index
+int tail = v.back();        // tail
 
-//Size
+// Size
 unsigned int size = v.size();
 
-//Iterate
+// Iterate
 for(std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
     std::cout << *it << std::endl;
 }
 
-//Remove head, index, tail
-v.erase(v.begin());             //head
-v.erase(v.begin() + index);     //index
-v.pop_back();                   //tail
+// Remove head, index, tail
+v.erase(v.begin());             // head
+v.erase(v.begin() + index);     // index
+v.pop_back();                   // tail
 
-//Clear
+// Clear
 v.clear();
 ```
 -------------------------------------------------------
@@ -130,30 +130,30 @@ std::deque<int> d;
 // General Operations
 //---------------------------------
 
-//Insert head, index, tail
-d.push_front(value);                    //head
-d.insert(d.begin() + index, value);     //index
-d.push_back(value);                     //tail
+// Insert head, index, tail
+d.push_front(value);                    // head
+d.insert(d.begin() + index, value);     // index
+d.push_back(value);                     // tail
 
-//Access head, index, tail
-int head = d.front();       //head
-int value = d.at(index);    //index
-int tail = d.back();        //tail
+// Access head, index, tail
+int head = d.front();       // head
+int value = d.at(index);    // index
+int tail = d.back();        // tail
 
-//Size
+// Size
 unsigned int size = d.size();
 
-//Iterate
+// Iterate
 for(std::vector<int>::iterator it = d.begin(); it != d.end(); it++) {
     std::cout << *it << std::endl;
 }
 
-//Remove head, index, tail
-d.pop_front();                  //head
-d.erase(d.begin() + index);     //index
-d.pop_back();                   //tail
+// Remove head, index, tail
+d.pop_front();                  // head
+d.erase(d.begin() + index);     // index
+d.pop_back();                   // tail
 
-//Clear
+// Clear
 d.clear();
 ```
 -------------------------------------------------------
@@ -186,55 +186,55 @@ std::list<int> l;
 // General Operations
 //---------------------------------
 
-//Insert head, index, tail
-l.push_front(value);                    //head
-l.insert(l.begin() + index, value);     //index
-l.push_back(value);                     //tail
+// Insert head, index, tail
+l.push_front(value);                    // head
+l.insert(l.begin() + index, value);     // index
+l.push_back(value);                     // tail
 
-//Access head, index, tail
-int head = l.front();                                           //head
-int value = std::list<int>::iterator it = l.begin() + index;    //index
-int tail = l.back();                                            //tail
+// Access head, index, tail
+int head = l.front();                                           // head
+int value = std::list<int>::iterator it = l.begin() + index;    // index
+int tail = l.back();                                            // tail
 
-//Size
+// Size
 unsigned int size = l.size();
 
-//Iterate
+// Iterate
 for(std::list<int>::iterator it = l.begin(); it != l.end(); it++) {
     std::cout << *it << std::endl;
 }
 
-//Remove head, index, tail
-l.pop_front();                  //head
-l.erase(l.begin() + index);     //index
-l.pop_back();                   //tail
+// Remove head, index, tail
+l.pop_front();                  // head
+l.erase(l.begin() + index);     // index
+l.pop_back();                   // tail
 
-//Clear
+// Clear
 l.clear();
 
 //---------------------------------
 // Container-Specific Operations
 //---------------------------------
 
-//Splice: Transfer elements from list to list
-//  splice(iterator pos, list &x)
-//  splice(iterator pos, list &x, iterator i)
-//  splice(iterator pos, list &x, iterator first, iterator last)
+// Splice: Transfer elements from list to list
+//	splice(iterator pos, list &x)
+//  	splice(iterator pos, list &x, iterator i)
+//  	splice(iterator pos, list &x, iterator first, iterator last)
 l.splice(l.begin() + index, list2);
 
-//Remove: Remove an element by value
+// Remove: Remove an element by value
 l.remove(value);
 
-//Unique: Remove duplicates
+// Unique: Remove duplicates
 l.unique();
 
-//Merge: Merge two sorted lists
+// Merge: Merge two sorted lists
 l.merge(list2);
 
-//Sort: Sort the list
+// Sort: Sort the list
 l.sort();
 
-//Reverse: Reverse the list order
+// Reverse: Reverse the list order
 l.reverse();
 ```
 -------------------------------------------------------
@@ -284,36 +284,36 @@ std::map<std::string, std::string> m;
 // General Operations
 //---------------------------------
 
-//Insert
+// Insert
 m.insert(std::pair<std::string, std::string>("key", "value"));
 
-//Access key, value
+// Access by key, value
 std::string value = m.at("key");
-std::string value = *(std::map<std::string, std::string>::iterator it = m.find("value"));
+value = *(std::map<std::string, std::string>::iterator it = m.find("value"));
 
-//Size
+// Size
 unsigned int size = m.size();
 
-//Iterate
+// Iterate
 for(std::map<int>::iterator it = m.begin(); it != m.end(); it++) {
     std::cout << "key"*it << std::endl;
 }
 
-//Remove by key, value
+// Remove by key, value
 m.erase("key");
 m.erase(m.find("value"));
 
-//Clear
+// Clear
 m.clear();
 
 //---------------------------------
 // Container-Specific Operations
 //---------------------------------
 
-//Find if an element exists by value
+// Find if an element exists by value
 bool exists = (m.find("value") != m.end());
 
-//Count the number of elements with a certain key
+// Count the number of elements with a certain key
 unsigned int count = m.count("key");
 ```
 -------------------------------------------------------
@@ -345,31 +345,31 @@ std::set<int> s;
 // General Operations
 //---------------------------------
 
-//Insert
+// Insert
 s.insert(20);
 
-//Size
+// Size
 unsigned int size = s.size();
 
-//Iterate
+// Iterate
 for(std::set<int>::iterator it = s.begin(); it != s.end(); it++) {
     std::cout << *it << std::endl;
 }
 
-//Remove
+// Remove
 s.erase(20);
 
-//Clear
+// Clear
 s.clear();
 
 //---------------------------------
 // Container-Specific Operations
 //---------------------------------
 
-//Find if an element exists
+// Find if an element exists
 bool exists = (s.find(20) != s.end());
 
-//Count the number of elements with a certain value
+// Count the number of elements with a certain value
 unsigned int count = s.count(20);
 ```
 -------------------------------------------------------
@@ -394,16 +394,16 @@ std::stack<int> s;
 // Container-Specific Operations
 //---------------------------------
 
-//Push
+// Push
 s.push(20);
 
-//Size
+// Size
 unsigned int size = s.size();
 
-//Pop
+// Pop
 s.pop();
 
-//Top
+// Top
 int top = s.top();
 ```
 -------------------------------------------------------
@@ -425,17 +425,17 @@ std::queue<int> q;
 // General Operations
 //---------------------------------
 
-//Insert
+// Insert
 q.push(value);
 
-//Access head, tail
-int head = q.front();       //head
-int tail = q.back();        //tail
+// Access head, tail
+int head = q.front();       // head
+int tail = q.back();        // tail
 
-//Size
+// Size
 unsigned int size = q.size();
 
-//Remove
+// Remove
 q.pop();
 ```
 -------------------------------------------------------
@@ -456,16 +456,16 @@ std::priority_queue<int> p;
 // General Operations
 //---------------------------------
 
-//Insert
+// Insert
 p.push(value);
 
-//Access
-int top = p.top();  //`Top` element
+// Access
+int top = p.top();  // 'Top' element
 
-//Size
+// Size
 unsigned int size = p.size();
 
-//Remove
+// Remove
 p.pop();
 ```
 -------------------------------------------------------
