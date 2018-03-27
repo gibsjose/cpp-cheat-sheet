@@ -357,7 +357,7 @@ for(std::set<int>::iterator it = s.begin(); it != s.end(); it++) {
 }
 
 //Remove
-s.remove(20);
+s.erase(20);
 
 //Clear
 s.clear();
