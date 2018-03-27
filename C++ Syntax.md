@@ -45,56 +45,54 @@ The class *declaration* typically goes in the `.h` file. The *declaration* gives
 ```c++
 class Polygon {
 
-//Private members and methods are only accessible via methods in the class definition
-//Another option is 'protected', which are members and methods only accessible in the class definition or by classes who extend this class
+// Private members and methods are only accessible via methods in the class definition
+// Another option is 'protected', which are members and methods only accessible in the class definition or by classes who extend this class
 private:
-    int sides;          //Number of sides
-    std::string name    //Name of the polygon
+    int num_sides;    	// Number of sides
+    std::string name    // Name of the polygon
 
-//Public members and methods are accessible to anyone who creates an instance of the class
+// Public members and methods are accessible to anyone who creates an instance of the class
 public:
-    //Constructors
-    Polygon(const int sides, const std::string &name);  //<--- This constructor takes the number of sides and name as arguments
+    // Constructors
+    Polygon(const int num_sides, const std::string &name);  // <--- This constructor takes the number of sides and name as arguments
 
-    //Getters and Setters
-    const int GetSides(void) const;
-    void SetSides(const int sides);
+    // Getters and Setters
+    const int GetNumSides(void) const;
+    void SetNumSides(const int num_sides);
 
     const std::string & GetName(void) const;
     void SetName(const std::string &name);
-
-    Test() : int_data(0), str_data("empty"), num_data(10.6) {}
-
-}; //<--- Don't forget the semicolon!
+    
+}; // <--- Don't forget the semicolon!
 ```
 
 #### 1.1.2 Class Definition (`.cpp` file)
 ```c++
-#include "Polygon.h"    //<--- Obtains the class declaration
+#include "Polygon.h"    // <--- Obtains the class declaration
 
-//Constructor
-//You must scope the method definitions with the class name (Polygon::)
-Polygon::Polygon(const int sides, const std::string &name) {
-    this->sides = sides;    //'this' refers to the instance of the class. Members are accessed via pointers
+// Constructor
+// You must scope the method definitions with the class name (Polygon::)
+Polygon::Polygon(const int num_sides, const std::string &name) {
+    this->num_sides = num_side;	// 'this' refers to the instance of the class. Members are accessed via pointers
     this->name = name;
 }
 
-//Get the number of sides
-const int Polygon::GetSides(void) const {
-    return this->sides;
+// Get the number of sides
+const int Polygon::GetNumSides(void) const {
+    return this->num_sides;
 }
 
-//Set the number of sides
-void Polygon::SetSides(const int sides) {
-    this->sides = sides;
+// Set the number of sides
+void Polygon::SetNumSides(const int num_sides) {
+    this->num_sides = num_sides;
 }
 
-//Get the polygon name
+// Get the polygon name
 const std::string & Polygon::GetName(void) const {
     return this->name;
 }
 
-//Set the polygon name
+// Set the polygon name
 void Polygon::SetName(const std::string &name) {
     this->name = name;
 }
@@ -103,17 +101,17 @@ void Polygon::SetName(const std::string &name) {
 #### 1.1.3 Class Utilization (Another `.cpp` file)
 ```c++
 #include <string>
-#include "Polygon.h"    //<--- Obtains the class declaration
+#include "Polygon.h"    // <--- Obtains the class declaration
 
 int main(int argc, char *argv[]) {
-    //Create a polygon with 4 sides and name "Rectangle"
+    // Create a polygon with 4 sides and the name "Rectangle"
     Polygon polygon = Polygon(4, "Rectangle");
 
-    //Check number of sides -- Prints "Rectangle has 4 sides"
-    std::cout << polygon.name << " has " << polygon.GetSides() << " sides"<< std::endl;
+    // Check number of sides -- Prints "Rectangle has 4 sides"
+    std::cout << polygon.GetName() << " has " << polygon.GetNumSides() << " sides"<< std::endl;
 
-    //Change number of sides to 3 and name to "Triangle"
-    polygon.SetSides(3);
+    // Change number of sides to 3 and name to "Triangle"
+    polygon.SetNumSides(3);
     polygon.SetName("Triangle");
 }
 ```
@@ -122,8 +120,10 @@ int main(int argc, char *argv[]) {
 A shortcut often used for Getters/Setters is to define them in the class declaration (`.h`) file as follows:
 ```c++
 class Car {
+private:
 	int year;
 	std::string make;
+
 public:
 	const int GetYear(void) const { return this->year; }
 	void SetYear(const int year) { this->year = year; }
@@ -141,43 +141,49 @@ A class can extend another class, meaning that the new class inherits all of the
 
 #### 1.2.1 `Rectangle` Declaration (`.h` file)
 ```c++
-#include "Polygon.h"	//<--- You must include the declaration in order to extend the class
+#include "Polygon.h"	// <--- You must include the declaration in order to extend the class
 
-class Rectangle: public Polygon {	//<--- This
-private:			//<--- The members 'sides' and 'name' are already inherited from Polygon
+class Rectangle: public Polygon {
+private:			// <--- The members 'num_sides' and 'name' are already inherited from Polygon
 	int length;
 	int width;
 
 public:
-	//Constructors
+	// Constructors
 	Rectangle(const std::string &name);
 	Rectangle(const std::string &name, const int length, const int width);
 
-	//Getters and Setters	<--- The methods 'GetSides()', 'SetSides()', 'GetName()' and 'SetName()' are already inherited from Polygon
+	// Getters and Setters	<--- The methods 'GetNumSides()', 'SetNumSides()', 'GetName()' and 'SetName()' are already inherited from Polygon
 	const int GetLength(void) const { return this->length; }
 	void SetLength(const int) { this->length = length; }
 
 	const int GetWidth(void) const { return this->width; }
 	void SetWidth(const int) { this->width = width; }
 
-	//Other Methods
+	// Other Methods
 	const int Area(void) const;
 };
 ```
 
 #### 1.2.2 `Rectangle` Definition (`.cpp` file)
 ```c++
-#include "Rectangle.h"	//<--- Only need to include 'Rectangle', since 'Polygon' is included in 'Rectangle.h'
+#include "Rectangle.h"	// <--- Only need to include 'Rectangle', since 'Polygon' is included in 'Rectangle.h'
 
-//This constructor calls the superclass (Polygon) constructor and sets the name and number of sides to '4'
-Rectangle::Rectangle(const std::string &name) : Polygon(4, name) {
-	this->length = 0;
-	this->width = 0;
+// This constructor calls the superclass (Polygon) constructor and sets the name and number of sides to '4', and then sets the length and width
+Rectangle::Rectangle(const std::string &name, const int length, const int width) : Polygon(4, name) {
+	this->length = length;
+	this->width = width;
 }
 
-//Area
+// This constructor calls the superclass (Polygon) constructor, but sets the length and width to a constant value
+Rectangle::Rectangle(const std::string &name) : Polygon(4, name) {
+	this->length = 1;
+	this->width = 1;
+}
+
+// Compute the area of the rectangle
 Rectangle::Area(void) const {
-	return (this->length * this->width);
+	return this->length * this->width;
 }
 ```
 
@@ -188,8 +194,8 @@ Rectangle::Area(void) const {
 int main(int argc, char *argv[]) {
 	Rectangle rectangle = Rectangle("Square", 6, 6);
 
-	//Prints "Square has 4 sides, and an area of 36"
-	std::cout << rectangle.GetName() << " has " << rectangle.GetSides() << " sides, and an area of " << rectangle.Area() << std::endl;
+	// Prints "Square has 4 sides, and an area of 36"
+	std::cout << rectangle.GetName() << " has " << rectangle.GetNumSides() << " sides, and an area of " << rectangle.Area() << std::endl;
 }
 ```
 
@@ -207,7 +213,7 @@ public:
 
 private:
 	int size;
-}
+};
 ```
 
 The following is now legal but ambiguous:
@@ -222,7 +228,7 @@ Array array = Array(12345);
 
 That's fine, one would suppose, but what about the following:
 ```c++
-//Method PrintArray is defined as: Array::Print(const Array &array)
+// Method PrintArray is defined as: Array::Print(const Array &array)
 array.Print(12345);
 ```
 
@@ -235,7 +241,7 @@ public:
 	explicit Array(int size) {
 		this->size = size;
 	}
-}
+};
 ```
 
 Now you can only use the print method as follows:
@@ -283,11 +289,11 @@ array.Print(Array(12345));
 
 #### 2.3.2 Storage Class Specifiers
 [Reference](http://en.cppreference.com/w/cpp/language/storage_duration)
-* [`auto` (*until C++11*)]
-* [`register` (*until C++17*)]
-* [`static`]
-* [`extern`]
-* [`thread_local` (*since C++11*)]
+* `auto` (*until C++11*)
+* `register` (*until C++17*)
+* `static`
+* `extern`
+* `thread_local` (*since C++11*)
 
 #### 2.3.3 `const` and `dynamic` Cast Conversion
 * [`const_cast`](http://en.cppreference.com/w/cpp/language/const_cast)
