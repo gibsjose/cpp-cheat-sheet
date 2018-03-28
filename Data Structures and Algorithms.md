@@ -580,181 +580,143 @@ p.pop();
 
 ## 4.0 Algorithms
 ###  4.1 Insertion Sort
-**Idea:**
+#### Idea
 1. Iterate over all elements
 2. For each element:
     * Check if element is larger than largest value in sorted array
 3. If larger: Move on
 4. If smaller: Move item to correct position in sorted array
 
-**Data structure:**
-* Array
+#### Details
+* **Data structure:** Array
+* **Space:** `O(1)`
+* **Best Case:** Already sorted, `O(n)`
+* **Worst Case:** Reverse sorted, `O(n^2)`
+* **Average:** `O(n^2)`
 
-**Space:**
-* O(1)
+#### Advantages
+* Easy to code
+* Intuitive
+* Better than selection sort and bubble sort for small data sets
+* Can sort in-place
 
-**Best Case:**
-    * Already sorted
-    * O(n)
-**Worst Case:**
-    * Reverse sorted
-    * O(n^2)
-**Average:**
-    * O(n^2)
+#### Disadvantages
+* Very inefficient for large datasets
 
-**Advantages**
-    * Easy to code
-    * Intuitive
-    * Better than selection sort and bubble sort for small data sets
-    * Can sort in-place
-
-**Disadvantages**
-    * Very inefficient for large datasets
-
-**Visualization**
+#### Visualization
 
 ![InsertionSort](Sorting/Animations/Insertion%20Sort.gif "Insertion Sort")
 -------------------------------------------------------
 ### 4.2 Selection Sort
-**Idea:**
+#### Idea
 1. Iterate over all elements
 2. For each element:
     * If smallest element of unsorted sublist, swap with left-most unsorted element
 
-**Data structure:**
-* Array
+#### Details
+* **Data structure:** Array
+* **Space:** `O(1)`
+* **Best Case:** Already sorted, `O(n^2)`
+* **Worst Case:** Reverse sorted, `O(n^2)`
+* **Average:** `O(n^2)`
 
-**Space:**
-* O(1)
+#### Advantages
+* Simple
+* Can sort in-place
+* Low memory usage for small datasets
 
-**Best Case:**
-    * Already sorted
-    * O(n^2)
-**Worst Case:**
-    * Reverse sorted
-    * O(n^2)
-**Average:**
-    * O(n^2)
+#### Disadvantages
+* Very inefficient for large datasets
 
-**Advantages**
-    * Simple
-    * Can sort in-place
-    * Low memory usage for small datasets
-
-**Disadvantages**
-    * Very inefficient for large datasets
-
-**Visualization**
+#### Visualization
 
 ![SelectionSort](Sorting/Animations/Selection%20Sort.gif "Selection Sort")
 
 ![SelectionSort](Sorting/Animations/Selection%20Sort%202.gif "Selection Sort 2")
 -------------------------------------------------------
 ### 4.3 Bubble Sort
-**Idea:**
+#### Idea
 1. Iterate over all elements
 2. For each element:
     * Swap with next element if out of order
 3. Repeat until no swaps needed
 
-**Data structure:**
-* Array
+#### Details
+* **Data structure:** Array
+* **Space:** `O(1)`
+* **Best Case:** Already sorted `O(n)`
+* **Worst Case:** Reverse sorted, `O(n^2)`
+* **Average:** `O(n^2)`
 
-**Space:**
-* O(1)
+#### Advantages
+* Easy to detect if list is sorted
 
-**Best Case:**
-    * Already sorted
-    * O(n)
-**Worst Case:**
-    * Reverse sorted
-    * O(n^2)
-**Average:**
-    * O(n^2)
+#### Disadvantages
+* Very inefficient for large datasets
+* Much worse than even insertion sort
 
-**Advantages**
-    * Easy to detect if list is sorted
-
-**Disadvantages**
-    * Very inefficient for large datasets
-    * Much worse than even insertion sort
-
-**Visualization**
+#### Visualization
 
 ![BubbleSort](Sorting/Animations/Bubble%20Sort.gif "Bubble Sort")
 -------------------------------------------------------
 ### 4.4 Merge Sort
-**Idea:**
+#### Idea
 1. Divide list into smallest unit (1 element)
 2. Compare each element with the adjacent list
 3. Merge the two adjacent lists
 4. Repeat
 
-**Data structure:**
-* Array
+#### Details
+* **Data structure:** Array
+* **Space:** `O(n) auxiliary`
+* **Best Case:** `O(nlog(n))`
+* **Worst Case:** Reverse sorted, `O(nlog(n))`
+* **Average:** `O(nlog(n))`
 
-**Space:**
-* O(n) auxiliary
+#### Advantages
+* High efficiency on large datasets
+* Nearly always O(nlog(n))
+* Can be parallelized
+* Better space complexity than standard Quicksort
 
-**Best Case:**
-    * O(nlog(n))
-**Worst Case:**
-    * Reverse sorted
-    * O(nlog(n))
-**Average:**
-    * O(nlog(n))
+#### Disadvantages
+* Still requires O(n) extra space
+* Slightly worse than Quicksort in some instances
 
-**Advantages**
-    * High efficiency on large datasets
-    * Nearly always O(nlog(n))
-    * Can be parallelized
-    * Better space complexity than standard Quicksort
-
-**Disadvantages**
-    * Still requires O(n) extra space
-    * Slightly worse than Quicksort in some instances
-
-**Visualization**
+#### Visualization
 
 ![MergeSort](Sorting/Animations/Merge%20Sort.gif "Merge Sort")
 
 ![MergeSort](Sorting/Animations/Merge%20Sort%202.gif "Merge Sort 2")
 -------------------------------------------------------
 ### 4.5 Quicksort
-**Idea:**
+#### Idea
 1. Choose a **pivot** from the array
 2. Partition: Reorder the array so that all elements with values *less* than the pivot come before the pivot, and all values *greater* than the pivot come after
 3. Recursively apply the above steps to the sub-arrays
 
-**Data structure:**
-* Array
+#### Details
+* **Data structure:** Array
+* **Space:** `O(n)`
+* **Best Case:** `O(nlog(n))`
+* **Worst Case:** All elements equal, `O(n^2)`
+* **Average:** `O(nlog(n))`
 
-**Space:**
-* O(n)
+#### Advantages
+* Can be modified to use O(log(n)) space
+* Very quick and efficient with large datasets
+* Can be parallelized
+* Divide and conquer algorithm
 
-**Best Case:**
-    * O(nlog(n))
-**Worst Case:**
-    * All elements equal
-    * O(n^2)
-**Average:**
-    * O(nlog(n))
+#### Disadvantages
+* Not stable (could swap equal elements)
+* Worst case is worse than Merge Sort
 
-**Advantages**
-    * Can be modified to use O(log(n)) space
-    * Very quick and efficient with large datasets
-    * Can be parallelized
-    * Divide and conquer algorithm
-
-**Disadvantages**
-    * Not stable (could swap equal elements)
-    * Worst case is worse than Merge Sort
-
-**Optimizations**
+#### Optimizations
 * Choice of pivot:
     * Choose median of the first, middle, and last elements as pivot
     * Counters worst-case complexity for already-sorted and reverse-sorted
 
-**Visualization**
+#### Visualization
 
 ![QuickSort](Sorting/Animations/Quicksort.gif)
