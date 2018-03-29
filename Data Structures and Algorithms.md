@@ -11,7 +11,7 @@
 		- [1.2 Vector `std::vector`](#12-vector-stdvector)
 		- [1.3 Deque `std::deque`](#13-deque-stddeque)
 		- [1.4 List `std::list` and `std::forward_list`](#14-list-stdlist-and-stdforwardlist)
-		- [1.5 Map `std::map` and `std::unordered_map`](#15-map-stdmap-and-stdunorderedmap)
+		- [1.5 Map `std::map` and `std::unordered_map`](15-map-stdmap-and-stdunordered_map)
 		- [1.6 Set `std::set`](#16-set-stdset)
 		- [1.7 Stack `std::stack`](#17-stack-stdstack)
 		- [1.8 Queue `std::queue`](#18-queue-stdqueue)
