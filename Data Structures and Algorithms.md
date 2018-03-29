@@ -287,21 +287,19 @@ std::map<std::string, std::string> m;
 // Insert
 m.insert(std::pair<std::string, std::string>("key", "value"));
 
-// Access by key, value
+// Access by key
 std::string value = m.at("key");
-value = *(std::map<std::string, std::string>::iterator it = m.find("value"));
 
 // Size
 unsigned int size = m.size();
 
 // Iterate
 for(std::map<int>::iterator it = m.begin(); it != m.end(); it++) {
-    std::cout << "key"*it << std::endl;
+    std::cout << *it << std::endl;
 }
 
-// Remove by key, value
+// Remove by key
 m.erase("key");
-m.erase(m.find("value"));
 
 // Clear
 m.clear();
@@ -310,8 +308,8 @@ m.clear();
 // Container-Specific Operations
 //---------------------------------
 
-// Find if an element exists by value
-bool exists = (m.find("value") != m.end());
+// Find if an element exists by key
+bool exists = (m.find("key") != m.end());
 
 // Count the number of elements with a certain key
 unsigned int count = m.count("key");
