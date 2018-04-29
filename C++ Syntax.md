@@ -73,7 +73,7 @@ public:
 // Constructor
 // You must scope the method definitions with the class name (Polygon::)
 Polygon::Polygon(const int num_sides, const std::string &name) {
-    this->num_sides = num_side;	// 'this' refers to the instance of the class. Members are accessed via pointers
+    this->num_sides = num_sides;	// 'this' refers to the instance of the class. Members are accessed via pointers
     this->name = name;
 }
 
