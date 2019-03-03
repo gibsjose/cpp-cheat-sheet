@@ -144,7 +144,7 @@ int tail = d.back();        // tail
 unsigned int size = d.size();
 
 // Iterate
-for(std::vector<int>::iterator it = d.begin(); it != d.end(); it++) {
+for(std::deque<int>::iterator it = d.begin(); it != d.end(); it++) {
     std::cout << *it << std::endl;
 }
 
