@@ -470,8 +470,8 @@ p.pop();
 ### 1.10 Heap `std::priority_queue`
 **Notes**
 * A heap is essentially an instance of a priority queue
-* A **min** heap is structured with the root node as the smallest and each child subsequently smaller than its parent
-* A **max** heap is structured with the root node as the largest and each child subsequently larger than its parent
+* A **min** heap is structured with the root node as the smallest and each child subsequently larger than its parent
+* A **max** heap is structured with the root node as the largest and each child subsequently smaller than its parent
 * A min heap could be used for *Smallest Job First* CPU Scheduling
 * A max heap could be used for *Priority* CPU Scheduling
 
