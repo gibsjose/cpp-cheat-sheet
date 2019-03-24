@@ -46,9 +46,11 @@ The class *declaration* typically goes in the `.h` file. The *declaration* gives
 class Polygon {
 
 // Private members and methods are only accessible via methods in the class definition
-// Another option is 'protected', which are members and methods only accessible in the class definition or by classes who extend this class
 private:
     int num_sides;    	// Number of sides
+
+// Protected members and methods are only accessible in the class definition or by classes who extend this class
+protected:
     std::string name;   // Name of the polygon
 
 // Public members and methods are accessible to anyone who creates an instance of the class
