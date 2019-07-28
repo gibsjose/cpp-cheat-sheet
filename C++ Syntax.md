@@ -17,6 +17,8 @@
 			- [1.2.2 `Rectangle` Definition (`.cpp` file)](#122-rectangle-definition-cpp-file)
 			- [1.2.3 `Rectangle` Utilization (Another `.cpp` file)](#123-rectangle-utilization-another-cpp-file)
 		- [1.3 Polymorphism](#13-polymorphism)
+			- [1.3.1 Motivation](#131-motivation)
+			- [1.3.2 Virtual functions](#132-virtual-functions)
 		- [1.4 Templates](#14-templates)
 		- [1.5 Constructor/Destructor/Copy Constructor](#15-constructordestructorcopy-constructor)
 			- [1.5.1 Use of `explicit` in Constructors](#151-use-of-explicit-in-constructors)
@@ -252,12 +254,12 @@ public:
 	Circle(double radius) 
 	:radius{radius} {}
 	
-	double area() {
+	double area() const {
 		return M_PI * radius * radius; // pi*r^2
 	}
 };
 ```
-We are glad to build our hierarchy, but something is illogical here. We discovered common pattern: all of class in hierarchy are using the same function 'area', how can we generalize it? So let's note: every Shape has the area, so i don't care what shape i am using, i want to have it's area. Recall the definition of polymorphism at the beginning of the item. 
+We are glad to build our hierarchy, but something is illogical here. We discover common pattern: all of classes in hierarchy are using the same function 'area', how can we generalize it? So let's notice: every Shape has the area, so i don't care what shape i am using, i want to have it's area. Recall the definition of polymorphism at the beginning of the item. 
 So here comes the solution:
 ### 1.3.2 Virtual functions
 We want to achieve something like this:
@@ -267,7 +269,7 @@ Shape* some_unknown_shape = &rct;
 
 some_unkown_shape->area(); // must be 10
 ```
-But how do we do it if area function is used only with object it is invoked on, like `rct` in previous example?
+But how do we do it if `area` function is used only with object it is invoked on, like `rct` in previous example?
 C++ solution is:
 ```c++
 #include <cmath> 
@@ -317,14 +319,14 @@ This is so-called runtime polymorphism, it is named so because of the time of it
 This was runtime polymorphism, there are also compiletime polymorphism([here is more on differences between them](https://www.geeksforgeeks.org/polymorphism-in-c/)).
 
 So now it is ok. Is it? There is no limit of perfection. Note that we don't have default implementation to area function.
-How do we declare that we want this function in all our child classes? C++ solution is pure virtual function:
+How do we declare that we want this function in all our child classes? C++ solution is `pure virtual function`:
 ```c++
 class Shape {
 public:
 	virtual double area() const = 0;
 };
 ```
-Other code behaves the same. Object of class Shape can't be created, it makes sense, why do we need an object that only promises a function, not giving it? It is called interface in wide meaning of this word, or abstract class in c++ interpretation. It promises a function `area`, so all child classes must have it.
+Rest of code behaves the same. Object of class Shape can't be created, it makes sense, why do we need an object that only promises a function, not giving it? It is called `interface` in wide meaning of this word, or `abstract class` in c++ interpretation. It promises a function `area`, so all child classes must have it.
 
 ### 1.4 Constructor/Destructor/Copy Constructor
 #### 1.4.1 Use of `explicit` in Constructors
