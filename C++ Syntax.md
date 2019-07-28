@@ -218,7 +218,113 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-### 1.3 Polymorphism
+### 1.3 Class polymorphism
+The same name, that has many forms, could be used in different usecases. It is often used when there are hierarchy of classes related with inheritance.
+## 1.3.1 Motivation
+Let's extend previous exercises and create hierarchy of geometrical figures(pretty logical decision)
+```c++
+#include <cmath> 	// needed for PI constant
+
+class Shape
+{
+	// empty class for hierarchy logic 
+	// there are no methods since all
+	// shapes are using different area 
+	// calculation formulas
+};
+
+class Rectangle : public Shape {
+	// private by default
+	double length;
+	double width;
+public:
+	Rectangle(double width, double length) // using the same names is legal
+	:width{width}, length{length} {} // using member initializer list
+	
+	double area() const {	// const means it won't change the class members
+		return length * width;	
+	}
+};
+
+class Circle : Shape {
+	double radius;
+public:
+	Circle(double radius) 
+	:radius{radius} {}
+	
+	double area() {
+		return M_PI * radius * radius; // pi*r^2
+	}
+};
+```
+We are glad to build our hierarchy, but something is illogical here. We discovered common pattern: all of class in hierarchy are using the same function 'area', how can we generalize it? So let's note: every Shape has the area, so i don't care what shape i am using, i want to have it's area. Recall the definition of polymorphism at the beginning of the item. 
+So here comes the solution:
+### 1.3.2 Virtual functions
+We want to achieve something like this:
+```c++
+Rectangle rct {2, 5};
+Shape* some_unknown_shape = &rct;
+
+some_unkown_shape->area(); // must be 10
+```
+But how do we do it if area function is used only with object it is invoked on, like `rct` in previous example?
+C++ solution is:
+```c++
+#include <cmath> 
+
+class Shape {
+public:
+	virtual double area() const
+	{
+		// some default implementation
+	}
+};
+
+class Rectangle : public Shape {
+	// private by default
+	double length;
+	double width;
+public:
+	Rectangle(double width, double length) // using the same names is legal
+	:width{width}, length{length} {} // using member initializer list
+	
+	double area() const override { // override reminds that it is virtual method
+		return length * width;	
+	}
+};
+
+class Circle : public Shape {
+	double radius;
+public:
+	Circle(double radius) 
+	:radius{radius} {}
+	
+	double area() const override {
+		return M_PI * radius * radius; // pi*r^2
+	}
+};
+
+int main()
+{
+	Rectangle rct {2, 5};
+	Shape* some_unknown_shape = &rct;
+
+	some_unknown_shape->area(); // is 10	
+}
+```
+This is so-called runtime polymorphism, it is named so because of the time of it's invocation -  the decision of what version of `area` to use(Circle or maybe Rectangle version or others?) is made during the program run. It is implemented using [this](https://www.learncpp.com/cpp-tutorial/125-the-virtual-table/) mechanism. In a nutshell: it is a little more expensive to use, but it's usefulness is overwhelming.
+
+This was runtime polymorphism, there are also compiletime polymorphism([here is more on differences between them](https://www.geeksforgeeks.org/polymorphism-in-c/)).
+
+So now it is ok. Is it? There is no limit of perfection. Note that we don't have default implementation to area function.
+How do we declare that we want this function in all our child classes? C++ solution is pure virtual function:
+```c++
+class Shape {
+public:
+	virtual double area() const = 0;
+};
+```
+Other code behaves the same. Object of class Shape can't be created, it makes sense, why do we need an object that only promises a function, not giving it? It is called interface in wide meaning of this word, or abstract class in c++ interpretation. It promises a function `area`, so all child classes must have it.
 
 ### 1.4 Constructor/Destructor/Copy Constructor
 #### 1.4.1 Use of `explicit` in Constructors
