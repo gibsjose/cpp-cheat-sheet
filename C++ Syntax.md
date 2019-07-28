@@ -43,6 +43,8 @@ Here's a simple class representing a polygon, a shape with any number of sides.
 
 The class *declaration* typically goes in the `.h` file. The *declaration* gives the class name, any classes it may extend, declares the members and methods, and declares which members/methods are public, private, or protected.
 ```c++
+#include <string>
+
 class Polygon {
 
 // Private members and methods are only accessible via methods in the class definition
@@ -70,6 +72,8 @@ public:
 
 #### 1.1.2 Class Definition (`.cpp` file)
 ```c++
+#include <string>	// explicit is better then implicit 
+
 #include "Polygon.h"    // <--- Obtains the class declaration
 
 // Constructor
@@ -103,6 +107,8 @@ void Polygon::SetName(const std::string &name) {
 #### 1.1.3 Class Utilization (Another `.cpp` file)
 ```c++
 #include <string>
+#include <iostream>
+
 #include "Polygon.h"    // <--- Obtains the class declaration
 
 int main(int argc, char *argv[]) {
@@ -121,6 +127,8 @@ int main(int argc, char *argv[]) {
 #### 1.1.4 Getters and Setters
 A shortcut often used for Getters/Setters is to define them in the class declaration (`.h`) file as follows:
 ```c++
+#include <string>
+
 class Car {
 private:
 	int year;
@@ -138,11 +146,15 @@ Another important consideration: If you have getters and setters for all of your
 
 ### 1.2 Inheritance
 A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for polymorphism.
+P. S. it is very important for a beginner not to overuse this feature(because human's brain tends to create hierarchies, 
+even where it is not needed). There are some good alternatives like [composition](https://en.wikipedia.org/wiki/Composition_over_inheritance) and [aggregation](https://stackoverflow.com/a/269535)
 
 **Example:** the class `Rectangle` can inherit the class `Polygon`. You would then say that `Rectangle` extends `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that a `Rectangle` is a more specialized version of a `Polygon`.
 
 #### 1.2.1 `Rectangle` Declaration (`.h` file)
 ```c++
+#include <string> 		// explcit is better then implicit
+
 #include "Polygon.h"	// <--- You must include the declaration in order to extend the class
 
 class Rectangle: public Polygon {
@@ -169,6 +181,8 @@ public:
 
 #### 1.2.2 `Rectangle` Definition (`.cpp` file)
 ```c++
+#include <string>		// uses std::string
+
 #include "Rectangle.h"	// <--- Only need to include 'Rectangle', since 'Polygon' is included in 'Rectangle.h'
 
 // This constructor calls the superclass (Polygon) constructor and sets the name and number of sides to '4', and then sets the length and width
@@ -191,13 +205,16 @@ const int Rectangle::Area(void) const {
 
 #### 1.2.3 `Rectangle` Utilization (Another `.cpp` file)
 ```c++
+#include <iostream>
+
 #include "Rectangle.h"
 
 int main(int argc, char *argv[]) {
 	Rectangle rectangle = Rectangle("Square", 6, 6);
 
 	// Prints "Square has 4 sides, and an area of 36"
-	std::cout << rectangle.GetName() << " has " << rectangle.GetNumSides() << " sides, and an area of " << rectangle.Area() << std::endl;
+	std::cout << rectangle.GetName() << " has " << rectangle.GetNumSides() 
+						<< " sides, and an area of " << rectangle.Area() << std::endl;
 }
 ```
 
