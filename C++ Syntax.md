@@ -222,7 +222,7 @@ int main(int argc, char *argv[]) {
 
 ### 1.3 Class polymorphism
 The same name, that has many forms, could be used in different usecases. It is often used when there are hierarchy of classes related with inheritance.
-## 1.3.1 Motivation
+#### 1.3.1 Motivation
 Let's extend previous exercises and create hierarchy of geometrical figures(pretty logical decision)
 ```c++
 #include <cmath> 	// needed for PI constant
@@ -261,7 +261,7 @@ public:
 ```
 We are glad to build our hierarchy, but something is illogical here. We discover common pattern: all of classes in hierarchy are using the same function 'area', how can we generalize it? So let's notice: every Shape has the area, so i don't care what shape i am using, i want to have it's area. Recall the definition of polymorphism at the beginning of the item. 
 So here comes the solution:
-### 1.3.2 Virtual functions
+#### 1.3.2 Virtual functions
 We want to achieve something like this:
 ```c++
 Rectangle rct {2, 5};
@@ -328,18 +328,31 @@ public:
 ```
 Rest of code behaves the same. Object of class Shape can't be created, it makes sense, why do we need an object that only promises a function, not giving it? It is called `interface` in wide meaning of this word, or `abstract class` in c++ interpretation. It promises a function `area`, so all child classes must have it.
 
-### 1.4 Constructor/Destructor/Copy Constructor
-#### 1.4.1 Use of `explicit` in Constructors
+### 1.4 Special methods
+All this methods are used to manage class lifetime.
+- **Constructor** performs creation of an object from given data. Establishes [class invariant](https://softwareengineering.stackexchange.com/a/32755).
+- **Destructor** performs deletion of an object. Removes class invariant.
+Briefly **class invariant** is a statement that holds true from creation to deletion of an object.
+Other methods like: **copy constructor, move constructor, copy assignment, move assignment** are used for specific reasons, explained later in this item. 
+#### 1.4.1 Constructor/destructor pair
+Meaning of this methods was explained above, here are some syntax:
+##### 1.4.1.1 Use of `explicit` in Constructors
 The keyword `explicit` should be used in single-argument constructors to avoid the following situation. Consider the class `Array`:
 ```c++
 class Array {
+	int size;
 public:
-	Array(int size) {
+	Array(int size) {	// constructor
 		this->size = size;
 	}
-
-private:
-	int size;
+	
+	~Array() {		// destructor
+		// do some cleanup
+		// Note: destructors only needed(basically)
+		// to clean something that was allocated
+		// from the heap with new operator
+		// (new explained later)
+	}
 };
 ```
 
@@ -364,9 +377,14 @@ Uh-oh. That's now legal, compilable code, but what does it mean? It is extremely
 To fix this, declare the single-argument `Array` constructor as `explicit`:
 ```c++
 class Array {
+	int size;
 public:
 	explicit Array(int size) {
 		this->size = size;
+	}
+	
+	~Array() { 
+		//... 
 	}
 };
 ```
@@ -375,9 +393,107 @@ Now you can only use the print method as follows:
 ```c++
 array.Print(Array(12345));
 ```
+##### 1.4.1.2 Member initializer list
+In previous example, we could've used simpler notation for initialazing members:
+```c++
+class MemberInitializedArray
+{
+	int size1;
+	int size2;
+public:
+	explicit Array(int s1, int s2)
+	: size1{s1}, size2{s2}	// init members
+	{
+	
+	}
+};
+```
+#### 1.4.2 `new` and `delete`
+Before moving on, we should consider two special "functions" in c++. 
+When you declare a variable
+```c++
+int a = 3;
+```
+it uses memory, memory of your pc, your RAM. But there are two types of standard memory(in program): heap and stack.
+`a` is allocated on the stack, program decides how many and where on the stack allocate this memory. 
+But what if we want to decide when to allocate memory manually? There are some great flexibility features come with this decision. So here it goes:
+```c++
+int* a = new int {3};	// allocation
+```
+But with great power comes great responsibility. **We need to deallocate it manually**:
+```c++
+delete a;		// manual deallocation
+```
+More on [this](https://www.geeksforgeeks.org/new-and-delete-operators-in-cpp-for-dynamic-memory/) topic.
+There are also `new[]` and `delete[]` for arrays, explained in the link above.
+#### 1.4.3 Copy
+Sometimes there are a need for such statements:
+```c++
+MyClass a { 1 };
+MyClass b {a};	// first
+MyClass c = a;	// second
+```
+It could be accomplished with **copy constructor**(first) and **copy assignment operator**(second).
+```c++
+class MyClass {
+	int data;
+public:
+	MyClass(int i) :i{i} {}
+	
+	MyClass(const MyClass& mc)	// first
+	: i{mc.i} {}
+	
+	MyClass& opeartor=(const MyClass& mc)	// second
+	{
+		i = mc.i;
+	}
+};
+```
+We used `operator` notation here, it will be explained soon. Now you could just see the result and how to implement it.
+#### Move
+And sometimes we have a situation when class that the object we initializing from won't be used in the future. All data it maintains can be moved from it to our current object.
+```c++
+class Movable {
+	SomeClass* data_ptr;
+public:
+	Movable(SomeClass data)
+	:data_ptr{new SomeClass {data}} {}
+	
+	Movable& operator=(Movable&& mvbl) {	// first
+	
+		data_ptr = mvbl.data_ptr;	// just assign allocated memory, no need to copy
+						// mvbl will be deleted after this call
+						
+		mvbl.data_ptr = nullptr;	// and assign it to nullptr
+						// so that it can't acces "our" data anymore
+	}
+	
+	Movable(Movable&& mvbl) {	//second
+		data_ptr = mvbl.data_ptr;
+		mvbl.data_ptr = nullptr;
+	}
+	
+	~Movable() {
+		delete data_ptr;	// non-empty destructor example
+	}
+};
+```
+And usecases are:
+```c++
+Movable some_func() {
+	// ...
+}
 
-### 1.4 Initialization Lists
+int main()
+{
+	Movable a = some_func();		// first
+	Movable b {some_func()};		// second
+}
+```
+It invokes because `some_func` returns object that won't be used anywhere else, it is deleted right after the call, so we use this opportunity and take it's data for ourselves.
 
+
+P. S. Idiom called [`copy-and-swap`](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom), it is better to know it, as it is proved to be very useful through the years.
 ### 1.5 Operator Overloading
 [Reference](http://en.cppreference.com/w/cpp/language/operators)
 
