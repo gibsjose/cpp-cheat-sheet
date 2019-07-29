@@ -38,7 +38,9 @@
 		- [2.4 Preprocessor tokens](#24-preprocessor-tokens)
 		- [2.5 Strings ](#25-strings-stdstring)
 		- [2.6 Iterators](#26-iterators-stditerator)
-		- [2.7 Exceptions](#27-exceptions-stdexception)
+		- [2.7 Exceptions](#27-exceptions)
+			- [2.7.1 Motivation](#271-motivation)
+			- [2.7.2 Standard exception hierarchy](#272-stdexception)
 		- [2.8 Lambdas](#28-lambdas)
 
 <!-- /TOC -->
@@ -851,9 +853,68 @@ double a = *ptr;	// this is a huge error, DON'T DO THIS
 ### 2.6 Iterators (`std::iterator<...>`)
 [Reference](http://en.cppreference.com/w/cpp/concept/Iterator)
 
-### 2.7 Exceptions (`std::exception`)
-[Reference](http://en.cppreference.com/w/cpp/error/exception)
+### 2.7 Exceptions
+#### 2.7.1 Motivation
+What if you want to tell that this behaviour is unacceptable in current situation? Then you should use exceptions:
+```c++
+#include <iostream>
 
+int divide(int a, int b)
+{
+	if( b == 0 ) throw "Can't divide by zero";	// throwing an exception
+	return a / b;
+}
+
+// usage
+int main()
+{
+	int a = 3, b = 0;
+	
+	try {				// try-catch close
+		divide(a, b);		// we are trying to do division
+	} catch( const char* err_msg) {	// if exception being thrown, we are trying to catch it
+		std::cout << "Error is: " << err_msg << '\n';	// print error on the output
+	}
+	
+	return 0;	// and finish work
+}
+```
+#### 2.7.2 `std::exception`
+[Here](http://en.cppreference.com/w/cpp/error/exception) are all standard exceptions, you may use them as follows:
+```c++
+#include <iostream>
+
+class Complex { 	// class from previous examples
+	double re {};
+	double im {};
+public:
+	// ... constructor, plus/minus/multiply operators ...
+	
+	class ZeroDivisionError : public std::logic_ {		// class for zero division error
+		const* char what() { return "Can't divide by zero"; }
+	};
+	
+	friend Complex operator/(const Complex& fst, const Complex& snd)
+	{
+		if(snd.re == 0 && snd.im == 0) throw ZeroDivisionError {};
+		
+		// other code for division
+	}
+};
+
+// usage
+int main()
+{
+	Complex a{1, 2};
+	Complex b{0, 0};
+	
+	try {
+		a / b;
+	} catch( const Complex::ZeroDivisionError& e) {
+		std::cout << e << '\n';
+	}
+}
+```
 ### 2.8 Lambdas
 Very common pattern is to write such a code:
 ```c++
