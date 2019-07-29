@@ -36,9 +36,9 @@
 			- [2.3.2 Storage class specifiers](#232-storage-class-specifiers)
 			- [2.3.3  `const` and `dynamic` Cast Conversion](#233-const-and-dynamic-cast-conversion)
 		- [2.4 Preprocessor tokens](#24-preprocessor-tokens)
-		- [2.5 Strings ](#25-strings-(std-string))
-		- [2.6 Iterators](#26-iterators-std-iterator)
-		- [2.7 Exceptions](#27-exceptions-std-exception)
+		- [2.5 Strings ](#25-strings-(stdstring))
+		- [2.6 Iterators](#26-iterators-stditerator)
+		- [2.7 Exceptions](#27-exceptions-stdexception)
 
 <!-- /TOC -->
 
