@@ -26,7 +26,7 @@
 			- [1.4.2. `new` and `delete`](#142-new-and-delete)
 			- [1.4.3. Copy constructor, copy assignment](#143-copy-constructor-and-copy-assignment)
 			- [1.4.4. Move constructor, move assignment](#144-move-constructor-and-move-assignment)
-		- [1.6 Initialization Lists](#16-initialization-lists)
+		- [1.5 Operator overloading](#15-operator-overloading)
 		- [1.7 Operator Overloading](#17-operator-overloading)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
 		- [2.1 Namespaces](#21-namespaces)
@@ -501,7 +501,111 @@ It invokes because `some_func` returns object that won't be used anywhere else, 
 
 P. S. Idiom called [`copy-and-swap`](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom), it is better to know it, as it is proved to be very useful through the years.
 ### 1.5 Operator Overloading
-[Reference](http://en.cppreference.com/w/cpp/language/operators)
+It is pretty essential for humans to use this notation for arithmetic operations:
+```c++
+int a = 6;
+int b = 3;
+
+int c = a + b;
+int d = a - b;
+int e = a * b;
+int f = a / b;
+```
+the other version of this is:
+```c++
+int a = 6, b = 3;
+
+int c = add(a, b);
+int c = subtract(a, b);
+int c = multiply(a, b);
+int c = divide(a, b);
+```
+Which do you like better? First version is more intuitive as for me. The same logic stands behind `operator`s in c++. One of the mottos in c++ is "Create your classes to function as harmoniously as the built-in types". So let's create harmonious
+class complex with support for basic arithmethic.
+```c++
+class Complex {
+	double re {}; // real part, default is 0.0 
+	double im {}; // imaginary part, default is 0.0
+public:
+	Complex(double re, double im) :re{re}, im{im} {}
+	
+	// just declarations
+	friend Complex operator+(const Complex& fst, const Complex& snd);	// friend is a function that could reach
+	friend Complex operator-(const Complex& fst, const Complex& snd);	// private members of a class
+	friend Complex operator*(const Complex& fst, const Complex& snd);
+	friend Complex operator/(const Complex& fst, const Complex& snd);
+};
+
+// and now definitions
+Complex operator+(const Complex& fst, const Complex& snd)
+{
+	return {fst.re + snd.re, fst.im + snd.im};
+}
+
+Complex operator-(const Complex& fst, const Complex& snd)
+{
+	return {fst.re - snd.re, fst.im - snd.im};
+}
+
+Complex operator*(const Complex& fst, const Complex& snd)
+{
+	return {fst.re * snd.re - fst.im * snd.im, 	// just formula
+		fst.re * snd.im + fst.im * snd.re};
+}
+
+Complex operator/(const Complex& fst, const Complex& snd)
+{
+	double denominator = snd.re * snd.re + snd.im * snd.im;		// another formula
+	return {(fst.re * snd.re + fst.im * snd.im) / denominator, 
+		(fst.im * snd.re - fst.re * snd.im) / denominator};		
+}
+
+// usage
+int main()
+{
+	Complex a {1, 2};
+	Complex b {5, 3};
+	
+	Complex c = a + b;	// 6 + 5i
+	Complex d = a - b;	// -4 - 1i
+	Complex e = a * b;	// -1 + 13i
+	Complex f = a / b;	// 0.323529 + 0.205882i
+}
+```
+Oh, that's good, but what about output, how could we output it?
+It turns out that output is an operator too. Remember `std::cout << something` ? That's an right shift operator, but it is used to denote the output, and `std::cout` is just the global instance of class `std::ostream`. So we could just provide this operator for our own class:
+```c++
+#include <iostream>
+
+class Complex {
+	// ...
+public:
+	// ...
+	
+	friend std::ostream& operator<<( std::ostream& os, const Complex& cpx);
+};
+
+// implementation
+std::ostream& operator<<( std::ostream& os, const Complex& cpx)
+{
+	os << cpx.re;
+	( cpx.im < 0 ? os : os << '+' ) << cpx.im << 'i' << '\n';
+
+	return os;
+}
+
+int main()
+{
+	Complex a {1, 2};
+	Complex b {5, 3};
+	
+	std::cout << a + b;	
+	std::cout << a - b;
+	std::cout << a * b;
+	std::cout << a / b;
+}
+```
+There are also left shift operator denoting input, recall `std::cin >> something;`. About different kinds of operators, you can read [here](http://en.cppreference.com/w/cpp/language/operators).
 
 ### 1.6 Templates
 [Reference](http://en.cppreference.com/w/cpp/language/templates)
