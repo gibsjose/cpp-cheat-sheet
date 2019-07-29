@@ -501,7 +501,7 @@ It invokes because `some_func` returns object that won't be used anywhere else, 
 
 P. S. Idiom called [`copy-and-swap`](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom), it is better to know it, as it is proved to be very useful through the years.
 ### 1.5 Operator Overloading
-It is pretty essential for humans to use this notation for arithmetic operations:
+It is pretty essential for human to use this notation for arithmetic operations:
 ```c++
 int a = 6;
 int b = 3;
