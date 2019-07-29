@@ -32,12 +32,13 @@
 		- [2.1 Namespaces](#21-namespaces)
 		- [2.2 References/Pointers](#22-references-and-pointers)
 		- [2.3 Keywords](#23-keywords)
-			- [2.3.1 `const`](#231-const)
-			- [2.3.2 `volatile`](#232-volatile)
-			- [2.3.3 `inline`](#233-inline)
-		- [2.4 Strings (find, erase, etc)](#24-strings-find-erase-etc)
-		- [2.5 Iterators](#25-iterators)
-		- [2.6 Exceptions](#26-exceptions)
+			- [2.3.1 General keywords](#231-general-keywords)
+			- [2.3.2 Storage class specifiers](#232-storage-class-specifiers)
+			- [2.3.3  `const` and `dynamic` Cast Conversion](#233-const-and-dynamic-cast-conversion)
+		- [2.4 Preprocessor tokens](#24-preprocessor-tokens)
+		- [2.5 Strings ](#25-strings-std-string)
+		- [2.6 Iterators](#26-iterators-std-iterator)
+		- [2.7 Exceptions](#27-exceptions-std-exception)
 
 <!-- /TOC -->
 
@@ -765,11 +766,11 @@ double a = *ptr;	// this is a huge error, DON'T DO THIS
 * `#error`: Prints an error message and stops compilation
 * `#pragma`: Non-standard, used instead of header guards (`#ifndef HEADER_H` ...)
 
-### 2.4 Strings (`std::string`)
+### 2.5 Strings (`std::string`)
 [Reference](http://en.cppreference.com/w/cpp/string/basic_string)
 
-### 2.5 Iterators (`std::iterator<...>`)
+### 2.6 Iterators (`std::iterator<...>`)
 [Reference](http://en.cppreference.com/w/cpp/concept/Iterator)
 
-### 2.6 Exceptions (`std::exception`)
+### 2.7 Exceptions (`std::exception`)
 [Reference](http://en.cppreference.com/w/cpp/error/exception)
