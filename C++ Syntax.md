@@ -890,13 +890,13 @@ class Complex { 	// class from previous examples
 public:
 	// ... constructor, plus/minus/multiply operators ...
 	
-	class ZeroDivisionError : public std::logic_ {		// class for zero division error
-		const* char what() { return "Can't divide by zero"; }
+	class ZeroDivisionError : public std::logic_error {		// class for zero division error
+		const* char what() const { return "Can't divide by zero"; }
 	};
 	
 	friend Complex operator/(const Complex& fst, const Complex& snd)
 	{
-		if(snd.re == 0 && snd.im == 0) throw ZeroDivisionError {};
+		if(snd.re == 0 && snd.im == 0) throw ZeroDivisionError {};	// throwing by value
 		
 		// other code for division
 	}
@@ -910,11 +910,12 @@ int main()
 	
 	try {
 		a / b;
-	} catch( const Complex::ZeroDivisionError& e) {
-		std::cout << e << '\n';
+	} catch( const Complex::ZeroDivisionError& e) {	// catching by const reference
+		std::cout << e.what() << '\n';
 	}
 }
 ```
+`what` is a standard name for a function that tells what's happened in the exception class.
 ### 2.8 Lambdas
 Very common pattern is to write such a code:
 ```c++
