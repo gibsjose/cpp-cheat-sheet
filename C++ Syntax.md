@@ -635,7 +635,7 @@ int main()
 	add(a, b);	// works because of support of operator+
 }
 ```
-So this how we do generic code in c++. It saves a lot of time, try it! This approach could be use almost everywhere, hence:
+So this how we do generic code in c++. It saves a lot of time, try it! This approach could be used almost everywhere, for example:
 ```c++
 template <typename T>
 class Storage {
