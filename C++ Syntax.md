@@ -19,13 +19,13 @@
 		- [1.3 Class polymorphism](#13-class-polymorphism)
 			- [1.3.1 Motivation](#131-motivation)
 			- [1.3.2 Virtual functions](#132-virtual-functions)
-		- [1.4 Special methods(constructor/destructor/...)](#14-special-methods)
-			- [1.4.1 Constructor/destructor pair](#141-constructor-destructor-pair)
-				- [1.4.1.1 Use of `explicit` in constructor](#1411-use-of-explicit-in-consructor)
+		- [1.4 Special methods(constructor, destructor, ...)](#14-special-methods)
+			- [1.4.1 Constructor, destructor pair](#141-constructor-destructor-pair)
+				- [1.4.1.1 Use of `explicit` in Constructors](#1411-use-of-explicit-in-consructor)
 				- [1.4.1.2 Member initializer list](#1412-member-initializer-list)
 			- [1.4.2. `new` and `delete`](#142-new-and-delete)
-			- [1.4.3. Copy constructor/assignment](#143-copy-constructor-assingnment)
-			- [1.4.4. Move constructor/assignment](#144-move-constructor-assingnment)
+			- [1.4.3. Copy constructor, copy assignment](#143-copy-constructor-assingnment)
+			- [1.4.4. Move constructor, move assignment](#144-move-constructor-assingnment)
 		- [1.6 Initialization Lists](#16-initialization-lists)
 		- [1.7 Operator Overloading](#17-operator-overloading)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
@@ -339,7 +339,7 @@ All this methods are used to manage class lifetime.
 
 Briefly **class invariant** is a statement that holds true from creation to deletion of an object.
 Other methods like: **copy constructor, move constructor, copy assignment, move assignment** are used for specific reasons, explained later in this item. 
-#### 1.4.1 Constructor/destructor pair
+#### 1.4.1 Constructor, destructor pair
 Meaning of this methods was explained above, here are some syntax:
 ##### 1.4.1.1 Use of `explicit` in Constructors
 The keyword `explicit` should be used in single-argument constructors to avoid the following situation. Consider the class `Array`:
@@ -431,7 +431,7 @@ delete a;		// manual deallocation
 ```
 More on [this](https://www.geeksforgeeks.org/new-and-delete-operators-in-cpp-for-dynamic-memory/) topic.
 There are also `new[]` and `delete[]` for arrays, explained in the link above.
-#### 1.4.3 Copy constructor/assignment
+#### 1.4.3 Copy constructor, copy assignment
 Sometimes there are a need for such statements:
 ```c++
 MyClass a {1};
@@ -455,7 +455,7 @@ public:
 };
 ```
 We used `operator` notation here, it will be explained soon. Now you could just see the result and how to implement it.
-#### 1.4.4 Move constructor/assignment
+#### 1.4.4 Move constructor, move assignment
 And sometimes we have a situation when class that we initializing from(recall **copy constructor**) won't be used in the future. All data it maintains can be moved from it to our current object.
 ```c++
 class Movable {
