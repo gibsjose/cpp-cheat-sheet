@@ -27,7 +27,7 @@
 			- [1.4.3. Copy constructor, copy assignment](#143-copy-constructor-and-copy-assignment)
 			- [1.4.4. Move constructor, move assignment](#144-move-constructor-and-move-assignment)
 		- [1.5 Operator overloading](#15-operator-overloading)
-		- [1.7 Operator Overloading](#17-operator-overloading)
+		- [1.6 Templates](#16-templates)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
 		- [2.1 Namespaces](#21-namespaces)
 		- [2.2 References/Pointers](#22-referencespointers)
@@ -608,7 +608,56 @@ int main()
 There are also left shift operator denoting input, recall `std::cin >> something;`. About different kinds of operators, you can read [here](http://en.cppreference.com/w/cpp/language/operators).
 
 ### 1.6 Templates
-[Reference](http://en.cppreference.com/w/cpp/language/templates)
+Let's try to write `add` function from previous item.
+```c++
+double add(double fst, double snd)
+{
+	return fst + snd;
+}
+```
+Cool, but this won't work with `int`, and many other types! Templates is a mechanism that allows generalizing of the function, that works with every type that supports `operator+`, here is the notation:
+```c++
+template <typename T>		// T is the name of a type
+T add(const T& fst, const T& snd)	
+// using const reference, because it is more efficient for large objects
+{
+	return fst + snd;	// if T don't support +, it will fail
+}
+
+// usage
+int main()
+{
+	add(3, 5);		// int version
+	add(3.45f, 5.0f);	// float version
+	
+	Complex a {1, 2};	// class from previous item
+	Complex b {5, 3};
+	add(a, b);	// works because of support of operator+
+}
+```
+So this how we do generic code in c++. It saves a lot of time, try it! This approach could be use almost everywhere, hence:
+```c++
+template <typename T>
+class Storage {
+	T field;
+public:
+	Storage( const T& field) :field{field} {}
+};
+
+// usage
+int main()
+{
+	Storage<int> st {3};
+	Storage<Storage<int>> stst {st};
+}
+```
+So this what happens when you use:
+```c++
+std::vector<int> vec;
+```
+There are a lot of usefulness in templates. It is one of the main technics of modern c++ development. Read more, like [this](https://www.geeksforgeeks.org/templates-cpp/) and [that](http://en.cppreference.com/w/cpp/language/templates).
+
+Also the new feature is coming to c++20, named [concepts](https://cppdepend.com/blog/?p=524).
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
