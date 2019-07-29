@@ -663,6 +663,50 @@ Also the new feature is coming to c++20, named [concepts](https://cppdepend.com/
 ### 2.1 Namespaces
 
 ### 2.2 References and Pointers
+are used to store the address of an varibale/object in memory. So having the pointer or reference, you could do the same operations as that of object being pointed to.
+```c++
+int a = 3;
+int b = 5;
+
+int* aptr = &a;		// & operator gets the address of variable a
+int* bptr = &b;		// int * is a type of pointer to int
+
+int c = *aptr + *bptr;	// * opeartor used to get the value of the object that 
+			// is being pointed to
+int d = a + b;		// c and d are equal at the end of the day
+```
+Think of pointer as the abstraction that knows where to find an object, but don't own it.
+The references are about the same, but they use more convenient syntax, but some [limitations](https://stackoverflow.com/questions/57483/what-are-the-differences-between-a-pointer-variable-and-a-reference-variable-in) apply. The main difference is that refernce can't be reassigned and must be assigned at initialization:
+```c++
+int a = 3;
+int b = 5;
+
+int& aref = a;		// & means reference type
+int& bref = b;	
+
+int c = aref + bref;	// simple addition syntax 
+
+int d = a + b;		// c and d are equal at the end of the day
+```
+Also pointers are used in arrays like that:
+```c++
+#include <iostream>
+
+int arr[] = { 9, 5, 8, 2 };		// array storage is contiguous
+int size = 4;
+
+for(int i = 0; i < size; i++) std::cout << arr[i] << ' ';	// 9 5 8 2
+std::cout << '\n';
+
+int* ptr = arr;		// ptr points to first element of an array
+for(int i = 0; i < size; i++) std::cout << *(ptr + i) << ' ';	// 9 5 8 2
+std::cout << '\n'
+
+ptr = arr;		// reassignment of pointer, can't be preformed with reference
+for(int i = 0; i < size; i++) std::cout << ptr++ << ' ';	// 9 5 8 2
+std::cout << '\n'
+```
+This loops are equivalent, moreover they are implemented in the same way. First loop is just convenience syntax for second. Notice, that pointers can be incremented.
 
 ### 2.3 Keywords
 [Reference](http://en.cppreference.com/w/cpp/keyword)
