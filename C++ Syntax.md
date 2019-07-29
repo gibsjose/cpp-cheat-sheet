@@ -520,9 +520,9 @@ the other version of this is:
 int a = 6, b = 3;
 
 int c = add(a, b);
-int c = subtract(a, b);
-int c = multiply(a, b);
-int c = divide(a, b);
+int d = subtract(a, b);
+int e = multiply(a, b);
+int f = divide(a, b);
 ```
 Which do you like better? First version is more intuitive as for me. The same logic stands behind `operator`s in c++. One of the mottos in c++ is "Create your classes to function as harmoniously as the built-in types". So let's create harmonious
 class complex with support for basic arithmethic.
@@ -577,7 +577,7 @@ int main()
 }
 ```
 Oh, that's good, but what about output, how could we output it?
-It turns out that output is an operator too. Remember `std::cout << something` ? That's an right shift operator, but it is used to denote the output, and `std::cout` is just the global instance of class `std::ostream`. So we could just provide this operator for our own class:
+It turns out that output is an operator too. Remember `std::cout << something` ? That's a left shift operator, but it is used to denote the output, and `std::cout` is just the global instance of class `std::ostream`. So we could just provide this operator for our own class:
 ```c++
 #include <iostream>
 
@@ -609,7 +609,7 @@ int main()
 	std::cout << a / b;
 }
 ```
-There are also left shift operator denoting input, recall `std::cin >> something;`. About different kinds of operators, you can read [here](http://en.cppreference.com/w/cpp/language/operators).
+There are also right shift operator denoting input, recall `std::cin >> something;`. About different kinds of operators, you can read [here](http://en.cppreference.com/w/cpp/language/operators).
 
 ### 1.6 Templates
 Let's try to write `add` function from previous item.
@@ -619,7 +619,7 @@ double add(double fst, double snd)
 	return fst + snd;
 }
 ```
-Cool, but this won't work with `int`, and many other types! Templates is a mechanism that allows generalizing of the function, that works with every type that supports `operator+`, here is the notation:
+Cool, but this won't work with `int`, and many other types! Templates is a mechanism that allows generalizing of a function, that works with every type that supports `operator+`, here is the notation:
 ```c++
 template <typename T>		// T is the name of a type
 T add(const T& fst, const T& snd)	
@@ -665,7 +665,7 @@ Also the new feature is coming to c++20, named [concepts](https://cppdepend.com/
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
-In big projects, there are thousands of varibles, and each neede it's own name. Let's imagine that there are library with linked list structure, and we need to somehow represent single node of a list:
+In big projects, there are thousands of variables, and each needs it's own name. Let's imagine that there are library with linked list structure, and we need to somehow represent single node of a list:
 ```c++
 // file named "LinkedList.h"
 template <typename T>	// use of templates
@@ -676,7 +676,7 @@ struct Node { // pretty and short name
 	T data;	
 };
 ```
-And there library with binary search tree structure:
+And there are library with binary search tree structure:
 ```c++
 // file named "BST.h"
 template <typename T>
@@ -697,7 +697,7 @@ int main()
 	Node<int> * a = new Node<int> {nullptr, nullptr, 3};	// oops
 };
 ```
-How do compiler know what Node we are about to use? `namespace` comes to rescue:
+How do compiler know what Node we are about to use? `namespace` comes to the rescue:
 ```c++
 // "LinkedList.h"
 namespace lst {
@@ -728,12 +728,12 @@ int main()
 	bst::Node<int> * a = new bst::Node<int> {nullptr, nullptr, 3};	// it is bst node
 };
 ```
-So now we could specialize, and don't be afraied of name collisions, just use simple, pretty names.
-By the way remember `std::cout`? It is object of `namsepaces std`, it is recommended to use full namespace name almost everywhere. But if it is your small(very small) project you could try:
+So now you could specialize, and don't be afraid of name collisions, just use simple, pretty names.
+By the way remember `std::cout`? It is object of `namsepaces std`, it is recommended to use full namespace names almost everywhere, because you are sure what structure you are using. But if it is your small(very small) project you could try:
 ```c++
 #include <iostream>
 
-using namespace std;	// everything inside namespace std, becomes visible
+using namespace std;	// everything inside namespace std becomes visible
 
 int main()
 {
