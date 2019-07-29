@@ -883,6 +883,7 @@ int main()
 [Here](http://en.cppreference.com/w/cpp/error/exception) are all standard exceptions, you may use them as follows:
 ```c++
 #include <iostream>
+#include <exception>	// for std::logic_error
 
 class Complex { 	// class from previous examples
 	double re {};
@@ -898,7 +899,7 @@ public:
 	{
 		if(snd.re == 0 && snd.im == 0) throw ZeroDivisionError {};	// throwing by value
 		
-		// other code for division
+		// ... other code for division ...
 	}
 };
 
@@ -913,6 +914,8 @@ int main()
 	} catch( const Complex::ZeroDivisionError& e) {	// catching by const reference
 		std::cout << e.what() << '\n';
 	}
+	
+	return 0; // and happily finish program
 }
 ```
 `what` is a standard name for a function that tells what's happened in the exception class.
