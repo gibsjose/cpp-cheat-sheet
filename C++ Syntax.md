@@ -663,6 +663,84 @@ Also the new feature is coming to c++20, named [concepts](https://cppdepend.com/
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
+In big projects, there are thousands of varibles, and each neede it's own name. Let's imagine that there are library with linked list structure, and we need to somehow represent single node of a list:
+```c++
+// file named "LinkedList.h"
+template <typename T>	// use of templates
+struct Node { // pretty and short name
+	Node* next;
+	Node* prev;
+	
+	T data;	
+};
+```
+And there library with binary search tree structure:
+```c++
+// file named "BST.h"
+template <typename T>
+struct Node {
+	Node* left;
+	Node * right;
+	
+	T data;
+};
+```
+We want to create our project that uses both of this libraries:
+```c++
+#include "LinkedList.h"
+#include "BST.h"
+
+int main()
+{
+	Node<int> * a = new Node<int> {nullptr, nullptr, 3};	// oops
+};
+```
+How do compiler know what Node we are about to use? `namespace` comes to rescue:
+```c++
+// "LinkedList.h"
+namespace lst {
+template <typename T>
+struct Node {
+	// ...
+};
+};
+```
+and
+```c++
+// "BST.h"
+namespace bst {
+template <typename T>
+struct Node {
+	// ...
+};
+};
+```
+and usage is:
+```c++
+#include "LinkedList.h"
+#include "BST.h"
+
+int main()
+{
+	lst::Node<int> * a = new lst::Node<int> {nullptr, nullptr, 3};	// it is linked list node
+	bst::Node<int> * a = new bst::Node<int> {nullptr, nullptr, 3};	// it is bst node
+};
+```
+So now we could specialize, and don't be afraied of name collisions, just use simple, pretty names.
+By the way remember `std::cout`? It is object of `namsepaces std`, it is recommended to use full namespace name almost everywhere. But if it is your small(very small) project you could try:
+```c++
+#include <iostream>
+
+using namespace std;	// everything inside namespace std, becomes visible
+
+int main()
+{
+	cout << "Hello, namespace!"
+	
+	return 0;
+}
+```
+
 
 ### 2.2 References and Pointers
 are used to store the address of the varibale/object in memory. So having the pointer or reference, you could do the same operations as that of object being pointed to.
@@ -777,4 +855,59 @@ double a = *ptr;	// this is a huge error, DON'T DO THIS
 [Reference](http://en.cppreference.com/w/cpp/error/exception)
 
 ### 2.8 Lambdas
+Very common pattern to write such a code:
+```c++
+struct AddTo3 {
+	static int operator(int addto) const { return 3 + addto; }
+};
 
+int add_to_3(int addto) { return 3 + addto }
+// basically the same, but it is not enough in some cases
+
+// usage 
+int main()
+{
+	AddTo3(5);	// 8
+	add_to_3(5);	// 8
+}
+```
+It is so common, that language designers decided to add it do the standard and call it `lambda function`:
+```c++
+int main()
+{
+	auto add_to_3 {					// much, much simpler, just declare variable add_to_3
+		[] (int addto) { return 3 + addto; }
+	};
+	
+	add_to_3(5);
+}
+```
+Now, what this syntax means:
+```c++
+int main()
+{
+	auto add_to_3 {
+		[] // 1
+		/**
+		 * Capture variables, from outer scope, by reference(&),
+		 * or by value(=).
+		 * [&] - captures all variables by reference(uses them inside lambda)
+		 * [=] - captures all variables by value(copies them inside lambda)
+		 * [&var] - capture only var by reference
+		 * [=var] - capture only var by value
+		 * [=, &var] capture var by ref, and others by value
+		 */
+		(int addto) // 2
+		/**
+		 * Argument list, just like in ordinary functions
+		 */
+		{ return 3 + addto; } // 3
+		/**
+		* Lambda body, just like in ordinary functions
+		*/
+	};
+	
+	add_to_3(5);	// 8
+}
+```
+So you could use it in advanced scenarios. Read more, like [this](https://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11), and [that](https://en.cppreference.com/w/cpp/language/lambda).
