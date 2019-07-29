@@ -30,7 +30,7 @@
 		- [1.6 Templates](#16-templates)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
 		- [2.1 Namespaces](#21-namespaces)
-		- [2.2 References/Pointers](#22-referencespointers)
+		- [2.2 References/Pointers](#22-references-and-pointers)
 		- [2.3 Keywords](#23-keywords)
 			- [2.3.1 `const`](#231-const)
 			- [2.3.2 `volatile`](#232-volatile)
@@ -663,7 +663,7 @@ Also the new feature is coming to c++20, named [concepts](https://cppdepend.com/
 ### 2.1 Namespaces
 
 ### 2.2 References and Pointers
-are used to store the address of an varibale/object in memory. So having the pointer or reference, you could do the same operations as that of object being pointed to.
+are used to store the address of the varibale/object in memory. So having the pointer or reference, you could do the same operations as that of object being pointed to.
 ```c++
 int a = 3;
 int b = 5;
@@ -703,10 +703,15 @@ for(int i = 0; i < size; i++) std::cout << *(ptr + i) << ' ';	// 9 5 8 2
 std::cout << '\n'
 
 ptr = arr;		// reassignment of pointer, can't be preformed with reference
-for(int i = 0; i < size; i++) std::cout << ptr++ << ' ';	// 9 5 8 2
+for(int i = 0; i < size; i++) std::cout << *(ptr++) << ' ';	// 9 5 8 2
 std::cout << '\n'
 ```
-This loops are equivalent, moreover they are implemented in the same way. First loop is just convenience syntax for second. Notice, that pointers can be incremented.
+This loops are equivalent, moreover first-second are implemented in the same way. First loop is just convenience syntax for second. Notice, that pointers can be incremented. Also there are a special pointer, called `nullptr`.
+```c++
+double* ptr = nullptr;	// means it points to nowhere
+
+double a = *ptr;	// this is a huge error, DON'T DO THIS
+```
 
 ### 2.3 Keywords
 [Reference](http://en.cppreference.com/w/cpp/keyword)
