@@ -39,6 +39,7 @@
 		- [2.5 Strings ](#25-strings-stdstring)
 		- [2.6 Iterators](#26-iterators-stditerator)
 		- [2.7 Exceptions](#27-exceptions-stdexception)
+		- [2.8 Lambdas](#28-lambdas)
 
 <!-- /TOC -->
 
@@ -774,3 +775,6 @@ double a = *ptr;	// this is a huge error, DON'T DO THIS
 
 ### 2.7 Exceptions (`std::exception`)
 [Reference](http://en.cppreference.com/w/cpp/error/exception)
+
+### 2.8 Lambdas
+
