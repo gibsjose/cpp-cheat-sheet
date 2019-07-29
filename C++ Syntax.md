@@ -399,7 +399,7 @@ Now you can only use the print method as follows:
 array.Print(Array(12345));
 ```
 ##### 1.4.1.2 Member initializer list
-In previous example, we could've used simpler notation for initialazing members:
+In previous example, we could've used simpler notation for initializing members:
 ```c++
 class MemberInitializedArray
 {
@@ -430,7 +430,7 @@ But with great power comes great responsibility. **We need to deallocate it manu
 delete a;		// manual deallocation
 ```
 More on [this](https://www.geeksforgeeks.org/new-and-delete-operators-in-cpp-for-dynamic-memory/) topic.
-There are also `new[]` and `delete[]` for arrays, explained in the link above.
+There are also `new[]` and `delete[]` for arrays, explained in the link.
 #### 1.4.3 Copy constructor and copy assignment
 Sometimes there are a need for such statements:
 ```c++
