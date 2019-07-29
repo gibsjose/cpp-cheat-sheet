@@ -16,12 +16,16 @@
 			- [1.2.1 `Rectangle` Declaration (`.h` file)](#121-rectangle-declaration-h-file)
 			- [1.2.2 `Rectangle` Definition (`.cpp` file)](#122-rectangle-definition-cpp-file)
 			- [1.2.3 `Rectangle` Utilization (Another `.cpp` file)](#123-rectangle-utilization-another-cpp-file)
-		- [1.3 Polymorphism](#13-polymorphism)
+		- [1.3 Class polymorphism](#13-class-polymorphism)
 			- [1.3.1 Motivation](#131-motivation)
 			- [1.3.2 Virtual functions](#132-virtual-functions)
-		- [1.4 Templates](#14-templates)
-		- [1.5 Constructor/Destructor/Copy Constructor](#15-constructordestructorcopy-constructor)
-			- [1.5.1 Use of `explicit` in Constructors](#151-use-of-explicit-in-constructors)
+		- [1.4 Special methods(constructor/destructor/...)](#14-special-methods)
+			- [1.4.1 Constructor/destructor pair](#141-constructor-destructor-pair)
+				- [1.4.1.1 Use of `explicit` in constructor](#1411-use-of-explicit-in-consructor)
+				- [1.4.1.2 Member initializer list](#1412-member-initializer-list)
+			- [1.4.2. `new` and `delete`](#142-new-and-delete)
+			- [1.4.3. Copy constructor/assignment](#143-copy-constructor-assingnment)
+			- [1.4.4. Move constructor/assignment](#144-move-constructor-assingnment)
 		- [1.6 Initialization Lists](#16-initialization-lists)
 		- [1.7 Operator Overloading](#17-operator-overloading)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
@@ -332,6 +336,7 @@ Rest of code behaves the same. Object of class Shape can't be created, it makes 
 All this methods are used to manage class lifetime.
 - **Constructor** performs creation of an object from given data. Establishes [class invariant](https://softwareengineering.stackexchange.com/a/32755).
 - **Destructor** performs deletion of an object. Removes class invariant.
+
 Briefly **class invariant** is a statement that holds true from creation to deletion of an object.
 Other methods like: **copy constructor, move constructor, copy assignment, move assignment** are used for specific reasons, explained later in this item. 
 #### 1.4.1 Constructor/destructor pair
@@ -426,10 +431,10 @@ delete a;		// manual deallocation
 ```
 More on [this](https://www.geeksforgeeks.org/new-and-delete-operators-in-cpp-for-dynamic-memory/) topic.
 There are also `new[]` and `delete[]` for arrays, explained in the link above.
-#### 1.4.3 Copy
+#### 1.4.3 Copy constructor/assignment
 Sometimes there are a need for such statements:
 ```c++
-MyClass a { 1 };
+MyClass a {1};
 MyClass b {a};	// first
 MyClass c = a;	// second
 ```
@@ -450,8 +455,8 @@ public:
 };
 ```
 We used `operator` notation here, it will be explained soon. Now you could just see the result and how to implement it.
-#### Move
-And sometimes we have a situation when class that the object we initializing from won't be used in the future. All data it maintains can be moved from it to our current object.
+#### 1.4.4 Move constructor/assignment
+And sometimes we have a situation when class that we initializing from(recall **copy constructor**) won't be used in the future. All data it maintains can be moved from it to our current object.
 ```c++
 class Movable {
 	SomeClass* data_ptr;
@@ -459,7 +464,7 @@ public:
 	Movable(SomeClass data)
 	:data_ptr{new SomeClass {data}} {}
 	
-	Movable& operator=(Movable&& mvbl) {	// first
+	Movable(Movable&& mvbl) {	// first
 	
 		data_ptr = mvbl.data_ptr;	// just assign allocated memory, no need to copy
 						// mvbl will be deleted after this call
@@ -468,7 +473,7 @@ public:
 						// so that it can't acces "our" data anymore
 	}
 	
-	Movable(Movable&& mvbl) {	//second
+	Movable& operator=(Movable&& mvbl) {	//second
 		data_ptr = mvbl.data_ptr;
 		mvbl.data_ptr = nullptr;
 	}
@@ -478,6 +483,7 @@ public:
 	}
 };
 ```
+It is called **move constructor**(first) and **move assignment**(second).
 And usecases are:
 ```c++
 Movable some_func() {
@@ -486,8 +492,8 @@ Movable some_func() {
 
 int main()
 {
-	Movable a = some_func();		// first
-	Movable b {some_func()};		// second
+	Movable b {some_func()};		// first
+	Movable a = some_func();		// second
 }
 ```
 It invokes because `some_func` returns object that won't be used anywhere else, it is deleted right after the call, so we use this opportunity and take it's data for ourselves.
