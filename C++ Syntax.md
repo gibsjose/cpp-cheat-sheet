@@ -855,23 +855,23 @@ double a = *ptr;	// this is a huge error, DON'T DO THIS
 [Reference](http://en.cppreference.com/w/cpp/error/exception)
 
 ### 2.8 Lambdas
-Very common pattern to write such a code:
+Very common pattern is to write such a code:
 ```c++
 struct AddTo3 {
-	static int operator(int addto) const { return 3 + addto; }
+	int operator()(int addto) const { return 3 + addto; }
 };
 
-int add_to_3(int addto) { return 3 + addto }
+int add_to_3(int addto) { return 3 + addto; }
 // basically the same, but it is not enough in some cases
 
 // usage 
 int main()
 {
-	AddTo3(5);	// 8
+	(AddTo3 {})(5);	// 8
 	add_to_3(5);	// 8
 }
 ```
-It is so common, that language designers decided to add it do the standard and call it `lambda function`:
+It is so common, that language designers decided to add it to the standard and call it `lambda function`:
 ```c++
 int main()
 {
