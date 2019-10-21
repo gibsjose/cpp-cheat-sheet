@@ -68,14 +68,14 @@ protected:
 // Public members and methods are accessible to anyone who creates an instance of the class
 public:
     // Constructors
-    Polygon(const int num_sides, const std::string &name);  // <--- This constructor takes the number of sides and name as arguments
+    Polygon(const int num_sides, const std::string & name); // <--- This constructor takes the number of sides and name as arguments
 
     // Getters and Setters
-    const int GetNumSides(void) const;
+    int GetNumSides(void) const;
     void SetNumSides(const int num_sides);
 
-    const std::string & GetName(void) const;
-    void SetName(const std::string &name);
+    std::string & GetName(void) const;
+    void SetName(const std::string & name);
     
 }; // <--- Don't forget the semicolon!
 ```
@@ -88,13 +88,13 @@ public:
 
 // Constructor
 // You must scope the method definitions with the class name (Polygon::)
-Polygon::Polygon(const int num_sides, const std::string &name) {
-    this->num_sides = num_sides;	// 'this' refers to the instance of the class. Members are accessed via pointers
-    this->name = name;
+Polygon::Polygon(const int num_sides, const std::string & name) {
+    this->num_sides = num_sides;	// 'this' is a pointer to the instance of the class. Members are accessed via the -> operator
+    this->name = name;			// In this case you need to use 'this->...' to avoid shadowing the member variable since the argument shares the same name
 }
 
 // Get the number of sides
-const int Polygon::GetNumSides(void) const {
+int Polygon::GetNumSides(void) const {	// The 'const' here tells the compiler that you guarantee that you won't modify the object when this function is called. This allows it to perform optimizations that it otherwise may not be able to do
     return this->num_sides;
 }
 
@@ -104,12 +104,12 @@ void Polygon::SetNumSides(const int num_sides) {
 }
 
 // Get the polygon name
-const std::string & Polygon::GetName(void) const {
+std::string & Polygon::GetName(void) const {
     return this->name;
 }
 
 // Set the polygon name
-void Polygon::SetName(const std::string &name) {
+void Polygon::SetName(const std::string & name) {
     this->name = name;
 }
 ```
@@ -145,10 +145,10 @@ private:
 	std::string make;
 
 public:
-	const int GetYear(void) const { return this->year; }
+	int GetYear(void) const { return this->year; }
 	void SetYear(const int year) { this->year = year; }
-	const std::string & GetMake(void) const { return this->make; }
-	void SetMake(const std::string &make) { this->make = make; }
+	std::string & GetMake(void) const { return this->make; }
+	void SetMake(const std::string & make) { this->make = make; }
 };
 ```
 
