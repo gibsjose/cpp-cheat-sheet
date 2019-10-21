@@ -193,7 +193,7 @@ l.push_back(value);                     // tail
 
 // Access head, index, tail
 int head = l.front();                                           // head
-int value = std::list<int>::iterator it = l.begin() + index;    // index
+int value = std::next(l.begin(), index);		        // index
 int tail = l.back();                                            // tail
 
 // Size
@@ -294,7 +294,7 @@ std::string value = m.at("key");
 unsigned int size = m.size();
 
 // Iterate
-for(std::map<int>::iterator it = m.begin(); it != m.end(); it++) {
+for(std::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++) {
     std::cout << *it << std::endl;
 }
 
@@ -573,6 +573,8 @@ p.pop();
 
 -------------------------------------------------------
 ### 3.3 Knapsack Problem
+
+[Implementation](NP-complete/knapsack/)
 
 -------------------------------------------------------
 

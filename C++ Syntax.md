@@ -16,22 +16,32 @@
 			- [1.2.1 `Rectangle` Declaration (`.h` file)](#121-rectangle-declaration-h-file)
 			- [1.2.2 `Rectangle` Definition (`.cpp` file)](#122-rectangle-definition-cpp-file)
 			- [1.2.3 `Rectangle` Utilization (Another `.cpp` file)](#123-rectangle-utilization-another-cpp-file)
-		- [1.3 Polymorphism](#13-polymorphism)
-		- [1.4 Templates](#14-templates)
-		- [1.5 Constructor/Destructor/Copy Constructor](#15-constructordestructorcopy-constructor)
-			- [1.5.1 Use of `explicit` in Constructors](#151-use-of-explicit-in-constructors)
-		- [1.6 Initialization Lists](#16-initialization-lists)
-		- [1.7 Operator Overloading](#17-operator-overloading)
+		- [1.3 Class polymorphism](#13-class-polymorphism)
+			- [1.3.1 Motivation](#131-motivation)
+			- [1.3.2 Virtual functions](#132-virtual-functions)
+		- [1.4 Special methods(constructor, destructor, ...)](#14-special-methods)
+			- [1.4.1 Constructor, destructor pair](#141-constructor-destructor-pair)
+				- [1.4.1.1 Use of `explicit` in Constructors](#1411-use-of-explicit-in-constructors)
+				- [1.4.1.2 Member initializer list](#1412-member-initializer-list)
+			- [1.4.2. `new` and `delete`](#142-new-and-delete)
+			- [1.4.3. Copy constructor, copy assignment](#143-copy-constructor-and-copy-assignment)
+			- [1.4.4. Move constructor, move assignment](#144-move-constructor-and-move-assignment)
+		- [1.5 Operator overloading](#15-operator-overloading)
+		- [1.6 Templates](#16-templates)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
 		- [2.1 Namespaces](#21-namespaces)
-		- [2.2 References/Pointers](#22-referencespointers)
+		- [2.2 References/Pointers](#22-references-and-pointers)
 		- [2.3 Keywords](#23-keywords)
-			- [2.3.1 `const`](#231-const)
-			- [2.3.2 `volatile`](#232-volatile)
-			- [2.3.3 `inline`](#233-inline)
-		- [2.4 Strings (find, erase, etc)](#24-strings-find-erase-etc)
-		- [2.5 Iterators](#25-iterators)
-		- [2.6 Exceptions](#26-exceptions)
+			- [2.3.1 General keywords](#231-general-keywords)
+			- [2.3.2 Storage class specifiers](#232-storage-class-specifiers)
+			- [2.3.3  `const` and `dynamic` Cast Conversion](#233-const-and-dynamic-cast-conversion)
+		- [2.4 Preprocessor tokens](#24-preprocessor-tokens)
+		- [2.5 Strings ](#25-strings-stdstring)
+		- [2.6 Iterators](#26-iterators-stditerator)
+		- [2.7 Exceptions](#27-exceptions)
+			- [2.7.1 Motivation](#271-motivation)
+			- [2.7.2 Standard exception hierarchy](#272-stdexception)
+		- [2.8 Lambdas](#28-lambdas)
 
 <!-- /TOC -->
 
@@ -43,6 +53,8 @@ Here's a simple class representing a polygon, a shape with any number of sides.
 
 The class *declaration* typically goes in the `.h` file. The *declaration* gives the class name, any classes it may extend, declares the members and methods, and declares which members/methods are public, private, or protected.
 ```c++
+#include <string>
+
 class Polygon {
 
 // Private members and methods are only accessible via methods in the class definition
@@ -70,6 +82,8 @@ public:
 
 #### 1.1.2 Class Definition (`.cpp` file)
 ```c++
+#include <string>	// explicit is better then implicit 
+
 #include "Polygon.h"    // <--- Obtains the class declaration
 
 // Constructor
@@ -103,6 +117,8 @@ void Polygon::SetName(const std::string &name) {
 #### 1.1.3 Class Utilization (Another `.cpp` file)
 ```c++
 #include <string>
+#include <iostream>
+
 #include "Polygon.h"    // <--- Obtains the class declaration
 
 int main(int argc, char *argv[]) {
@@ -121,6 +137,8 @@ int main(int argc, char *argv[]) {
 #### 1.1.4 Getters and Setters
 A shortcut often used for Getters/Setters is to define them in the class declaration (`.h`) file as follows:
 ```c++
+#include <string>
+
 class Car {
 private:
 	int year;
@@ -138,11 +156,15 @@ Another important consideration: If you have getters and setters for all of your
 
 ### 1.2 Inheritance
 A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for polymorphism.
+P. S. it is very important for a beginner not to overuse this feature(because human's brain tends to create hierarchies, 
+even where it is not needed). There are some good alternatives like [composition](https://en.wikipedia.org/wiki/Composition_over_inheritance) and [aggregation](https://stackoverflow.com/a/269535)
 
 **Example:** the class `Rectangle` can inherit the class `Polygon`. You would then say that `Rectangle` extends `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that a `Rectangle` is a more specialized version of a `Polygon`.
 
 #### 1.2.1 `Rectangle` Declaration (`.h` file)
 ```c++
+#include <string> 		// explcit is better then implicit
+
 #include "Polygon.h"	// <--- You must include the declaration in order to extend the class
 
 class Rectangle: public Polygon {
@@ -169,6 +191,8 @@ public:
 
 #### 1.2.2 `Rectangle` Definition (`.cpp` file)
 ```c++
+#include <string>		// uses std::string
+
 #include "Rectangle.h"	// <--- Only need to include 'Rectangle', since 'Polygon' is included in 'Rectangle.h'
 
 // This constructor calls the superclass (Polygon) constructor and sets the name and number of sides to '4', and then sets the length and width
@@ -191,30 +215,153 @@ const int Rectangle::Area(void) const {
 
 #### 1.2.3 `Rectangle` Utilization (Another `.cpp` file)
 ```c++
+#include <iostream>
+
 #include "Rectangle.h"
 
 int main(int argc, char *argv[]) {
 	Rectangle rectangle = Rectangle("Square", 6, 6);
 
 	// Prints "Square has 4 sides, and an area of 36"
-	std::cout << rectangle.GetName() << " has " << rectangle.GetNumSides() << " sides, and an area of " << rectangle.Area() << std::endl;
+	std::cout << rectangle.GetName() << " has " << rectangle.GetNumSides() 
+						<< " sides, and an area of " << rectangle.Area() << std::endl;
 }
 ```
 
-### 1.3 Polymorphism
+### 1.3 Class polymorphism
+The same name, that has many forms, could be used in different usecases. It is often used when there are hierarchy of classes related with inheritance.
+#### 1.3.1 Motivation
+Let's extend previous exercises and create hierarchy of geometrical figures(pretty logical decision)
+```c++
+#include <cmath> 	// needed for PI constant
 
-### 1.4 Constructor/Destructor/Copy Constructor
-#### 1.4.1 Use of `explicit` in Constructors
+class Shape
+{
+	// empty class for hierarchy logic 
+	// there are no methods since all
+	// shapes are using different area 
+	// calculation formulas
+};
+
+class Rectangle : public Shape {
+	// private by default
+	double length;
+	double width;
+public:
+	Rectangle(double width, double length) // using the same names is legal
+	:width{width}, length{length} {} // using member initializer list
+	
+	double area() const {	// const means it won't change the class members
+		return length * width;	
+	}
+};
+
+class Circle : Shape {
+	double radius;
+public:
+	Circle(double radius) 
+	:radius{radius} {}
+	
+	double area() const {
+		return M_PI * radius * radius; // pi*r^2
+	}
+};
+```
+We are glad to build our hierarchy, but something is illogical here. We discover common pattern: all of classes in hierarchy are using the same function 'area', how can we generalize it? So let's notice: every Shape has the area, so i don't care what shape i am using, i want to have it's area. Recall the definition of polymorphism at the beginning of the item. 
+So here comes the solution:
+#### 1.3.2 Virtual functions
+We want to achieve something like this:
+```c++
+Rectangle rct {2, 5};
+Shape* some_unknown_shape = &rct;
+
+some_unkown_shape->area(); // must be 10
+```
+But how do we do it if `area` function is used only with object it is invoked on, like `rct` in previous example?
+C++ solution is:
+```c++
+#include <cmath> 
+
+class Shape {
+public:
+	virtual double area() const
+	{
+		// some default implementation
+	}
+};
+
+class Rectangle : public Shape {
+	// private by default
+	double length;
+	double width;
+public:
+	Rectangle(double width, double length) // using the same names is legal
+	:width{width}, length{length} {} // using member initializer list
+	
+	double area() const override { // override reminds that it is virtual method
+		return length * width;	
+	}
+};
+
+class Circle : public Shape {
+	double radius;
+public:
+	Circle(double radius) 
+	:radius{radius} {}
+	
+	double area() const override {
+		return M_PI * radius * radius; // pi*r^2
+	}
+};
+
+int main()
+{
+	Rectangle rct {2, 5};
+	Shape* some_unknown_shape = &rct;
+
+	some_unknown_shape->area(); // is 10	
+}
+```
+This is so-called runtime polymorphism, it is named so because of the time of it's invocation -  the decision of what version of `area` to use(Circle or maybe Rectangle version or others?) is made during the program run. It is implemented using [this](https://www.learncpp.com/cpp-tutorial/125-the-virtual-table/) mechanism. In a nutshell: it is a little more expensive to use, but it's usefulness is overwhelming.
+
+This was runtime polymorphism, there are also compiletime polymorphism([here is more on differences between them](https://www.geeksforgeeks.org/polymorphism-in-c/)).
+
+So now it is ok. Is it? There is no limit of perfection. Note that we don't have default implementation to area function.
+How do we declare that we want this function in all our child classes? C++ solution is `pure virtual function`:
+```c++
+class Shape {
+public:
+	virtual double area() const = 0;
+};
+```
+Rest of code behaves the same. Object of class Shape can't be created, it makes sense, why do we need an object that only promises a function, not giving it? It is called `interface` in wide meaning of this word, or `abstract class` in c++ interpretation. It promises a function `area`, so all child classes must have it.
+
+### 1.4 Special methods
+All this methods are used to manage class lifetime.
+- **Constructor** performs creation of an object from given data. Establishes [class invariant](https://softwareengineering.stackexchange.com/a/32755).
+- **Destructor** performs deletion of an object. Removes class invariant.
+
+Briefly **class invariant** is a statement that holds true from creation to deletion of an object.
+Other methods like: **copy constructor, move constructor, copy assignment, move assignment** are used for specific reasons, explained later in this item. 
+#### 1.4.1 Constructor, destructor pair
+Meaning of this methods was explained above, here are some syntax:
+##### 1.4.1.1 Use of `explicit` in Constructors
 The keyword `explicit` should be used in single-argument constructors to avoid the following situation. Consider the class `Array`:
 ```c++
 class Array {
+	int size;
 public:
-	Array(int size) {
+	Array(int size) {	// constructor
 		this->size = size;
 	}
-
-private:
-	int size;
+	
+	~Array() {		// destructor
+		// do some cleanup
+		// Note: destructors only needed(basically)
+		// to clean something that was allocated
+		// from the heap with new operator
+		// (new explained later)
+	}
 };
 ```
 
@@ -239,9 +386,14 @@ Uh-oh. That's now legal, compilable code, but what does it mean? It is extremely
 To fix this, declare the single-argument `Array` constructor as `explicit`:
 ```c++
 class Array {
+	int size;
 public:
 	explicit Array(int size) {
 		this->size = size;
+	}
+	
+	~Array() { 
+		//... 
 	}
 };
 ```
@@ -250,19 +402,398 @@ Now you can only use the print method as follows:
 ```c++
 array.Print(Array(12345));
 ```
+##### 1.4.1.2 Member initializer list
+In previous example, we could've used simpler notation for initializing members:
+```c++
+class MemberInitializedArray
+{
+	int size1;
+	int size2;
+public:
+	explicit Array(int s1, int s2)
+	: size1{s1}, size2{s2}	// init members
+	{
+	
+	}
+};
+```
+#### 1.4.2 `new` and `delete`
+Before moving on, we should consider two special "functions" in c++. 
+When you declare a variable
+```c++
+int a = 3;
+```
+it uses memory, memory of your pc, your RAM. But there are two types of standard memory(in program): heap and stack.
+`a` is allocated on the stack, program decides how many and where on the stack allocate this memory. 
+But what if we want to decide when to allocate memory manually? There are some great flexibility features come with this decision. So here it goes:
+```c++
+int* a = new int {3};	// allocation
+```
+But with great power comes great responsibility. **We need to deallocate it manually**:
+```c++
+delete a;		// manual deallocation
+```
+More on [this](https://www.geeksforgeeks.org/new-and-delete-operators-in-cpp-for-dynamic-memory/) topic.
+There are also `new[]` and `delete[]` for arrays, explained in the link.
+#### 1.4.3 Copy constructor and copy assignment
+Sometimes there are a need for such statements:
+```c++
+MyClass a {1};
+MyClass b {a};	// first
+MyClass c = a;	// second
+```
+It could be accomplished with **copy constructor**(first) and **copy assignment operator**(second).
+```c++
+class MyClass {
+	int data;
+public:
+	MyClass(int i) :i{i} {}
+	
+	MyClass(const MyClass& mc)	// first
+	: i{mc.i} {}
+	
+	MyClass& opeartor=(const MyClass& mc)	// second
+	{
+		i = mc.i;
+	}
+};
+```
+We used `operator` notation here, it will be explained soon. Now you could just see the result and how to implement it.
+#### 1.4.4 Move constructor and move assignment
+And sometimes we have a situation when class that we initializing from(recall **copy constructor**) won't be used in the future. All data it maintains can be moved from it to our current object.
+```c++
+class Movable {
+	SomeClass* data_ptr;
+public:
+	Movable(SomeClass data)
+	:data_ptr{new SomeClass {data}} {}
+	
+	Movable(Movable&& mvbl) {	// first
+	
+		data_ptr = mvbl.data_ptr;	// just assign allocated memory, no need to copy
+						// mvbl will be deleted after this call
+						
+		mvbl.data_ptr = nullptr;	// and assign it to nullptr
+						// so that it can't acces "our" data anymore
+	}
+	
+	Movable& operator=(Movable&& mvbl) {	//second
+		data_ptr = mvbl.data_ptr;
+		mvbl.data_ptr = nullptr;
+	}
+	
+	~Movable() {
+		delete data_ptr;	// non-empty destructor example
+	}
+};
+```
+It is called **move constructor**(first) and **move assignment**(second).
+And usecases are:
+```c++
+Movable some_func() {
+	// ...
+}
 
-### 1.4 Initialization Lists
+int main()
+{
+	Movable b {some_func()};		// first
+	Movable a = some_func();		// second
+}
+```
+It invokes because `some_func` returns object that won't be used anywhere else, it is deleted right after the call, so we use this opportunity and take it's data for ourselves.
 
+
+P. S. Idiom called [`copy-and-swap`](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom), it is better to know it, as it is proved to be very useful through the years.
 ### 1.5 Operator Overloading
-[Reference](http://en.cppreference.com/w/cpp/language/operators)
+It is pretty essential for human to use this notation for arithmetic operations:
+```c++
+int a = 6;
+int b = 3;
+
+int c = a + b;
+int d = a - b;
+int e = a * b;
+int f = a / b;
+```
+the other version of this is:
+```c++
+int a = 6, b = 3;
+
+int c = add(a, b);
+int d = subtract(a, b);
+int e = multiply(a, b);
+int f = divide(a, b);
+```
+Which do you like better? First version is more intuitive as for me. The same logic stands behind `operator`s in c++. One of the mottos in c++ is "Create your classes to function as harmoniously as the built-in types". So let's create harmonious
+class complex with support for basic arithmethic.
+```c++
+class Complex {
+	double re {}; // real part, default is 0.0 
+	double im {}; // imaginary part, default is 0.0
+public:
+	Complex(double re, double im) :re{re}, im{im} {}
+	
+	// just declarations
+	friend Complex operator+(const Complex& fst, const Complex& snd);	// friend is a function that could reach
+	friend Complex operator-(const Complex& fst, const Complex& snd);	// private members of a class
+	friend Complex operator*(const Complex& fst, const Complex& snd);
+	friend Complex operator/(const Complex& fst, const Complex& snd);
+};
+
+// and now definitions
+Complex operator+(const Complex& fst, const Complex& snd)
+{
+	return {fst.re + snd.re, fst.im + snd.im};
+}
+
+Complex operator-(const Complex& fst, const Complex& snd)
+{
+	return {fst.re - snd.re, fst.im - snd.im};
+}
+
+Complex operator*(const Complex& fst, const Complex& snd)
+{
+	return {fst.re * snd.re - fst.im * snd.im, 	// just formula
+		fst.re * snd.im + fst.im * snd.re};
+}
+
+Complex operator/(const Complex& fst, const Complex& snd)
+{
+	double denominator = snd.re * snd.re + snd.im * snd.im;		// another formula
+	return {(fst.re * snd.re + fst.im * snd.im) / denominator, 
+		(fst.im * snd.re - fst.re * snd.im) / denominator};		
+}
+
+// usage
+int main()
+{
+	Complex a {1, 2};
+	Complex b {5, 3};
+	
+	Complex c = a + b;	// 6 + 5i
+	Complex d = a - b;	// -4 - 1i
+	Complex e = a * b;	// -1 + 13i
+	Complex f = a / b;	// 0.323529 + 0.205882i
+}
+```
+Oh, that's good, but what about output, how could we output it?
+It turns out that output is an operator too. Remember `std::cout << something` ? That's a left shift operator, but it is used to denote the output, and `std::cout` is just the global instance of class `std::ostream`. So we could just provide this operator for our own class:
+```c++
+#include <iostream>
+
+class Complex {
+	// ...
+public:
+	// ...
+	
+	friend std::ostream& operator<<( std::ostream& os, const Complex& cpx);
+};
+
+// implementation
+std::ostream& operator<<( std::ostream& os, const Complex& cpx)
+{
+	os << cpx.re;
+	( cpx.im < 0 ? os : os << '+' ) << cpx.im << 'i' << '\n';
+
+	return os;
+}
+
+int main()
+{
+	Complex a {1, 2};
+	Complex b {5, 3};
+	
+	std::cout << a + b;	
+	std::cout << a - b;
+	std::cout << a * b;
+	std::cout << a / b;
+}
+```
+There are also right shift operator denoting input, recall `std::cin >> something;`. About different kinds of operators, you can read [here](http://en.cppreference.com/w/cpp/language/operators).
 
 ### 1.6 Templates
-[Reference](http://en.cppreference.com/w/cpp/language/templates)
+Let's try to write `add` function from previous item.
+```c++
+double add(double fst, double snd)
+{
+	return fst + snd;
+}
+```
+Cool, but this won't work with `int`, and many other types! Templates is a mechanism that allows generalizing of a function, that works with every type that supports `operator+`, here is the notation:
+```c++
+template <typename T>		// T is the name of a type
+T add(const T& fst, const T& snd)	
+// using const reference, because it is more efficient for large objects
+{
+	return fst + snd;	// if T don't support +, it will fail
+}
+
+// usage
+int main()
+{
+	add(3, 5);		// int version
+	add(3.45f, 5.0f);	// float version
+	
+	Complex a {1, 2};	// class from previous item
+	Complex b {5, 3};
+	add(a, b);	// works because of support of operator+
+}
+```
+So this how we do generic code in c++. It saves a lot of time, try it! This approach could be used almost everywhere, for example:
+```c++
+template <typename T>
+class Storage {
+	T field;
+public:
+	Storage( const T& field) :field{field} {}
+};
+
+// usage
+int main()
+{
+	Storage<int> st {3};
+	Storage<Storage<int>> stst {st};
+}
+```
+So this what happens when you use:
+```c++
+std::vector<int> vec;
+```
+There are a lot of usefulness in templates. It is one of the main technics of modern c++ development. Read more, like [this](https://www.geeksforgeeks.org/templates-cpp/) and [that](http://en.cppreference.com/w/cpp/language/templates).
+
+Also the new feature is coming to c++20, named [concepts](https://cppdepend.com/blog/?p=524).
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
+In big projects, there are thousands of variables, and each needs it's own name. Let's imagine that there are library with linked list structure, and we need to somehow represent single node of a list:
+```c++
+// file named "LinkedList.h"
+template <typename T>	// use of templates
+struct Node { // pretty and short name
+	Node* next;
+	Node* prev;
+	
+	T data;	
+};
+```
+And there are library with binary search tree structure:
+```c++
+// file named "BST.h"
+template <typename T>
+struct Node {
+	Node* left;
+	Node * right;
+	
+	T data;
+};
+```
+We want to create our project that uses both of this libraries:
+```c++
+#include "LinkedList.h"
+#include "BST.h"
+
+int main()
+{
+	Node<int> * a = new Node<int> {nullptr, nullptr, 3};	// oops
+};
+```
+How do compiler know what Node we are about to use? `namespace` comes to the rescue:
+```c++
+// "LinkedList.h"
+namespace lst {
+template <typename T>
+struct Node {
+	// ...
+};
+};
+```
+and
+```c++
+// "BST.h"
+namespace bst {
+template <typename T>
+struct Node {
+	// ...
+};
+};
+```
+and usage is:
+```c++
+#include "LinkedList.h"
+#include "BST.h"
+
+int main()
+{
+	lst::Node<int> * a = new lst::Node<int> {nullptr, nullptr, 3};	// it is linked list node
+	bst::Node<int> * a = new bst::Node<int> {nullptr, nullptr, 3};	// it is bst node
+};
+```
+So now you could specialize, and don't be afraid of name collisions, just use simple, pretty names.
+By the way remember `std::cout`? It is object of `namsepaces std`, it is recommended to use full namespace names almost everywhere, because you are sure what structure you are using. But if it is your small(very small) project you could try:
+```c++
+#include <iostream>
+
+using namespace std;	// everything inside namespace std becomes visible
+
+int main()
+{
+	cout << "Hello, namespace!"
+	
+	return 0;
+}
+```
+
 
 ### 2.2 References and Pointers
+are used to store the address of the varibale/object in memory. So having the pointer or reference, you could do the same operations as that of object being pointed to.
+```c++
+int a = 3;
+int b = 5;
+
+int* aptr = &a;		// & operator gets the address of variable a
+int* bptr = &b;		// int * is a type of pointer to int
+
+int c = *aptr + *bptr;	// * opeartor used to get the value of the object that 
+			// is being pointed to
+int d = a + b;		// c and d are equal at the end of the day
+```
+Think of pointer as the abstraction that knows where to find an object, but don't own it.
+The references are about the same, but they use more convenient syntax, but some [limitations](https://stackoverflow.com/questions/57483/what-are-the-differences-between-a-pointer-variable-and-a-reference-variable-in) apply. The main difference is that refernce can't be reassigned and must be assigned at initialization:
+```c++
+int a = 3;
+int b = 5;
+
+int& aref = a;		// & means reference type
+int& bref = b;	
+
+int c = aref + bref;	// simple addition syntax 
+
+int d = a + b;		// c and d are equal at the end of the day
+```
+Also pointers are used in arrays like that:
+```c++
+#include <iostream>
+
+int arr[] = { 9, 5, 8, 2 };		// array storage is contiguous
+int size = 4;
+
+for(int i = 0; i < size; i++) std::cout << arr[i] << ' ';	// 9 5 8 2
+std::cout << '\n';
+
+int* ptr = arr;		// ptr points to first element of an array
+for(int i = 0; i < size; i++) std::cout << *(ptr + i) << ' ';	// 9 5 8 2
+std::cout << '\n'
+
+ptr = arr;		// reassignment of pointer, can't be preformed with reference
+for(int i = 0; i < size; i++) std::cout << *(ptr++) << ' ';	// 9 5 8 2
+std::cout << '\n'
+```
+This loops are equivalent, moreover first-second are implemented in the same way. First loop is just convenience syntax for second. Notice, that pointers can be incremented. Also there are a special pointer, called `nullptr`.
+```c++
+double* ptr = nullptr;	// means it points to nowhere
+
+double a = *ptr;	// this is a huge error, DON'T DO THIS
+```
 
 ### 2.3 Keywords
 [Reference](http://en.cppreference.com/w/cpp/keyword)
@@ -316,11 +847,132 @@ array.Print(Array(12345));
 * `#error`: Prints an error message and stops compilation
 * `#pragma`: Non-standard, used instead of header guards (`#ifndef HEADER_H` ...)
 
-### 2.4 Strings (`std::string`)
+### 2.5 Strings (`std::string`)
 [Reference](http://en.cppreference.com/w/cpp/string/basic_string)
 
-### 2.5 Iterators (`std::iterator<...>`)
+### 2.6 Iterators (`std::iterator<...>`)
 [Reference](http://en.cppreference.com/w/cpp/concept/Iterator)
 
-### 2.6 Exceptions (`std::exception`)
-[Reference](http://en.cppreference.com/w/cpp/error/exception)
+### 2.7 Exceptions
+#### 2.7.1 Motivation
+What if you want to tell that this behaviour is unacceptable in current situation? Then you should use exceptions:
+```c++
+#include <iostream>
+
+int divide(int a, int b)
+{
+	if( b == 0 ) throw "Can't divide by zero";	// throwing an exception
+	return a / b;
+}
+
+// usage
+int main()
+{
+	int a = 3, b = 0;
+	
+	try {				// try-catch close
+		divide(a, b);		// we are trying to do division
+	} catch( const char* err_msg) {	// if exception being thrown, we are trying to catch it
+		std::cout << "Error is: " << err_msg << '\n';	// print error on the output
+	}
+	
+	return 0;	// and finish work
+}
+```
+#### 2.7.2 `std::exception`
+[Here](http://en.cppreference.com/w/cpp/error/exception) are all standard exceptions, you may use them as follows:
+```c++
+#include <iostream>
+#include <exception>	// for std::logic_error
+
+class Complex { 	// class from previous examples
+	double re {};
+	double im {};
+public:
+	// ... constructor, plus/minus/multiply operators ...
+	
+	class ZeroDivisionError : public std::logic_error {		// class for zero division error
+		const* char what() const { return "Can't divide by zero"; }
+	};
+	
+	friend Complex operator/(const Complex& fst, const Complex& snd)
+	{
+		if(snd.re == 0 && snd.im == 0) throw ZeroDivisionError {};	// throwing by value
+		
+		// ... other code for division ...
+	}
+};
+
+// usage
+int main()
+{
+	Complex a{1, 2};
+	Complex b{0, 0};
+	
+	try {
+		a / b;
+	} catch( const Complex::ZeroDivisionError& e) {	// catching by const reference
+		std::cout << e.what() << '\n';
+	}
+	
+	return 0; // and happily finish program
+}
+```
+`what` is a standard name for a function that tells what's happened in the exception class.
+### 2.8 Lambdas
+Very common pattern is to write such a code:
+```c++
+struct AddTo3 {
+	int operator()(int addto) const { return 3 + addto; }
+};
+
+int add_to_3(int addto) { return 3 + addto; }
+// basically the same, but it is not enough in some cases
+
+// usage 
+int main()
+{
+	(AddTo3 {})(5);	// 8
+	add_to_3(5);	// 8
+}
+```
+It is so common, that language designers decided to add it to the standard and call it `lambda function`:
+```c++
+int main()
+{
+	auto add_to_3 {					// much, much simpler, just declare variable add_to_3
+		[] (int addto) { return 3 + addto; }
+	};
+	
+	add_to_3(5);
+}
+```
+Now, what this syntax means:
+```c++
+int main()
+{
+	auto add_to_3 {
+		[] // 1
+		/**
+		 * Capture variables, from outer scope, by reference(&),
+		 * or by value(=).
+		 * [&] - captures all variables by reference(uses them inside lambda)
+		 * [=] - captures all variables by value(copies them inside lambda)
+		 * [&var] - capture only var by reference
+		 * [=var] - capture only var by value
+		 * [=, &var] capture var by ref, and others by value
+		 */
+		(int addto) // 2
+		/**
+		 * Argument list, just like in ordinary functions
+		 */
+		{ return 3 + addto; } // 3
+		/**
+		* Lambda body, just like in ordinary functions
+		*/
+	};
+	
+	add_to_3(5);	// 8
+}
+```
+So you could use it in advanced scenarios. Read more, like [this](https://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11), and [that](https://en.cppreference.com/w/cpp/language/lambda).
