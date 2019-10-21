@@ -1,5 +1,8 @@
 # C++ Syntax Cheat Sheet
 
+## Preface
+Since the C++ language varies so heavily between versions (e.g. C++0x, C++11, C++17, etc.), I will preface this cheat sheet by saying that the majority of the examples here target C++0x or c++11, as those are the versions that I am most familiar with. I come from the aerospace industry (embedded flight software) in which we purposefully don't use the latest technologies for safety reasons, so most of the code I write is in C++0x and sometimes C++11. Nevertheless, the basic concepts of C++ and object oriented programming still generally apply to both past and future versions of the language.
+
 ## Table of Contents
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:0 orderedList:0 -->
@@ -16,17 +19,17 @@
 			- [1.2.1 `Rectangle` Declaration (`.h` file)](#121-rectangle-declaration-h-file)
 			- [1.2.2 `Rectangle` Definition (`.cpp` file)](#122-rectangle-definition-cpp-file)
 			- [1.2.3 `Rectangle` Utilization (Another `.cpp` file)](#123-rectangle-utilization-another-cpp-file)
-		- [1.3 Class polymorphism](#13-class-polymorphism)
+		- [1.3 Class Polymorphism](#13-class-polymorphism)
 			- [1.3.1 Motivation](#131-motivation)
-			- [1.3.2 Virtual functions](#132-virtual-functions)
-		- [1.4 Special methods(constructor, destructor, ...)](#14-special-methods)
-			- [1.4.1 Constructor, destructor pair](#141-constructor-destructor-pair)
+			- [1.3.2 Virtual Methods](#132-virtual-methods)
+		- [1.4 Special Methods (Constructor, Destructor, ...)](#14-special-methods)
+			- [1.4.1 Constructor and Destructor](#141-constructor-and-destructor)
 				- [1.4.1.1 Use of `explicit` in Constructors](#1411-use-of-explicit-in-constructors)
-				- [1.4.1.2 Member initializer list](#1412-member-initializer-list)
+				- [1.4.1.2 Member Initializer List](#1412-member-initializer-list)
 			- [1.4.2. `new` and `delete`](#142-new-and-delete)
-			- [1.4.3. Copy constructor, copy assignment](#143-copy-constructor-and-copy-assignment)
-			- [1.4.4. Move constructor, move assignment](#144-move-constructor-and-move-assignment)
-		- [1.5 Operator overloading](#15-operator-overloading)
+			- [1.4.3. Copy Constructor and Copy Assignment](#143-copy-constructor-and-copy-assignment)
+			- [1.4.4. Move Constructor and Move Assignment](#144-move-constructor-and-move-assignment)
+		- [1.5 Operator Overloading](#15-operator-overloading)
 		- [1.6 Templates](#16-templates)
 	- [2.0 General C++ Syntax](#20-general-c-syntax)
 		- [2.1 Namespaces](#21-namespaces)
@@ -35,7 +38,7 @@
 			- [2.3.1 General keywords](#231-general-keywords)
 			- [2.3.2 Storage class specifiers](#232-storage-class-specifiers)
 			- [2.3.3  `const` and `dynamic` Cast Conversion](#233-const-and-dynamic-cast-conversion)
-		- [2.4 Preprocessor tokens](#24-preprocessor-tokens)
+		- [2.4 Preprocessor Tokens](#24-preprocessor-tokens)
 		- [2.5 Strings ](#25-strings-stdstring)
 		- [2.6 Iterators](#26-iterators-stditerator)
 		- [2.7 Exceptions](#27-exceptions)
@@ -126,6 +129,8 @@ Regarding the use of `this->` in a class definition, there are places where it's
 
 #### 1.1.3 Class Utilization (Another `.cpp` file)
 ```c++
+// File: main.cpp
+
 #include <string>
 #include <iostream>
 
@@ -147,6 +152,8 @@ int main(int argc, char * argv[]) {
 #### 1.1.4 Getters and Setters
 A shortcut often used for Getters/Setters is to define them in the class declaration (`.h`) file as follows:
 ```c++
+// File: car.h
+
 #include <string>
 
 class Car {
@@ -167,7 +174,7 @@ This is often used for very basic getters and setters, and also for basic constr
 Another important consideration: If you have getters and setters for all of your members, you may want to reconsider the design of your class. Sometimes having getters and setters for every member is indicative of poor planning of the class design and interface. In particular, setters should be used more thoughtfully. Could a variable be set once in the constructor and left constant thereafter? Does it need to be modified at all? Is it set somewhere else in another method, perhaps even indirectly?
 
 ### 1.2 Inheritance
-A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for polymorphism.
+A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for [polymorphism](#13-class-polymorphism).
 
 It is important to note that this feature is often overused by beginners and sometimes unnecessary hierarchies are created, adding to the overally complexity. There are some good alternatives such as [composition](https://en.wikipedia.org/wiki/Composition_over_inheritance) and [aggregation](https://stackoverflow.com/a/269535), although, of course, sometimes inheritance is exactly what is needed.
 
@@ -177,31 +184,41 @@ It is important to note that this feature is often overused by beginners and som
 ```c++
 // File: rectangle.h
 
-#include <string> 	// <--- Explicitly include the string header, even though polygon.h also includes it
+#include <string>       // <--- Explicitly include the string header, even though polygon.h also includes it
 
 #include "polygon.h"	// <--- You must include the declaration in order to extend the class
 
-class Rectangle: public Polygon {	// <--- This is 'public inheritance', noted by the 'public' keyword
-private:			// <--- The members 'num_sides' and 'name' are already inherited from Polygon
+// We extend from Polygon by using the colon (:) and specifying which type of inheritance
+// will be used (public inheritance, in this case)
+
+class Rectangle : public Polygon {
+private:
 	int length;
 	int width;
+    
+    // <--- NOTE: The member variables 'num_sides' and 'name' are already inherited from Polygon
+    //            it's as if we sort of get them for free, since we are a sub-class
 
 public:
 	// Constructors
-	Rectangle(const std::string &name);
+	explicit Rectangle(const std::string &name);
 	Rectangle(const std::string &name, const int length, const int width);
 
-	// Getters and Setters	<--- The methods 'GetNumSides()', 'SetNumSides()', 'GetName()' and 'SetName()' are already inherited from Polygon
+	// Getters and Setters
 	const int GetLength(void) const { return this->length; }
 	void SetLength(const int) { this->length = length; }
 
 	const int GetWidth(void) const { return this->width; }
 	void SetWidth(const int) { this->width = width; }
+    
+    // <--- NOTE: Again, the getters/setters for 'num_sides' and 'name' are already inherited from Polygon
 
 	// Other Methods
 	const int Area(void) const;
 };
 ```
+
+> NOTE: The inheritance access specifier (`public`, `protected`, or `private`) is used to determine the [type of inheritance](https://www.tutorialspoint.com/cplusplus/cpp_inheritance.htm). If this is omitted then `private` inheritance is used by default. **Public inheritance is by far the most common type of inheritance**.
 
 #### 1.2.2 `Rectangle` Definition (`.cpp` file)
 ```c++
@@ -223,13 +240,15 @@ explicit Rectangle::Rectangle(const std::string &name) : Polygon(4, name) {
 }
 
 // Compute the area of the rectangle
-const int Rectangle::Area(void) const {
+int Rectangle::Area(void) const {
 	return length * width;		// <--- Note that you don't explicitly need 'this->', you can directly use the member variables
 }
 ```
 
 #### 1.2.3 `Rectangle` Utilization (Another `.cpp` file)
 ```c++
+// File: main.cpp
+
 #include <iostream>
 
 #include "Rectangle.h"
@@ -238,118 +257,148 @@ int main(int argc, char *argv[]) {
 	Rectangle rectangle = Rectangle("Square", 6, 6);
 
 	// Prints "Square has 4 sides, and an area of 36"
-	std::cout << rectangle.GetName() << " has " << rectangle.GetNumSides() 
-						<< " sides, and an area of " << rectangle.Area() << std::endl;
+	std::cout << rectangle.GetName() << " has " << rectangle.GetNumSides() << " sides, and an area of " << rectangle.Area() << std::endl;
 }
 ```
 
-### 1.3 Class polymorphism
-The same name, that has many forms, could be used in different usecases. It is often used when there are hierarchy of classes related with inheritance.
+### 1.3 Class Polymorphism
+Polymorphism describes a system in which a common interface is used to manipulate objects of different types. In essence various classes can inherit from a common interface through which they make certain guarantees about which methods/variables are available for use. By adhering to this common interface, one can use a pointer to an object of the base interface type to call the methods of any number of extending classes. Using polymorphism one can say "I don't care what type this really is; I know it implements `Foo()` and `Bar()` because it inherits from this interface", which is a pretty nifty feature.
+
+The `virtual` keyword is used to ensure runtime polymorphism for class methods. Additionally, an overriding method can be forced by the compiler by not providing a default implementation in the interface, which is done by setting the method to `= 0`, as will be shown later.
+
 #### 1.3.1 Motivation
-Let's extend previous exercises and create hierarchy of geometrical figures(pretty logical decision)
+Let's consider a similar class hierarchy using shapes as previously discussed. Considering a shape to be any 3 or more sided polygon from which we can compute certain attributes (like the shape's area), let's extend from it to create a rectangle class from which we can set the length/width and a circle class in which you can set the radius. **In both cases, we want to be able to compute the area of the shape.** This is a key observation that we will expand upon later.
+
+For now, this (poorly implemented) shape class will suffice:
+
 ```c++
-#include <cmath> 	// needed for PI constant
+// File: shape.h
 
-class Shape
-{
-	// empty class for hierarchy logic 
-	// there are no methods since all
-	// shapes are using different area 
-	// calculation formulas
-};
-
-class Rectangle : public Shape {
-	// private by default
-	double length;
-	double width;
-public:
-	Rectangle(double width, double length) // using the same names is legal
-	:width{width}, length{length} {} // using member initializer list
-	
-	double area() const {	// const means it won't change the class members
-		return length * width;	
-	}
-};
-
-class Circle : Shape {
-	double radius;
-public:
-	Circle(double radius) 
-	:radius{radius} {}
-	
-	double area() const {
-		return M_PI * radius * radius; // pi*r^2
-	}
-};
-```
-We are glad to build our hierarchy, but something is illogical here. We discover common pattern: all of classes in hierarchy are using the same function 'area', how can we generalize it? So let's notice: every Shape has the area, so i don't care what shape i am using, i want to have it's area. Recall the definition of polymorphism at the beginning of the item. 
-So here comes the solution:
-#### 1.3.2 Virtual functions
-We want to achieve something like this:
-```c++
-Rectangle rct {2, 5};
-Shape* some_unknown_shape = &rct;
-
-some_unkown_shape->area(); // must be 10
-```
-But how do we do it if `area` function is used only with object it is invoked on, like `rct` in previous example?
-C++ solution is:
-```c++
-#include <cmath> 
+#include <cmath> 	// needed for M_PI constant
 
 class Shape {
-public:
-	virtual double area() const
-	{
-		// some default implementation
-	}
+    // We'll leave Shape empty for now... not very interesting yet
 };
 
 class Rectangle : public Shape {
-	// private by default
+private:
 	double length;
 	double width;
+    
 public:
-	Rectangle(double width, double length) // using the same names is legal
-	:width{width}, length{length} {} // using member initializer list
-	
-	double area() const override { // override reminds that it is virtual method
+    // Constructor using a member initializer list instead of assignment in the method body
+	Rectangle(const double w, const double l) : width(w), length(l) {} 
+    
+    // Compute the area of a rectangle
+	double Area(void) const {
 		return length * width;	
 	}
 };
 
 class Circle : public Shape {
+private:
 	double radius;
+    
 public:
-	Circle(double radius) 
-	:radius{radius} {}
+	explicit Circle(double r) : radius(r) {}
 	
-	double area() const override {
-		return M_PI * radius * radius; // pi*r^2
+    // Compute the area of a circle
+	double Area(void) const {
+		return M_PI * radius * radius;  // pi*r^2
+	} 
+};
+```
+
+> NOTE: As shown here, you can put multiple classes in a single header, although in practice unless you have a good reason for doing so it's probably best to use a separate header file per class.
+
+> NOTE: I'm not using default value initialization for member variables (i.e. `double length = 0;`) and I'm using parentheses `()` instead of braces `{}` for the initializer list since older compilers (pre-C++11) may not support the new syntax.
+
+So, we have our two classes, `Rectangle` and `Circle`, but in this case inheriting from `Shape` isn't really buying us anything. To make use of polymorphism we need to pull the common `Area()` method into the base class as follows, by using virtual methods.
+
+#### 1.3.2 Virtual Methods
+Imagine you want to have a pointer to a shape with which you want to compute the area of that shape. For example, maybe you want to hold shapes in some sort of data structure, but you don't want to limit yourself to just rectangles or just circles; you want to support all objects that call themselves a 'Shape'. Something like:
+
+```c++
+Rectangle rectangle(2.0, 5.0);
+Circle circle(1.0);
+
+// Point to the rectangle
+Shape * unknown_shape = &rectangle; // Could point to *any* shape, Rectangle, Circle, Triangle, Dodecagon, etc.
+
+unknown_shape->Area();  // Returns 10.0
+
+// Point to the circle
+unknown_shape = &circle;
+unknown-shape->Area();  // Returns 3.14...
+```
+
+The way to achieve this is to use the `virtual` keyword on the base class methods, which specifies that when a pointer to a base class invokes the method of an object that it points to, it should determine, at runtime, the correct method to invoke. That is, when `unknown_shape` points to a `Rectangle` it invokes `Rectangle::Area()` and if `unknown_shape` points to a `Circle` it invokes `Circle::Area()`.
+
+Virtual methods are employed as follows:
+
+```c++
+#include <cmath> 
+
+class Shape {
+public:
+	// Virtual destructor (VERY IMPORTANT, SEE NOTE BELOW)
+    virtual ~Area() {}
+    
+    // Virtual area method
+    virtual double Area() const {
+        return 0.0;
 	}
 };
 
-int main()
-{
-	Rectangle rct {2, 5};
-	Shape* some_unknown_shape = &rct;
-
-	some_unknown_shape->area(); // is 10	
-}
-```
-This is so-called runtime polymorphism, it is named so because of the time of it's invocation -  the decision of what version of `area` to use(Circle or maybe Rectangle version or others?) is made during the program run. It is implemented using [this](https://www.learncpp.com/cpp-tutorial/125-the-virtual-table/) mechanism. In a nutshell: it is a little more expensive to use, but it's usefulness is overwhelming.
-
-This was runtime polymorphism, there are also compiletime polymorphism([here is more on differences between them](https://www.geeksforgeeks.org/polymorphism-in-c/)).
-
-So now it is ok. Is it? There is no limit of perfection. Note that we don't have default implementation to area function.
-How do we declare that we want this function in all our child classes? C++ solution is `pure virtual function`:
-```c++
-class Shape {
+class Rectangle : public Shape {
+private:
+	double length;
+	double width;
+    
 public:
-	virtual double area() const = 0;
+	Rectangle(double w, double l) : width(w), length(l) {}
+    
+    // Override the Shape::Area() method with an implementation specific to Rectangle
+	double Area() const override {
+		return length * width;	
+	}
+};
+
+class Circle : public Shape {
+private:
+	double radius;
+    
+public:
+	explicit Circle(double t) : radius(r) {}
+	
+    // Override the Shape::Area() method with an implementation specific to Circle
+    //
+    // NOTE: there is an 'override' keyword that was introduced in C++11 and is optional: it is used
+    // to enforce that the method is indeed an overriding method of a virtual base method at compile time
+    // and is used as follows:
+	double Area() const override {
+		return M_PI * radius * radius; // pi*r^2
+	}
 };
 ```
-Rest of code behaves the same. Object of class Shape can't be created, it makes sense, why do we need an object that only promises a function, not giving it? It is called `interface` in wide meaning of this word, or `abstract class` in c++ interpretation. It promises a function `area`, so all child classes must have it.
+
+> NOTE: It is very important that a default virtual destructor was included after adding the virtual `Area()` method to the base class. Whenever a base class includes even a single virtual method, it must include a virtual destructor so that the correct destructor(s) are called in the correct order when the object is eventually deleted.
+
+This is called runtime polymorphism because the decision of which implementation of the `Area()` method to use is determined during program execution based on the type that the base is pointing at. It is implemented using [the virtual table](https://www.learncpp.com/cpp-tutorial/125-the-virtual-table/) mechanism. In a nutshell: it is a little more expensive to use but it can be immensely useful. There is also compile-time polymorphism. Here is more on the [differences between them](https://www.geeksforgeeks.org/polymorphism-in-c/).
+
+In the example above, if a class extends from `Shape` but does not include an override of `Area()` then calling the `Area()` method will invoke the base class method which (in the implementation above) returns `0.0`.
+
+In some cases, you may want to **enforce** that sub-classes implement this method. This is done by not providing a default implementation, thus making it what is called a *pure virtual* method.
+
+```
+class Shape {
+public:
+    virtual ~Area() {}
+    virtual double Area() const = 0;
+};
+```
+
+In general a class with only pure virtual methods and a virtual destructor is called an *abstract class* or *interface* and is typically named as such (e.g. `ButtonInterface`, or similar). An interface class guarantees that all extending classes implement a specific method with a specific method signature.
 
 ### 1.4 Special methods
 All this methods are used to manage class lifetime.
@@ -358,7 +407,7 @@ All this methods are used to manage class lifetime.
 
 Briefly **class invariant** is a statement that holds true from creation to deletion of an object.
 Other methods like: **copy constructor, move constructor, copy assignment, move assignment** are used for specific reasons, explained later in this item. 
-#### 1.4.1 Constructor, destructor pair
+#### 1.4.1 Constructor and Destructor
 Meaning of this methods was explained above, here are some syntax:
 ##### 1.4.1.1 Use of `explicit` in Constructors
 The keyword `explicit` should be used in single-argument constructors to avoid the following situation. Consider the class `Array`:
