@@ -48,11 +48,14 @@
 
 ## 1.0 C++ Classes
 ### 1.1 Class Syntax
-#### 1.1.1 Class Declaration (`.h` file)
+#### 1.1.1 Class Declaration (`polygon.h` file)
 Here's a simple class representing a polygon, a shape with any number of sides.
 
-The class *declaration* typically goes in the `.h` file. The *declaration* gives the class name, any classes it may extend, declares the members and methods, and declares which members/methods are public, private, or protected.
+The class *declaration* typically goes in the header file, which has the extension `.h` (or, less commonly, `.hpp` to distinguish from C headers). The *declaration* gives the class name, any classes it may extend, declares the members and methods, and declares which members/methods are public, private, or protected. You can think of the declaration as sort of saying: "there will be a thing and here's how it will look like". The declaration is used to inform the compiler about the future essence and use of a particular symbol. 
+
 ```c++
+// File: polygon.h
+
 #include <string>
 
 class Polygon {
@@ -80,14 +83,19 @@ public:
 }; // <--- Don't forget the semicolon!
 ```
 
-#### 1.1.2 Class Definition (`.cpp` file)
-```c++
-#include <string>	// explicit is better then implicit 
+#### 1.1.2 Class Definition (`polygon.cpp` file)
+The class *definition* typically goes in the `.cpp` file. The *definition* extends the declaration by providing an actual implementation of whatever it is that you're building. Continuing the example from the declaration, the definition can be thought of as saying: "Right, that thing I told you briefly about earlier? Here's how it actually functions". The definition thus provides the compileable implementation.
 
-#include "Polygon.h"    // <--- Obtains the class declaration
+```c++
+// File: polygon.cpp
+
+#include <string>	// <--- Required for std::string
+
+#include "polygon.h"    // <--- Obtains the class declaration
 
 // Constructor
 // You must scope the method definitions with the class name (Polygon::)
+// Also, see the section on the 'explicit' keyword for a warning about constructors with exactly one argument
 Polygon::Polygon(const int num_sides, const std::string & name) {
     this->num_sides = num_sides;	// 'this' is a pointer to the instance of the class. Members are accessed via the -> operator
     this->name = name;			// In this case you need to use 'this->...' to avoid shadowing the member variable since the argument shares the same name
@@ -114,21 +122,23 @@ void Polygon::SetName(const std::string & name) {
 }
 ```
 
-#### 1.1.3 Class Utilization (Another `.cpp` file)
+Regarding the use of `this->` in a class definition, there are places where it's strictly necessary for readability, e.g. when your method parameter shares the exact same name as a member variable, you use `this->` to avoid what's called shadowing. However, some prefer to always use `this->` explicitly regardless of whether it's necessary.
+
+#### 1.1.3 Class Utilization (Some other `.cpp` file)
 ```c++
 #include <string>
 #include <iostream>
 
 #include "Polygon.h"    // <--- Obtains the class declaration
 
-int main(int argc, char *argv[]) {
+int main(int argc, char * argv[]) {
     // Create a polygon with 4 sides and the name "Rectangle"
     Polygon polygon = Polygon(4, "Rectangle");
 
     // Check number of sides -- Prints "Rectangle has 4 sides"
     std::cout << polygon.GetName() << " has " << polygon.GetNumSides() << " sides"<< std::endl;
 
-    // Change number of sides to 3 and name to "Triangle"
+    // Change number of sides to 3 and rename to "Triangle"
     polygon.SetNumSides(3);
     polygon.SetName("Triangle");
 }
@@ -152,22 +162,26 @@ public:
 };
 ```
 
-Another important consideration: If you have getters and setters for all of your members, you may want to reconsider the design of your class. It is more often than not that having getters and setters for every member is indicative of poor planning of the class design and interface. Getters are very common, but setters should be used more carefully. Should you have set the variable in the constructor? Is it set somewhere else in another method, perhaps even indirectly?
+This is often used for very basic getters and setters, and also for basic constructors. In contrast, you'll nearly always find more complex methods defined in the `.cpp` file. One exception to this is with class templates, in which the entire templated class declaration and definition must reside in the header file.
+
+Another important consideration: If you have getters and setters for all of your members, you may want to reconsider the design of your class. Sometimes having getters and setters for every member is indicative of poor planning of the class design and interface. In particular, setters should be used more thoughtfully. Could a variable be set once in the constructor and left constant thereafter? Does it need to be modified at all? Is it set somewhere else in another method, perhaps even indirectly?
 
 ### 1.2 Inheritance
 A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for polymorphism.
-P. S. it is very important for a beginner not to overuse this feature(because human's brain tends to create hierarchies, 
-even where it is not needed). There are some good alternatives like [composition](https://en.wikipedia.org/wiki/Composition_over_inheritance) and [aggregation](https://stackoverflow.com/a/269535)
 
-**Example:** the class `Rectangle` can inherit the class `Polygon`. You would then say that `Rectangle` extends `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that a `Rectangle` is a more specialized version of a `Polygon`.
+It is important to note that this feature is often overused by beginners and sometimes unnecessary hierarchies are created, adding to the overally complexity. There are some good alternatives such as [composition](https://en.wikipedia.org/wiki/Composition_over_inheritance) and [aggregation](https://stackoverflow.com/a/269535), although, of course, sometimes inheritance is exactly what is needed.
 
-#### 1.2.1 `Rectangle` Declaration (`.h` file)
+**Example:** the class `Rectangle` can inherit from the class `Polygon`. You would then say that a `Rectangle` extends from a `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that a `Rectangle` is a more specialized version of a `Polygon`. Thus, all rectangles are polygons, but not all polygons are rectangles.
+
+#### 1.2.1 `Rectangle` Declaration (`rectangle.h` file)
 ```c++
-#include <string> 		// explcit is better then implicit
+// File: rectangle.h
 
-#include "Polygon.h"	// <--- You must include the declaration in order to extend the class
+#include <string> 	// <--- Explicitly include the string header, even though polygon.h also includes it
 
-class Rectangle: public Polygon {
+#include "polygon.h"	// <--- You must include the declaration in order to extend the class
+
+class Rectangle: public Polygon {	// <--- This is 'public inheritance', noted by the 'public' keyword
 private:			// <--- The members 'num_sides' and 'name' are already inherited from Polygon
 	int length;
 	int width;
@@ -189,11 +203,11 @@ public:
 };
 ```
 
-#### 1.2.2 `Rectangle` Definition (`.cpp` file)
+#### 1.2.2 `Rectangle` Definition (`rectangle.cpp` file)
 ```c++
-#include <string>		// uses std::string
-
-#include "Rectangle.h"	// <--- Only need to include 'Rectangle', since 'Polygon' is included in 'Rectangle.h'
+// File: rectangle.cpp
+			
+#include "rectangle.h"	// <--- Only need to include 'Rectangle', since 'Polygon' is included in 'rectangle.h'
 
 // This constructor calls the superclass (Polygon) constructor and sets the name and number of sides to '4', and then sets the length and width
 Rectangle::Rectangle(const std::string &name, const int length, const int width) : Polygon(4, name) {
@@ -202,14 +216,15 @@ Rectangle::Rectangle(const std::string &name, const int length, const int width)
 }
 
 // This constructor calls the superclass (Polygon) constructor, but sets the length and width to a constant value
-Rectangle::Rectangle(const std::string &name) : Polygon(4, name) {
+// The explicit keyword is used to restrict the use of the constructor. See section below for more detail
+explicit Rectangle::Rectangle(const std::string &name) : Polygon(4, name) {
 	this->length = 1;
 	this->width = 1;
 }
 
 // Compute the area of the rectangle
 const int Rectangle::Area(void) const {
-	return this->length * this->width;
+	return length * width;		// <--- Note that you don't explicitly need 'this->', you can directly use the member variables
 }
 ```
 
