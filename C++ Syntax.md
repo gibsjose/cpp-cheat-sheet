@@ -48,7 +48,7 @@
 
 ## 1.0 C++ Classes
 ### 1.1 Class Syntax
-#### 1.1.1 Class Declaration (`polygon.h` file)
+#### 1.1.1 Class Declaration (`.h` file)
 Here's a simple class representing a polygon, a shape with any number of sides.
 
 The class *declaration* typically goes in the header file, which has the extension `.h` (or, less commonly, `.hpp` to distinguish from C headers). The *declaration* gives the class name, any classes it may extend, declares the members and methods, and declares which members/methods are public, private, or protected. You can think of the declaration as sort of saying: "there will be a thing and here's how it will look like". The declaration is used to inform the compiler about the future essence and use of a particular symbol. 
@@ -83,7 +83,7 @@ public:
 }; // <--- Don't forget the semicolon!
 ```
 
-#### 1.1.2 Class Definition (`polygon.cpp` file)
+#### 1.1.2 Class Definition (`.cpp` file)
 The class *definition* typically goes in the `.cpp` file. The *definition* extends the declaration by providing an actual implementation of whatever it is that you're building. Continuing the example from the declaration, the definition can be thought of as saying: "Right, that thing I told you briefly about earlier? Here's how it actually functions". The definition thus provides the compileable implementation.
 
 ```c++
@@ -124,7 +124,7 @@ void Polygon::SetName(const std::string & name) {
 
 Regarding the use of `this->` in a class definition, there are places where it's strictly necessary for readability, e.g. when your method parameter shares the exact same name as a member variable, you use `this->` to avoid what's called shadowing. However, some prefer to always use `this->` explicitly regardless of whether it's necessary.
 
-#### 1.1.3 Class Utilization (Some other `.cpp` file)
+#### 1.1.3 Class Utilization (Another `.cpp` file)
 ```c++
 #include <string>
 #include <iostream>
@@ -173,7 +173,7 @@ It is important to note that this feature is often overused by beginners and som
 
 **Example:** the class `Rectangle` can inherit from the class `Polygon`. You would then say that a `Rectangle` extends from a `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that a `Rectangle` is a more specialized version of a `Polygon`. Thus, all rectangles are polygons, but not all polygons are rectangles.
 
-#### 1.2.1 `Rectangle` Declaration (`rectangle.h` file)
+#### 1.2.1 `Rectangle` Declaration (`.h` file)
 ```c++
 // File: rectangle.h
 
@@ -203,7 +203,7 @@ public:
 };
 ```
 
-#### 1.2.2 `Rectangle` Definition (`rectangle.cpp` file)
+#### 1.2.2 `Rectangle` Definition (`.cpp` file)
 ```c++
 // File: rectangle.cpp
 			
