@@ -866,7 +866,7 @@ C++ code to pass an object as a `const` reference (if the data should be unmutab
 
 More on [references vs pointers here](https://stackoverflow.com/a/57492).
 
-In the following code, assume a 32-bit system, in which case the size of a pointer variable is 4 bytes (32 bits), and that the stack grows towards higher memory addresses.
+In the following code, assume a 32-bit system, in which case the size of a pointer variable is 4 bytes, and that the stack grows towards higher memory addresses.
 
 ```c++
 // Pointers
@@ -907,8 +907,44 @@ std::cout << a << std::endl;        // ALSO PRINTS: 20 !
 int & ref_c;                        // ERROR! References must be initialized at their declaration
 ```
 
-In many cases
+Perhaps the most widely used aspect of references is to pass objects by reference (sometimes constant reference) to a method. To avoid hammering the stack with
+large objects when you pass them by value it is nearly always preferrable to pass by reference, which is the term used when using either a reference *or* a pointer.
+Using a reference allows you to pass any size object by reference, while still allowing you to access the object directly.
 
+```c++
+// Pass by reference using a const reference
+void Foo(const Bar & bar) {
+    int a = bar.GetValue();
+
+    if (bar.SomeMethod()) {
+        // ...
+    }
+
+    bar.SetValue(10);   // ERROR! Cannot modify a const reference!
+}
+
+// Pass by reference using a non-const reference
+void Foo(Bar & bar) {
+    int a = bar.GetValue();
+
+    if (bar.SomeMethod()) {
+        // ...
+    }
+
+    bar.SetValue(10);   // Modifies 'bar' and thus whatever 'bar' references
+}
+```
+
+By passing an object by reference using a reference instead of a pointer you:
+* Don't need to check for `NULL` or `nullptr` since references cannot be null
+* Can access the referenced object's data directly instead of using the `->` operator or dereferencing a pointer
+* Make it clearer which parameters are meant to be *input* parameters and which are meant to be *output* parameters by using
+  `const` to denote strictly input parameters
+* Gain the benefits of both passing by value and passing by reference since you don't need to use a lot of memory on the stack for your object
+
+Thus, passing by reference using a `const` reference is essentially the same as passing by value, but you avoid copying the object onto the stack. Passing by reference
+using a non-const reference is essentially the same as passing by reference using a pointer, but you are guaranteed that it is not null and it's as if the pointer
+is effectively dereferenced.
 
 ### 2.3 Keywords
 [Reference](http://en.cppreference.com/w/cpp/keyword)
