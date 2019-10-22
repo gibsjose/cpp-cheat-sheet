@@ -716,8 +716,8 @@ int main() {
 You can also similiarly overload the input stream operator (`>>`), and can read more about the various operators [here](http://en.cppreference.com/w/cpp/language/operators).
 
 ### 1.6 Templates
-Templates are a very powerful abstraction allowing you to generate compile-time methods for any number of types by providing only
-one implementation.
+Templates are a very powerful abstraction allowing you to generate compile-time methods/classes/etc. for any number of types while
+writing only one implementation.
 
 Say you have a method that adds two floating point number together, and another to add two integers together:
 
@@ -731,9 +731,9 @@ int Add(const int a, const int b) {
 }
 ```
 
-That's great, but since both floating point numbers and integers implement the `+` operator and it has the same syntactic meaning,
-you can use a template to instead write one generic implementation of a method that can operate on doubles, ints, floats, and (in this
-case) any other type that implements the `+` operator.
+That's great, but since both floating point numbers and integers implement the `+` operator you can use a template to instead
+write one generic implementation of a method that can operate on doubles, ints, floats, and (in this case) any other type that
+implements the `+` operator.
 
 A simple templatized version of `Add` would look something like this:
 
@@ -754,6 +754,9 @@ int main() {
     Add(a, b);	            // Works because we added support for the + operator!
 }
 ```
+
+In this simple example the compiler would generate four different methods, one for each type. Templating allows you to write more
+concise and modular code at the expense of generating a larger executable (code bloat).
 
 Templates are especially useful to create class templates. Class templates must be completely defined in a single header file.
 
@@ -782,84 +785,70 @@ Read more about templates [here](https://www.geeksforgeeks.org/templates-cpp/) a
 
 ## 2.0 General C++ Syntax
 ### 2.1 Namespaces
-In big projects, there are thousands of variables, and each needs it's own name. Let's imagine that there are library with linked list structure, and we need to somehow represent single node of a list:
-```c++
-// file named "LinkedList.h"
-template <typename T>	// use of templates
-struct Node { // pretty and short name
-    Node* next;
-    Node* prev;
+In a large production project you may have thousands of symbols for various types, variables, methods, and so on. To avoid symbol names conflicting
+with one another you can use namespaces to logically separate symbol names in to broad categories. Namespaces are an inherent feature of C++; when you
+create a class and refer to a method as `ClassName::Method()` you are essentially using a namespace feature intrinsic to classes.
 
-    T data;
-};
-```
-And there are library with binary search tree structure:
+For a brief namespace example, suppose that you have two data structures, both of which implement a `Node` class. In the following code, namespaces
+are used to allow the compiler (and the programmer) to distinguish between the two types.
+
 ```c++
-// file named "BST.h"
+// File: list.h
+
+namespace list {
+
 template <typename T>
 struct Node {
-    Node* left;
-    Node * right;
-
+    Node * next;
+    Node * prev;
     T data;
 };
-```
-We want to create our project that uses both of this libraries:
-```c++
-#include "LinkedList.h"
-#include "BST.h"
 
-int main()
-{
-    Node<int> * a = new Node<int> {nullptr, nullptr, 3};	// oops
-};
+}; // namespace
 ```
-How do compiler know what Node we are about to use? `namespace` comes to the rescue:
+
 ```c++
-// "LinkedList.h"
-namespace lst {
-template <typename T>
-struct Node {
-    // ...
-};
-};
-```
-and
-```c++
-// "BST.h"
+// File: bst.h
+
 namespace bst {
+
 template <typename T>
 struct Node {
-    // ...
+    Node * left;
+    Node * right;
+    T data;
 };
-};
-```
-and usage is:
-```c++
-#include "LinkedList.h"
-#include "BST.h"
 
-int main()
-{
-    lst::Node<int> * a = new lst::Node<int> {nullptr, nullptr, 3};	// it is linked list node
-    bst::Node<int> * a = new bst::Node<int> {nullptr, nullptr, 3};	// it is bst node
+}; // namespace
+```
+
+```c++
+// File: main.cpp
+#include "list.h"
+#include "bst.h"
+
+int main() {
+    list::Node<int> a;
+    bst::Node<int> b;
 };
 ```
-So now you could specialize, and don't be afraid of name collisions, just use simple, pretty names.
-By the way remember `std::cout`? It is object of `namsepaces std`, it is recommended to use full namespace names almost everywhere, because you are sure what structure you are using. But if it is your small(very small) project you could try:
+
+The standard C++ library uses the namespace `std`, e.g. `std::cout`, `std::string`, `std::endl`, etc. While you can use a `using namespace foo;` directive to address
+symbols directly in the `foo` namespace without prefixing the `foo::` qualifier, this is generally considered bad practice as it pollutes the global namespace and
+sort of undermines the point of using namespaces in the first place.
+
+```c++
+#include <iostream>
+using namespace std;
+
+cout << "Hello, World" << endl;             // <--- BAD: pollutes the global namespace
+```
+
 ```c++
 #include <iostream>
 
-using namespace std;	// everything inside namespace std becomes visible
-
-int main()
-{
-    cout << "Hello, namespace!"
-
-    return 0;
-}
+std::cout << "Hello, World" << std::endl;   // <--- GOOD: It's clear that you're using symbols from the standard namespace
 ```
-
 
 ### 2.2 References and Pointers
 are used to store the address of the varibale/object in memory. So having the pointer or reference, you could do the same operations as that of object being pointed to.
