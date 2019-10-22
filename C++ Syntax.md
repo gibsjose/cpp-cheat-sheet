@@ -42,8 +42,6 @@ Since the C++ language varies so heavily between versions (e.g. C++0x, C++11, C+
         - [2.5 Strings ](#25-strings-stdstring)
         - [2.6 Iterators](#26-iterators-stditerator)
         - [2.7 Exceptions](#27-exceptions)
-            - [2.7.1 Motivation](#271-motivation)
-            - [2.7.2 Standard exception hierarchy](#272-stdexception)
         - [2.8 Lambdas](#28-lambdas)
 
 <!-- /TOC -->
@@ -851,55 +849,66 @@ std::cout << "Hello, World" << std::endl;   // <--- GOOD: It's clear that you're
 ```
 
 ### 2.2 References and Pointers
-are used to store the address of the varibale/object in memory. So having the pointer or reference, you could do the same operations as that of object being pointed to.
+Those familiar with C will be very intimately acquainted with pointers. C++ adds the concept of references, which is a powerful way to have *some* of the features of
+pointers while avoiding some of the pitfalls. Later versions of C++ also add [smart pointers](https://docs.microsoft.com/en-us/cpp/cpp/smart-pointers-modern-cpp?view=vs-2019),
+which allow for better memory management and scoping via `std::unique_ptr`, `std::shared_ptr`, and `std::weak_ptr`, as compared to traditional raw pointers.
+
+Raw pointers in C++ behave exactly the same way as they do in C: a pointer variable stores the address of whatever it is pointing to. You can think of pointers as
+essentially storing a link to another piece of data. You can access the data that the pointer points to with the `->` operator, or dereference it with the `*` operator.
+
+References are more akin to an alias. References cannot be `NULL` or `nullptr`, and references cannot be reassigned to reference something else after they have been created.
+Additionally, references do not take up extra memory; they share the same address as whatever they reference to. References cannot have multiple levels of indirection (pointers can),
+and there is no reference arithmetic like there is for pointers. You can access the underlying data of a reference directly by using the reference itself: that is, if it's a reference
+to an integer it can be used as an integer. If it's a reference to a class you can access the class members directly with the `.` operator.
+
+Although pointers are incredibly powerful, references are generally much safer, especially when passing objects to methods using pass-by-reference. It is very common in
+C++ code to pass an object as a `const` reference (if the data should be unmutable within the method) or a non-const reference rather than a raw pointer as is required in C.
+
+More on [references vs pointers here](https://stackoverflow.com/a/57492).
+
+In the following code, assume a 32-bit system, in which case the size of a pointer variable is 4 bytes (32 bits), and that the stack grows towards higher memory addresses.
+
 ```c++
-int a = 3;
-int b = 5;
+// Pointers
+int a = 10;                     // Ends up at memory address '0x2A000084', for example
+int b = 20;                     // Ends up at memory address '0x2A000088'
 
-int* aptr = &a;		// & operator gets the address of variable a
-int* bptr = &b;		// int * is a type of pointer to int
+int * ptr = nullptr;            // ptr is a separate variable whose type is 'pointer to int' and whose value has been initialized to '0x00000000'
+printf("ptr = %p\n");           // Prints: 0x0
 
-int c = *aptr + *bptr;	// * opeartor used to get the value of the object that
-            // is being pointed to
-int d = a + b;		// c and d are equal at the end of the day
+ptr = &a;                       // The value of ptr is now the address of the variable 'a'
+std::cout << p << std::endl;    // Prints: 0x2a000084
+std::cout << *p << std::endl;   // Prints: 10
+
+ptr = &b;                       // The value of ptr is now the address of the variable 'b'
+std::cout << p << std::endl;    // Prints: 0x2a000088
+std::cout << *p << std::endl;   // Prints: 20
 ```
-Think of pointer as the abstraction that knows where to find an object, but don't own it.
-The references are about the same, but they use more convenient syntax, but some [limitations](https://stackoverflow.com/questions/57483/what-are-the-differences-between-a-pointer-variable-and-a-reference-variable-in) apply. The main difference is that refernce can't be reassigned and must be assigned at initialization:
+
 ```c++
-int a = 3;
-int b = 5;
+// References
+int a = 10;                         // Ends up at memory address '0x2A000084', for example
+int b = 20;                         // Ends up at memory address '0x2A000088'
 
-int& aref = a;		// & means reference type
-int& bref = b;
+int & ref_a = a;                    // ref_a is an alias of (reference to) the variable a
+int & ref_b = b;                    // ref_b is an alias of (reference to) the variable b
 
-int c = aref + bref;	// simple addition syntax
+std::cout << ref_a << std::endl;    // Prints: 10
+std::cout << ref_b << std::endl;    // Prints: 20
 
-int d = a + b;		// c and d are equal at the end of the day
+std::cout << &ref_a << std::endl;   // Prints: 0x2a000084
+std::cout << &ref_b << std::endl;   // Prints: 0x2a000088
+
+ref_a = b;                          // SETS THE VALUE OF 'a' TO THE VALUE OF 'b'!
+
+std::cout << ref_a << std::endl;    // Prints: 20
+std::cout << a << std::endl;        // ALSO PRINTS: 20 !
+
+int & ref_c;                        // ERROR! References must be initialized at their declaration
 ```
-Also pointers are used in arrays like that:
-```c++
-#include <iostream>
 
-int arr[] = { 9, 5, 8, 2 };		// array storage is contiguous
-int size = 4;
+In many cases
 
-for(int i = 0; i < size; i++) std::cout << arr[i] << ' ';	// 9 5 8 2
-std::cout << '\n';
-
-int* ptr = arr;		// ptr points to first element of an array
-for(int i = 0; i < size; i++) std::cout << *(ptr + i) << ' ';	// 9 5 8 2
-std::cout << '\n'
-
-ptr = arr;		// reassignment of pointer, can't be preformed with reference
-for(int i = 0; i < size; i++) std::cout << *(ptr++) << ' ';	// 9 5 8 2
-std::cout << '\n'
-```
-This loops are equivalent, moreover first-second are implemented in the same way. First loop is just convenience syntax for second. Notice, that pointers can be incremented. Also there are a special pointer, called `nullptr`.
-```c++
-double* ptr = nullptr;	// means it points to nowhere
-
-double a = *ptr;	// this is a huge error, DON'T DO THIS
-```
 
 ### 2.3 Keywords
 [Reference](http://en.cppreference.com/w/cpp/keyword)
@@ -951,7 +960,7 @@ double a = *ptr;	// this is a huge error, DON'T DO THIS
 * `#include`: Includes a source file
 * `#line`: Changes the current file name and line number in the preprocessor
 * `#error`: Prints an error message and stops compilation
-* `#pragma`: Non-standard, used instead of header guards (`#ifndef HEADER_H` ...)
+* `#pragma`: Non-standard, can be used instead of header guards (`#ifndef HEADER_H` ...)
 
 ### 2.5 Strings (`std::string`)
 [Reference](http://en.cppreference.com/w/cpp/string/basic_string)
@@ -960,125 +969,7 @@ double a = *ptr;	// this is a huge error, DON'T DO THIS
 [Reference](http://en.cppreference.com/w/cpp/concept/Iterator)
 
 ### 2.7 Exceptions
-#### 2.7.1 Motivation
-What if you want to tell that this behaviour is unacceptable in current situation? Then you should use exceptions:
-```c++
-#include <iostream>
+[Reference](http://en.cppreference.com/w/cpp/error/exception)
 
-int divide(int a, int b)
-{
-    if( b == 0 ) throw "Can't divide by zero";	// throwing an exception
-    return a / b;
-}
-
-// usage
-int main()
-{
-    int a = 3, b = 0;
-
-    try {				// try-catch close
-        divide(a, b);		// we are trying to do division
-    } catch( const char* err_msg) {	// if exception being thrown, we are trying to catch it
-        std::cout << "Error is: " << err_msg << '\n';	// print error on the output
-    }
-
-    return 0;	// and finish work
-}
-```
-#### 2.7.2 `std::exception`
-[Here](http://en.cppreference.com/w/cpp/error/exception) are all standard exceptions, you may use them as follows:
-```c++
-#include <iostream>
-#include <exception>	// for std::logic_error
-
-class Complex { 	// class from previous examples
-    double re {};
-    double im {};
-public:
-    // ... constructor, plus/minus/multiply operators ...
-
-    class ZeroDivisionError : public std::logic_error {		// class for zero division error
-        const* char what() const { return "Can't divide by zero"; }
-    };
-
-    friend Complex operator/(const Complex& fst, const Complex& snd)
-    {
-        if(snd.re == 0 && snd.im == 0) throw ZeroDivisionError {};	// throwing by value
-
-        // ... other code for division ...
-    }
-};
-
-// usage
-int main()
-{
-    Complex a{1, 2};
-    Complex b{0, 0};
-
-    try {
-        a / b;
-    } catch( const Complex::ZeroDivisionError& e) {	// catching by const reference
-        std::cout << e.what() << '\n';
-    }
-
-    return 0; // and happily finish program
-}
-```
-`what` is a standard name for a function that tells what's happened in the exception class.
 ### 2.8 Lambdas
-Very common pattern is to write such a code:
-```c++
-struct AddTo3 {
-    int operator()(int addto) const { return 3 + addto; }
-};
-
-int add_to_3(int addto) { return 3 + addto; }
-// basically the same, but it is not enough in some cases
-
-// usage
-int main()
-{
-    (AddTo3 {})(5);	// 8
-    add_to_3(5);	// 8
-}
-```
-It is so common, that language designers decided to add it to the standard and call it `lambda function`:
-```c++
-int main()
-{
-    auto add_to_3 {					// much, much simpler, just declare variable add_to_3
-        [] (int addto) { return 3 + addto; }
-    };
-
-    add_to_3(5);
-}
-```
-Now, what this syntax means:
-```c++
-int main()
-{
-    auto add_to_3 {
-        [] // 1
-        /**
-         * Capture variables, from outer scope, by reference(&),
-         * or by value(=).
-         * [&] - captures all variables by reference(uses them inside lambda)
-         * [=] - captures all variables by value(copies them inside lambda)
-         * [&var] - capture only var by reference
-         * [=var] - capture only var by value
-         * [=, &var] capture var by ref, and others by value
-         */
-        (int addto) // 2
-        /**
-         * Argument list, just like in ordinary functions
-         */
-        { return 3 + addto; } // 3
-        /**
-        * Lambda body, just like in ordinary functions
-        */
-    };
-
-    add_to_3(5);	// 8
-}
-```
-So you could use it in advanced scenarios. Read more, like [this](https://stackoverflow.com/questions/7627098/what-is-a-lambda-expression-in-c11), and [that](https://en.cppreference.com/w/cpp/language/lambda).
+[Reference](https://en.cppreference.com/w/cpp/language/lambda)
