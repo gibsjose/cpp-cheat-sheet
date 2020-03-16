@@ -342,7 +342,7 @@ Virtual methods are employed as follows:
 class Shape {
 public:
     // Virtual destructor (VERY IMPORTANT, SEE NOTE BELOW)
-    virtual ~Area() {}
+    virtual ~Shape() {}
 
     // Virtual area method
     virtual double Area() const {
@@ -393,7 +393,7 @@ In some cases, you may want to **enforce** that sub-classes implement this metho
 ```c++
 class Shape {
 public:
-    virtual ~Area() {}
+    virtual ~Shape() {}
     virtual double Area() const = 0;
 };
 ```
