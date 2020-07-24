@@ -1002,7 +1002,7 @@ is effectively dereferenced.
 [Reference](http://en.cppreference.com/w/cpp/string/basic_string)
 
 ### 2.6 Iterators (`std::iterator<...>`)
-[Reference](http://en.cppreference.com/w/cpp/concept/Iterator)
+[Reference](https://en.cppreference.com/w/cpp/named_req/Iterator)
 
 ### 2.7 Exceptions
 [Reference](http://en.cppreference.com/w/cpp/error/exception)
