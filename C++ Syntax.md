@@ -514,7 +514,8 @@ Copy constructors and copy assigment operators allow one object to be constructe
 ```c++
 Foo a(10);
 Foo b(a);   // (1): Copy via constructor
-Foo c = a;	// (2): Copy via assignment operator
+Foo c ;
+c = a;	// (2): Copy via assignment operator
 ```
 
 This is accomplished by supplying a copy constructor and an assigment operator overload, both of which have a special syntax
