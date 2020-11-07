@@ -877,12 +877,12 @@ int * ptr = nullptr;            // ptr is a separate variable whose type is 'poi
 printf("ptr = %p\n");           // Prints: 0x0
 
 ptr = &a;                       // The value of ptr is now the address of the variable 'a'
-std::cout << p << std::endl;    // Prints: 0x2a000084
-std::cout << *p << std::endl;   // Prints: 10
+std::cout << ptr << std::endl;    // Prints: 0x2a000084
+std::cout << *ptr << std::endl;   // Prints: 10
 
 ptr = &b;                       // The value of ptr is now the address of the variable 'b'
-std::cout << p << std::endl;    // Prints: 0x2a000088
-std::cout << *p << std::endl;   // Prints: 20
+std::cout << ptr << std::endl;    // Prints: 0x2a000088
+std::cout << *ptr << std::endl;   // Prints: 20
 ```
 
 ```c++
