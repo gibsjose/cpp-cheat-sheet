@@ -4,6 +4,8 @@ These are two cheat sheets I put together describing both basic [C++ syntax](C++
 
 Hopefully you find them useful, and please open an issue or submit a PR if you find incorrect or missing information!
 
+P.S. - I didn't get the job at Google :wink:
+
 ## Contributors
 Many thanks to the following for their contributions:
 
