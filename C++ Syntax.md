@@ -870,19 +870,19 @@ In the following code, assume a 32-bit system, in which case the size of a point
 
 ```c++
 // Pointers
-int a = 10;                     // Ends up at memory address '0x2A000084', for example
-int b = 20;                     // Ends up at memory address '0x2A000088'
+int a = 10;                         // Ends up at memory address '0x2A000084', for example
+int b = 20;                         // Ends up at memory address '0x2A000088'
 
-int * ptr = nullptr;            // ptr is a separate variable whose type is 'pointer to int' and whose value has been initialized to '0x00000000'
-printf("ptr = %p\n");           // Prints: 0x0
+int * ptr = nullptr;                // ptr is a separate variable whose type is 'pointer to int' and whose value has been initialized to '0x00000000'
+printf("ptr = %p\n");               // Prints: 0x0
 
-ptr = &a;                       // The value of ptr is now the address of the variable 'a'
-std::cout << ptr << std::endl;    // Prints: 0x2a000084
-std::cout << *ptr << std::endl;   // Prints: 10
+ptr = &a;                           // The value of ptr is now the address of the variable 'a'
+std::cout << ptr << std::endl;      // Prints: 0x2a000084
+std::cout << *ptr << std::endl;     // Prints: 10
 
-ptr = &b;                       // The value of ptr is now the address of the variable 'b'
-std::cout << ptr << std::endl;    // Prints: 0x2a000088
-std::cout << *ptr << std::endl;   // Prints: 20
+ptr = &b;                           // The value of ptr is now the address of the variable 'b'
+std::cout << ptr << std::endl;      // Prints: 0x2a000088
+std::cout << *ptr << std::endl;     // Prints: 20
 ```
 
 ```c++
