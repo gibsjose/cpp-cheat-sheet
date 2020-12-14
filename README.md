@@ -13,3 +13,7 @@ Many thanks to the following for their contributions:
 * [srashee](https://github.com/srashee)
 * [emadpres](https://github.com/emadpres)
 * [AurelienLourot](https://github.com/AurelienLourot)
+* [josephharrington](https://github.com/josephharrington)
+* [MuruganViswanathan](https://github.com/MuruganViswanathan)
+* [Damercy](https://github.com/Damercy)
+* [mgoutham](https://github.com/mgoutham)
