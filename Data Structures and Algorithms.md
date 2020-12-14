@@ -99,7 +99,7 @@ int value = v.at(index);    // index
 value = v[index];           // or using array style indexing
 
 int tail = v.back();        // tail
-tail = v[v.size()-1];       // or using array style indexing
+tail = v[v.size() - 1];     // or using array style indexing
 
 // Iterate
 for(std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
