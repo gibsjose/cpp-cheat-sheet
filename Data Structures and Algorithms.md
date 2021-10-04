@@ -27,7 +27,7 @@
 		- [3.1 NP Complete](#31-np-complete)
 		- [3.2 Traveling Salesman Problem](#32-traveling-salesman-problem)
 		- [3.3 Knapsack Problem](#33-knapsack-problem)
-	- [4.0 Algorithms](#40-algorithms)
+	- [4.0 Algorithms](#40-algorithms-on sorting)
 		- [4.1 Insertion Sort](#41-insertion-sort)
 		- [4.2 Selection Sort](#42-selection-sort)
 		- [4.3 Bubble Sort](#43-bubble-sort)
