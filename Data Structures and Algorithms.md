@@ -106,6 +106,12 @@ for(std::vector<int>::iterator it = v.begin(); it != v.end(); it++) {
     std::cout << *it << std::endl;
 }
 
+// Iterating using range-based loops introduced in C++11
+for(int e:v){
+    cout<<e<<"\n;
+}
+
+
 // Remove head, index, tail
 v.erase(v.begin());             // head
 v.erase(v.begin() + index);     // index
