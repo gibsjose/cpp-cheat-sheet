@@ -127,6 +127,19 @@ v.clear();
 * Pronounced 'deck'
 * Stands for **D**ouble **E**nded **Que**ue
 
+**Time Complexity**
+
+| Operation    | Time Complexity |
+|--------------|-----------------|
+| Insert Head  |          `O(1)` 		|
+| Insert Index |          `O(n) or O(1)`|
+| Insert Tail  |          `O(1)` 		|
+| Remove Head  |          `O(1)` 		|
+| Remove Index |          `O(n)` 		|
+| Remove Tail  |          `O(1)` 		|
+| Find Index   |          `O(1)` 		|
+| Find Object  |          `O(n)` 		|
+
 **Example Code**
 ```c++
 std::deque<int> d;
