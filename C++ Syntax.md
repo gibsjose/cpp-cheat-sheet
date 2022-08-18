@@ -854,7 +854,7 @@ Those familiar with C will be very intimately acquainted with pointers. C++ adds
 pointers while avoiding some of the pitfalls. Later versions of C++ also add [smart pointers](https://docs.microsoft.com/en-us/cpp/cpp/smart-pointers-modern-cpp?view=vs-2019),
 which allow for better memory management and scoping via `std::unique_ptr`, `std::shared_ptr`, and `std::weak_ptr`, as compared to traditional raw pointers.
 
-Raw pointers in C++ behave exactly the same way as they do in C: a pointer variable stores the address of whatever it is pointing to. You can think of pointers as
+[Raw pointers in C++](https://www.interviewbit.com/courses/programming/arrays/introduction-to-pointers-in-cc) behave exactly the same way as they do in C: a pointer variable stores the address of whatever it is pointing to. You can think of pointers as
 essentially storing a link to another piece of data. You can access the data that the pointer points to with the `->` operator, or dereference it with the `*` operator.
 
 References are more akin to an alias. References cannot be `NULL` or `nullptr`, and references cannot be reassigned to reference something else after they have been created.
