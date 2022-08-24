@@ -51,7 +51,6 @@
 ### 1.2 Vector `std::vector`
 **Use for**
 * Simple storage
-* Adding but not deleting
 * Serialization
 * Quick lookups by index
 * Easy conversion to C-style arrays
