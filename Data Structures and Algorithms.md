@@ -313,7 +313,7 @@ unsigned int size = m.size();
 
 // Iterate
 for(std::map<std::string, std::string>::iterator it = m.begin(); it != m.end(); it++) {
-    std::cout << *it << std::endl;
+    std::cout << (*it).first << " " << (*it).second << std::endl;
 }
 
 // Remove by key
