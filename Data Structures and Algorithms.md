@@ -119,9 +119,11 @@ v.clear();
 **Use for**
 * Similar purpose of `std::vector`
 * Basically `std::vector` with efficient `push_front` and `pop_front`
+* More efficient management of dinamically growth than `std::vector`
 
 **Do not use for**
 * C-style contiguous storage (not guaranteed)
+* Access by adding a offset to an iterator (do not use `iterator + index`)
 
 **Notes**
 * Pronounced 'deck'
@@ -149,9 +151,9 @@ std::deque<int> d;
 //---------------------------------
 
 // Insert head, index, tail
-d.push_front(value);                    // head
-d.insert(d.begin() + index, value);     // index
-d.push_back(value);                     // tail
+d.push_front(value);                              // head
+d.insert(std::next(d.begin(), index), value);     // index with std::next
+d.push_back(value);                               // tail
 
 // Access head, index, tail
 int head = d.front();       // head
@@ -167,9 +169,9 @@ for(std::deque<int>::iterator it = d.begin(); it != d.end(); it++) {
 }
 
 // Remove head, index, tail
-d.pop_front();                  // head
-d.erase(d.begin() + index);     // index
-d.pop_back();                   // tail
+d.pop_front();                            // head
+d.erase(std::next(d.begin(), index));     // index with std::next
+d.pop_back();                             // tail
 
 // Clear
 d.clear();
