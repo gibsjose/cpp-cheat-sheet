@@ -134,7 +134,7 @@ The getters and setters here don't do much, but you could imagine limiting the n
 #include <string>
 #include <iostream>
 
-#include "Polygon.h"    // <--- Obtains the class declaration
+#include "Polygon.cpp"    // <--- Obtains the class definition
 
 int main(int argc, char * argv[]) {
     // Create a polygon with 4 sides and the name "Rectangle"
